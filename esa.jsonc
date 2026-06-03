@@ -1,7 +1,7 @@
 {
-  "name": "my-static-site",       // 可以改成你自己的网站名
-  "installCommand": "",           // 静态网站无需安装命令，可以留空或删除
+  "installCommand": "",
+  "buildCommand": "",
   "assets": {
-    "directory": "./"             // 静态文件就在项目根目录
+    "directory": "./"
   }
 }
