@@ -1,6 +1,6 @@
 {
-  "installCommand": "",
-  "buildCommand": "",
+  "installCommand": "echo 'No dependencies'",
+  "buildCommand": "echo 'No build needed' && exit 0",
   "assets": {
     "directory": "./"
   }
