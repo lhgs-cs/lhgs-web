@@ -20,7 +20,7 @@
 
         /* 顶部栏 */
         .top-bar {
-            background-color: #2563eb; /* 蓝色 */
+            background-color: #2563eb;
             color: white;
             padding: 0.75rem 1.5rem;
             display: flex;
@@ -135,6 +135,18 @@
             margin-top: 0.5rem;
             letter-spacing: 0.5px;
         }
+        /* 社徽图片 */
+        .hero-image {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .hero-image img {
+            max-width: 180px;
+            width: 40%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
 
         /* 章节通用样式 */
         .section {
@@ -179,7 +191,7 @@
             transform: translateY(-4px);
             box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
         }
-        /* 不同卡片背景色（柔和半透明） */
+        /* 不同卡片背景色 */
         .card-red {
             background: linear-gradient(145deg, #fff5f5, #ffffff);
             border-top: 4px solid #ef4444;
@@ -221,14 +233,75 @@
             transform: scale(0.98);
         }
 
-        /* 底部留白 */
-        footer {
-            text-align: center;
-            padding: 2rem;
+        /* 社员列表（长条形卡片） */
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .member-card {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 32px;
+            padding: 0.8rem 1.2rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            border: 1px solid #eef2ff;
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+        .member-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #e2e8f0;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        .member-info {
+            flex: 1;
+        }
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .member-bio {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 0.2rem;
+        }
+        .member-card-ellipsis {
+            justify-content: center;
             color: #94a3b8;
-            font-size: 0.8rem;
-            border-top: 1px solid #e2e8f0;
-            margin-top: 2rem;
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+
+        /* 按钮通用 */
+        .btn-all {
+            display: inline-block;
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1e293b;
+            text-decoration: none;
+            transition: all 0.2s;
+            margin-top: 1.5rem;
+            cursor: pointer;
+        }
+        .btn-all:hover {
+            background-color: #e2e8f0;
+            transform: translateY(-1px);
         }
 
         /* 响应式 */
@@ -238,6 +311,10 @@
             }
             .hero h1 {
                 font-size: 2.8rem;
+            }
+            .hero-image img {
+                width: 50%;
+                max-width: 150px;
             }
             .section-title {
                 font-size: 1.6rem;
@@ -249,6 +326,19 @@
                 width: 160px;
                 right: 0;
             }
+            .member-avatar {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 2rem;
         }
     </style>
 </head>
@@ -277,6 +367,9 @@
     <div class="hero">
         <h1>联合公社</h1>
         <div class="hero-domain">lianhegongshe.cn</div>
+        <div class="hero-image">
+            <img src="/images/logo.jpeg" alt="联合公社社徽">
+        </div>
     </div>
 
     <!-- 简介 -->
@@ -291,28 +384,71 @@
         <p class="section-text">实事求是，严谨求卓；幽默风雅，爱国进步；探寻真理，开拓未来。</p>
     </div>
 
-    <!-- 组成分社 (三个卡片) -->
+    <!-- 组成分社 -->
     <div class="section" id="subgroups-section">
         <h2 class="section-title">组成分社</h2>
         <div class="card-grid">
             <!-- 硬算社 (红色系) -->
-            <div class="card card-red">
+            <div class="card card-red" data-subgroup="yingsuan">
                 <div class="card-name">硬算社</div>
                 <div class="card-desc">暂无简介</div>
-                <button class="card-btn" data-type="learn-more">了解更多 →</button>
+                <button class="card-btn" data-type="learn-more" data-subgroup="yingsuan">了解更多 →</button>
             </div>
             <!-- 朗诵社 (橙色系) -->
-            <div class="card card-orange">
+            <div class="card card-orange" data-subgroup="langsong">
                 <div class="card-name">朗诵社</div>
                 <div class="card-desc">暂无简介</div>
-                <button class="card-btn" data-type="learn-more">了解更多 →</button>
+                <button class="card-btn" data-type="learn-more" data-subgroup="langsong">了解更多 →</button>
             </div>
             <!-- 计算机科学社 (蓝色系) -->
-            <div class="card card-blue">
+            <div class="card card-blue" data-subgroup="cs">
                 <div class="card-name">计算机科学社</div>
                 <div class="card-desc">官网维护/搭建者</div>
-                <button class="card-btn" data-type="learn-more">了解更多 →</button>
+                <button class="card-btn" data-type="learn-more" data-subgroup="cs">了解更多 →</button>
             </div>
+        </div>
+        <!-- 所有分社按钮 -->
+        <div style="text-align: center;">
+            <a href="/subgroups/index.html" class="btn-all">所有分社 →</a>
+        </div>
+    </div>
+
+    <!-- 社员 -->
+    <div class="section" id="members-section">
+        <h2 class="section-title">社员</h2>
+        <div class="member-list">
+            <!-- 1. 老魏 -->
+            <div class="member-card">
+                <img class="member-avatar" src="/images/members/wei.jpeg" alt="老魏头像">
+                <div class="member-info">
+                    <div class="member-name">老魏</div>
+                    <div class="member-bio">公社社长、硬算社社长</div>
+                </div>
+            </div>
+            <!-- 2. 向死而生 -->
+            <div class="member-card">
+                <img class="member-avatar" src="/images/members/xses.jpeg" alt="向死而生头像">
+                <div class="member-info">
+                    <div class="member-name">向死而生</div>
+                    <div class="member-bio">公社常务委员会委员长、朗诵社社长、宣传委员会委员长</div>
+                </div>
+            </div>
+            <!-- 3. 光明与尘埃 -->
+            <div class="member-card">
+                <img class="member-avatar" src="/images/members/gmyca.jpeg" alt="光明与尘埃头像">
+                <div class="member-info">
+                    <div class="member-name">光明与尘埃</div>
+                    <div class="member-bio">计算机科学社社长、官网搭建与维护者</div>
+                </div>
+            </div>
+            <!-- 4. 省略号占位 -->
+            <div class="member-card member-card-ellipsis">
+                <div style="text-align: center; width: 100%;">......</div>
+            </div>
+        </div>
+        <!-- 全部社员按钮 -->
+        <div style="text-align: center;">
+            <a href="/members/index.html" class="btn-all">全部社员 →</a>
         </div>
     </div>
 </main>
@@ -322,7 +458,7 @@
 </footer>
 
 <script>
-    // 汉堡菜单交互 (点击显示/隐藏竖长方形)
+    // 汉堡菜单交互
     const menuBtn = document.getElementById('menuToggle');
     const dropdown = document.getElementById('dropdownMenu');
 
@@ -331,32 +467,54 @@
         dropdown.classList.toggle('show');
     });
 
-    // 点击页面其他地方关闭菜单
     document.addEventListener('click', function(event) {
         if (!menuBtn.contains(event.target) && !dropdown.contains(event.target)) {
             dropdown.classList.remove('show');
         }
     });
 
-    // 所有菜单项点击暂时无实际跳转 (仅控制台打印，无效果)
+    // 获取所有菜单项
     const menuItems = document.querySelectorAll('.dropdown-item');
     menuItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.stopPropagation();
-            // 不执行任何跳转动作，仅仅关闭菜单（可选）
             dropdown.classList.remove('show');
-            // 以下为占位，完全无页面变化
-            console.log(`你点击了「${item.innerText}」，暂未绑定链接。`);
+            const action = item.getAttribute('data-action');
+            switch(action) {
+                case 'intro':
+                    // 平滑滚动到简介标题
+                    document.getElementById('intro-section').scrollIntoView({ behavior: 'smooth' });
+                    break;
+                case 'subgroups':
+                    window.location.href = '/subgroups/index.html';
+                    break;
+                case 'members':
+                    window.location.href = '/members/index.html';
+                    break;
+                case 'join':
+                    window.location.href = '/join.html';
+                    break;
+                default:
+                    break;
+            }
         });
     });
 
-    // “了解更多”按钮点击无效果（仅打印日志）
-    const learnButtons = document.querySelectorAll('.card-btn');
-    learnButtons.forEach(btn => {
+    // “了解更多”按钮跳转
+    const learnBtns = document.querySelectorAll('.card-btn');
+    learnBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            // 没有任何跳转或弹窗
-            console.log('“了解更多”按钮被点击，暂无页面跳转。');
+            const subgroup = btn.getAttribute('data-subgroup');
+            if (subgroup === 'yingsuan') {
+                window.location.href = '/subgroups/yingsuan/index.html';
+            } else if (subgroup === 'langsong') {
+                window.location.href = '/subgroups/langsong/index.html';
+            } else if (subgroup === 'cs') {
+                window.location.href = '/subgroups/cs/index.html';
+            } else {
+                console.log('未知分社');
+            }
         });
     });
 </script>
