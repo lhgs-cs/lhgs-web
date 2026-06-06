@@ -3,5 +3,6 @@
   "buildCommand": "echo 'No build needed' && exit 0",
   "assets": {
     "directory": "./"
+    "notFoundStrategy": "404Page"
   }
 }
