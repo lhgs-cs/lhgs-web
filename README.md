@@ -22,6 +22,6 @@
 - 光明与尘埃（GitHub: @gmyca）
 - C0（GitHub: @imxilin）
 
-欢迎社团成员通过 Pull Request 或 Issue 提出建议。
+欢迎通过 Pull Request 或 Issue 提出建议。
 
 如有疑问或需要协助，请联系上述维护者。
