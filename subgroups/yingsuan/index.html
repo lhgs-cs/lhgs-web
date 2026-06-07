@@ -76,7 +76,6 @@
 
         .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
-        /* 页面头部 */
         .page-hero {
             text-align: center;
             margin: 2rem 0 3rem;
@@ -121,7 +120,6 @@
             50% { transform: translateY(-12px); }
         }
 
-        /* 信息卡片区 */
         .info-section {
             margin: 2.5rem 0;
         }
@@ -150,7 +148,6 @@
             box-shadow: var(--shadow-md);
         }
 
-        /* 社员列表 */
         .member-list {
             display: flex; flex-direction: column; gap: 0.75rem;
         }
@@ -189,7 +186,6 @@
             background: var(--accent-light); color: var(--accent);
         }
 
-        /* 入场动画 */
         .reveal {
             opacity: 0; transform: translateY(25px);
             transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
@@ -261,16 +257,19 @@
         topBar.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // 动态渲染硬算社成员
     function renderMembers() {
         const container = document.getElementById('memberList');
         if (!container) return;
-        const yingsuanMembers = MEMBERS.filter(m => m.subgroup === 'yingsuan');
+        const yingsuanMembers = MEMBERS.filter(m => 
+            m.subgroups && m.subgroups.some(sg => sg.id === 'yingsuan')
+        );
         container.innerHTML = '';
         yingsuanMembers.forEach(member => {
+            const sgObj = member.subgroups.find(sg => sg.id === 'yingsuan');
+            const role = sgObj ? sgObj.role : '';
             const card = document.createElement('div');
             card.className = 'member-card';
-            const roleTag = member.role ? `<span class="member-tag">${member.role}</span>` : '';
+            const roleTag = role ? `<span class="member-tag">${role}</span>` : '';
             card.innerHTML = `
                 <img class="member-avatar" src="${member.avatar}" alt="${member.name}头像">
                 <div class="member-info">
@@ -281,14 +280,12 @@
             `;
             container.appendChild(card);
         });
-        // 入场动画
         const cards = document.querySelectorAll('.member-card');
         cards.forEach((card, i) => {
             setTimeout(() => card.classList.add('visible'), i * 120);
         });
     }
 
-    // 滚动入场动画（简介部分）
     const reveals = document.querySelectorAll('.reveal');
     const revealObs = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
@@ -300,7 +297,6 @@
     }, { threshold: 0.15 });
     reveals.forEach(el => revealObs.observe(el));
 
-    // 页面加载后渲染社员列表
     document.addEventListener('DOMContentLoaded', renderMembers);
 </script>
 </body>
