@@ -310,18 +310,46 @@
             .container {
                 padding: 1rem 1rem 2rem;
             }
+            .page-header {
+                margin: 1.5rem 0 2rem;
+            }
             .page-header h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                letter-spacing: 1px;
+            }
+            .page-header p {
+                font-size: 0.88rem;
             }
             .member-grid {
                 grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .member-card {
+                padding: 1.1rem;
+                border-radius: 16px;
+            }
+            .member-avatar {
+                width: 48px;
+                height: 48px;
+                border-radius: 14px;
+            }
+            .member-name {
+                font-size: 1rem;
             }
             .stats-bar {
-                gap: 1rem;
+                gap: 0.8rem;
+                margin-bottom: 2rem;
             }
             .stat-item {
-                min-width: 100px;
-                padding: 0.8rem 1rem;
+                min-width: 90px;
+                padding: 0.7rem 0.8rem;
+                border-radius: 12px;
+            }
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            .stat-label {
+                font-size: 0.75rem;
             }
             .page-header::before {
                 width: 100px;
@@ -334,6 +362,108 @@
             .form-row {
                 flex-direction: column;
                 gap: 0.6rem;
+            }
+            .join-card {
+                padding: 2rem 1.2rem;
+                border-radius: 20px;
+            }
+            .join-title {
+                font-size: 1.3rem;
+            }
+            .join-desc {
+                font-size: 0.88rem;
+            }
+            .join-icon {
+                font-size: 1.6rem;
+            }
+            .join-form {
+                max-width: 100%;
+            }
+            .form-input, .form-textarea {
+                padding: 0.7rem 0.9rem;
+                font-size: 16px; /* 防止 iOS 自动缩放 */
+            }
+            .join-btn {
+                padding: 0.75rem 1.8rem;
+                font-size: 0.9rem;
+            }
+            footer {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0.6rem 0.8rem;
+            }
+            .logo {
+                font-size: 1.2rem;
+            }
+            .logo-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+                border-radius: 6px;
+            }
+            .back-btn {
+                font-size: 0.82rem;
+                padding: 0.4rem 0.6rem;
+            }
+            .container {
+                padding: 0.8rem 0.75rem 2rem;
+            }
+            .page-header {
+                margin: 1rem 0 1.5rem;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+                letter-spacing: 0.5px;
+            }
+            .page-header p {
+                font-size: 0.82rem;
+            }
+            .stats-bar {
+                gap: 0.6rem;
+            }
+            .stat-item {
+                flex: 1;
+                min-width: 0;
+                padding: 0.6rem 0.5rem;
+            }
+            .stat-number {
+                font-size: 1.3rem;
+            }
+            .member-card {
+                padding: 0.9rem;
+                gap: 0.75rem;
+            }
+            .member-avatar {
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+            }
+            .member-name {
+                font-size: 0.95rem;
+            }
+            .member-bio {
+                font-size: 0.78rem;
+            }
+            .join-card {
+                padding: 1.5rem 1rem;
+                border-radius: 16px;
+            }
+            .join-title {
+                font-size: 1.15rem;
+            }
+            .join-desc {
+                font-size: 0.82rem;
+                margin-bottom: 1.2rem;
+            }
+            .join-notice {
+                font-size: 0.75rem;
+            }
+            .empty-state {
+                padding: 3rem 1rem;
             }
         }
 
