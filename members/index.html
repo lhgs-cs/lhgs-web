@@ -837,48 +837,7 @@
     </div>
 
     <!-- 社员列表 -->
-    <div class="member-grid" id="memberGrid">
-        <!-- 1. 老魏 -->
-        <div class="member-card">
-            <img class="member-avatar" src="/images/members/wei.jpeg" alt="老魏头像">
-            <div class="member-info">
-                <div class="member-name">老魏</div>
-                <div class="member-bio">公社社长、硬算社社长</div>
-            </div>
-        </div>
-        <!-- 2. 向死而生 -->
-        <div class="member-card">
-            <img class="member-avatar" src="/images/members/xses.jpeg" alt="向死而生头像">
-            <div class="member-info">
-                <div class="member-name">向死而生</div>
-                <div class="member-bio">公社常务委员会委员长、朗诵社社长、宣传委员会委员长</div>
-            </div>
-        </div>
-        <!-- 3. 光明与尘埃 -->
-        <div class="member-card">
-            <img class="member-avatar" src="/images/members/gmyca.jpeg" alt="光明与尘埃头像">
-            <div class="member-info">
-                <div class="member-name">光明与尘埃</div>
-                <div class="member-bio">计算机科学社社长、官网搭建与维护者</div>
-            </div>
-        </div>
-        <!-- 4. C0 -->
-        <div class="member-card">
-            <img class="member-avatar" src="/images/members/C0.jpg" alt="C0头像">
-            <div class="member-info">
-                <div class="member-name">C0</div>
-                <div class="member-bio">计算机科学社社员、官网优化与维护者</div>
-            </div>
-        </div>
-        <!-- 5. qian -->
-        <div class="member-card">
-            <img class="member-avatar" src="/images/members/qian.jpeg" alt="qian头像">
-            <div class="member-info">
-                <div class="member-name">qian</div>
-                <div class="member-bio">联合公社二办事处处长和文件编写员，朗诵社社员</div>
-            </div>
-        </div>
-    </div>
+    <div class="member-grid" id="memberGrid"></div>
 
     <!-- 空状态 -->
     <div class="empty-state" id="emptyState">
@@ -911,6 +870,7 @@
     © 2026 联合公社 · 学生团体组织
 </footer>
 
+<script src="/js/members-data.js"></script>
 <script>
     // ===== 锚点滚动 =====
     if (window.location.hash) {
@@ -930,9 +890,33 @@
         topBar.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // ===== 统计数字动画 =====
-    const cards = document.querySelectorAll('.member-card');
-    const totalEl = document.getElementById('totalCount');
+    // 渲染社员网格
+    function renderMemberGrid() {
+        const grid = document.getElementById('memberGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        MEMBERS.forEach(member => {
+            const card = document.createElement('div');
+            card.className = 'member-card';
+            card.innerHTML = `
+                <img class="member-avatar" src="${member.avatar}" alt="${member.name}头像">
+                <div class="member-info">
+                    <div class="member-name">${member.name}</div>
+                    <div class="member-bio">${member.bio}</div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        // 更新统计数字
+        const totalEl = document.getElementById('totalCount');
+        if (totalEl) {
+            animateNumber(totalEl, MEMBERS.length);
+        }
+        // 添加入场动画类
+        document.querySelectorAll('.member-card').forEach((card, i) => {
+            setTimeout(() => card.classList.add('visible'), i * 100);
+        });
+    }
 
     function animateNumber(el, target) {
         let current = 0;
@@ -947,24 +931,7 @@
         }, 40);
     }
 
-    animateNumber(totalEl, cards.length);
-
-    // ===== 卡片入场动画 =====
-    const memberGrid = document.getElementById('memberGrid');
-    const gridObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const items = entry.target.querySelectorAll('.member-card');
-                items.forEach((card, i) => {
-                    setTimeout(() => {
-                        card.classList.add('visible');
-                    }, i * 100);
-                });
-                gridObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.05 });
-    gridObserver.observe(memberGrid);
+    document.addEventListener('DOMContentLoaded', renderMemberGrid);
 
     // ===== 粒子背景效果 =====
     (function() {
