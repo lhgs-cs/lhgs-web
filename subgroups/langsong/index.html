@@ -248,17 +248,22 @@
         topBar.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // 动态渲染朗诵社成员
     function renderMembers() {
         const container = document.getElementById('memberList');
         if (!container) return;
-        // 使用新的 subgroups 结构：过滤出包含 id === 'langsong' 的成员
-        const langMembers = MEMBERS.filter(m => 
+        let members = MEMBERS.filter(m => 
             m.subgroups && m.subgroups.some(sg => sg.id === 'langsong')
         );
+        // 排序：社长在前，社员在后
+        members.sort((a, b) => {
+            const roleA = a.subgroups.find(sg => sg.id === 'langsong')?.role || '';
+            const roleB = b.subgroups.find(sg => sg.id === 'langsong')?.role || '';
+            if (roleA === '社长' && roleB !== '社长') return -1;
+            if (roleA !== '社长' && roleB === '社长') return 1;
+            return 0;
+        });
         container.innerHTML = '';
-        langMembers.forEach(member => {
-            // 找到当前分社对应的角色
+        members.forEach(member => {
             const sgObj = member.subgroups.find(sg => sg.id === 'langsong');
             const role = sgObj ? sgObj.role : '';
             const card = document.createElement('div');
@@ -274,14 +279,12 @@
             `;
             container.appendChild(card);
         });
-        // 入场动画
         const cards = document.querySelectorAll('.member-card');
         cards.forEach((card, i) => {
             setTimeout(() => card.classList.add('visible'), i * 120);
         });
     }
 
-    // 滚动入场动画（简介部分）
     const reveals = document.querySelectorAll('.reveal');
     const revealObs = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
@@ -293,7 +296,6 @@
     }, { threshold: 0.15 });
     reveals.forEach(el => revealObs.observe(el));
 
-    // 页面加载后渲染社员列表
     document.addEventListener('DOMContentLoaded', renderMembers);
 </script>
 </body>
