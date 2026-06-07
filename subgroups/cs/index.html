@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>计算机科学社 | 联合公社</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #4f6ef7;
+            --primary-dark: #3b5de7;
+            --primary-light: #eef1fe;
+            --accent: #4f9cf7;
+            --accent-light: #eef4ff;
+            --accent-gradient: linear-gradient(135deg, #4f9cf7, #4f6ef7);
+            --bg: #f5f7fb;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #5a6a85;
+            --text-muted: #94a3b8;
+            --border: #e8ecf4;
+            --shadow-sm: 0 2px 8px rgba(79,110,247,0.06);
+            --shadow-md: 0 8px 24px rgba(79,110,247,0.08);
+            --shadow-lg: 0 16px 40px rgba(79,110,247,0.12);
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .top-bar {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 0 var(--border);
+            transition: box-shadow 0.3s;
+        }
+        .top-bar.scrolled { box-shadow: 0 4px 20px rgba(79,110,247,0.08); }
+
+        .logo {
+            font-size: 1.4rem; font-weight: 700; letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary), #4f9cf7);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .logo-icon {
+            width: 28px; height: 28px; border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), #4f9cf7);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;
+        }
+
+        .back-btn {
+            background: none; border: none; cursor: pointer;
+            padding: 0.5rem 0.8rem; border-radius: 10px;
+            transition: background 0.2s;
+            display: flex; align-items: center; gap: 0.3rem;
+            font-size: 0.9rem; font-weight: 600; color: var(--primary);
+            text-decoration: none;
+        }
+        .back-btn:hover { background-color: var(--primary-light); }
+        .back-arrow { transition: transform 0.2s; }
+        .back-btn:hover .back-arrow { transform: translateX(-3px); }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+        .page-hero {
+            text-align: center;
+            margin: 2rem 0 3rem;
+            position: relative;
+        }
+        .page-hero-icon {
+            width: 80px; height: 80px;
+            border-radius: 24px;
+            background: var(--accent-gradient);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 8px 24px rgba(79,156,247,0.2);
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .page-hero h1 {
+            font-size: 2.5rem; font-weight: 800;
+            color: var(--text); letter-spacing: 2px;
+        }
+        .page-hero-sub {
+            color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem;
+        }
+
+        .page-hero::before,
+        .page-hero::after {
+            content: ''; position: absolute; border-radius: 50%; opacity: 0.06; pointer-events: none;
+        }
+        .page-hero::before {
+            width: 180px; height: 180px; background: var(--accent);
+            top: -40px; left: -50px; animation: float 6s ease-in-out infinite;
+        }
+        .page-hero::after {
+            width: 120px; height: 120px; background: var(--primary-dark);
+            bottom: -20px; right: -30px; animation: float 8s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .info-section { margin: 2.5rem 0; }
+        .info-section-title {
+            font-size: 1.3rem; font-weight: 700; color: var(--text);
+            margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .info-section-title::before {
+            content: ''; width: 4px; height: 24px; border-radius: 4px;
+            background: var(--accent-gradient);
+        }
+
+        .info-card {
+            background: var(--card-bg); border-radius: 20px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+            line-height: 1.8; color: var(--text-secondary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 特色功能卡片 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .feature-card {
+            background: var(--card-bg); border-radius: 16px;
+            padding: 1.3rem;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .feature-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        .member-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .member-card {
+            display: flex; align-items: center;
+            background: var(--card-bg); border-radius: 18px;
+            padding: 1rem 1.4rem;
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s, border-color 0.3s;
+            cursor: default;
+            opacity: 0; transform: translateX(-20px);
+        }
+        .member-card.visible { opacity: 1; transform: translateX(0); }
+        .member-card:hover {
+            transform: translateX(6px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
+        .member-avatar {
+            width: 52px; height: 52px; border-radius: 14px;
+            object-fit: cover; background-color: #e8ecf4;
+            margin-right: 1rem; flex-shrink: 0;
+            transition: transform 0.3s, border-radius 0.3s;
+        }
+        .member-card:hover .member-avatar {
+            transform: scale(1.08); border-radius: 50%;
+        }
+        .member-info { flex: 1; }
+        .member-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+        .member-bio { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.15rem; }
+        .member-tag {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            padding: 0.15rem 0.55rem; border-radius: 6px; margin-top: 0.4rem;
+            background: var(--accent-light); color: var(--accent);
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(25px);
+            transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        footer {
+            text-align: center; padding: 2.5rem 2rem;
+            color: var(--text-muted); font-size: 0.8rem;
+            border-top: 1px solid var(--border); margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem 1rem 2rem; }
+            .page-hero h1 { font-size: 2rem; }
+            .page-hero-icon { width: 64px; height: 64px; font-size: 2rem; }
+            .feature-grid { grid-template-columns: 1fr 1fr; }
+            .page-hero::before { width: 100px; height: 100px; }
+            .page-hero::after { width: 60px; height: 60px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar" id="topBar">
+    <a href="/" class="logo">
+        <div class="logo-icon">联</div>
+        联合公社
+    </a>
+    <a href="/" class="back-btn">
+        <span class="back-arrow">←</span> 返回首页
+    </a>
+</div>
+
+<main class="container">
+    <div class="page-hero">
+        <div class="page-hero-icon">💻</div>
+        <h1>计算机科学社</h1>
+        <p class="page-hero-sub">探寻真理，开拓未来</p>
+    </div>
+
+    <div class="info-section reveal">
+        <h2 class="info-section-title">简介</h2>
+        <div class="info-card">
+            计算机科学社是联合公社下属分社之一，致力于计算机科学与技术的学习与实践。社员们在编程、算法、Web 开发等领域不断探索，同时承担公社官网的搭建与维护工作，用技术为公社服务。
+        </div>
+    </div>
+
+    <div class="info-section reveal">
+        <h2 class="info-section-title">主要方向</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <div class="feature-name">Web 开发</div>
+                <div class="feature-desc">官网搭建与维护</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <div class="feature-name">算法研究</div>
+                <div class="feature-desc">数据结构与算法</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🖥️</div>
+                <div class="feature-name">编程实践</div>
+                <div class="feature-desc">项目开发与协作</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section reveal">
+        <h2 class="info-section-title">社员</h2>
+        <div class="member-list">
+            <div class="member-card">
+                <img class="member-avatar" src="/images/members/gmyca.jpeg" alt="光明与尘埃头像">
+                <div class="member-info">
+                    <div class="member-name">光明与尘埃</div>
+                    <div class="member-bio">计算机科学社社长、官网搭建与维护者</div>
+                    <span class="member-tag">社长</span>
+                </div>
+            </div>
+            <div class="member-card">
+                <img class="member-avatar" src="/images/members/C0.jpg" alt="C0头像">
+                <div class="member-info">
+                    <div class="member-name">C0</div>
+                    <div class="member-bio">计算机科学社社员、官网优化者和维护者</div>
+                    <span class="member-tag">社员</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    © 2026 联合公社 · 学生团体组织
+</footer>
+
+<script>
+    const topBar = document.getElementById('topBar');
+    window.addEventListener('scroll', () => {
+        topBar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 100);
+                revealObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => revealObs.observe(el));
+
+    const memberList = document.querySelector('.member-list');
+    const memberObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cards = entry.target.querySelectorAll('.member-card');
+                cards.forEach((card, i) => {
+                    setTimeout(() => card.classList.add('visible'), i * 120);
+                });
+                memberObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    if (memberList) memberObs.observe(memberList);
+</script>
+</body>
+</html>

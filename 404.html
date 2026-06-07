@@ -79,14 +79,212 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* ===== 粒子背景 ===== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .error-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            #particles-canvas {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
+    <canvas id="particles-canvas"></canvas>
     <div class="error-container">
         <div class="error-code">404</div>
         <div class="error-message">你访问的页面不存在或已经移除</div>
         <div class="error-hint">如果你确定该页面应该存在，请联系网站管理员</div>
-        <a href="/index.html" class="home-btn">返回首页</a>
+        <a href="/" class="home-btn">返回首页</a>
     </div>
+
+<script>
+    // ===== 粒子背景效果 =====
+    (function() {
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let vw, vh, pageHeight, particles, animId;
+        const mouse = { x: -9999, y: -9999 };
+
+        const colors = [
+            'rgba(79,110,247,',
+            'rgba(79,156,247,',
+            'rgba(59,93,231,',
+            'rgba(240,100,73,',
+            'rgba(245,166,35,',
+        ];
+
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        document.addEventListener('mouseleave', () => {
+            mouse.x = -9999;
+            mouse.y = -9999;
+        });
+
+        function resize() {
+            vw = canvas.width = window.innerWidth;
+            vh = canvas.height = window.innerHeight;
+            pageHeight = document.documentElement.scrollHeight;
+        }
+
+        function createParticle(fadeIn) {
+            const colorBase = colors[Math.random() < 0.75 ? Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 2)];
+            const scrollY = window.scrollY;
+            const yMin = fadeIn ? scrollY : 0;
+            const yMax = fadeIn ? scrollY + vh : pageHeight;
+            return {
+                x: Math.random() * vw,
+                y: yMin + Math.random() * (yMax - yMin),
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.3 - 0.15,
+                radius: Math.random() * 2.5 + 1,
+                color: colorBase,
+                alpha: fadeIn ? 0 : (Math.random() * 0.4 + 0.15),
+                targetAlpha: Math.random() * 0.4 + 0.15,
+                alphaDir: (Math.random() - 0.5) * 0.005,
+                fadingOut: false,
+                fadingIn: !!fadeIn,
+            };
+        }
+
+        function createParticles() {
+            const count = Math.min(Math.floor((vw * vh) / 18000), 80);
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push(createParticle(false));
+            }
+        }
+
+        function update() {
+            const scrollY = window.scrollY;
+            particles.forEach((p, i) => {
+                const screenY = p.y - scrollY;
+                const dx = p.x - mouse.x;
+                const dy = screenY - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150 && dist > 0) {
+                    const force = (150 - dist) / 150 * 0.3;
+                    p.vx += (dx / dist) * force;
+                    p.vy += (dy / dist) * force;
+                }
+
+                p.vx *= 0.99;
+                p.vy *= 0.99;
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.fadingIn) {
+                    p.alpha += 0.012;
+                    if (p.alpha >= p.targetAlpha) {
+                        p.alpha = p.targetAlpha;
+                        p.fadingIn = false;
+                    }
+                }
+
+                if (!p.fadingIn && !p.fadingOut) {
+                    p.alpha += p.alphaDir;
+                    if (p.alpha > 0.55 || p.alpha < 0.1) p.alphaDir *= -1;
+                }
+
+                const margin = 50;
+                const viewY = p.y - scrollY;
+                const outOfView = p.x < -margin || p.x > vw + margin || viewY < -margin || viewY > vh + margin;
+                if (outOfView) {
+                    p.fadingOut = true;
+                } else if (p.fadingOut && !p.fadingIn) {
+                    p.fadingOut = false;
+                    if (p.alpha < 0.1) p.alpha = 0.1;
+                }
+
+                if (p.fadingOut) {
+                    p.alpha -= 0.008;
+                    if (p.alpha <= 0) {
+                        particles[i] = createParticle(true);
+                    }
+                }
+            });
+        }
+
+        function drawParticle(p) {
+            const screenY = p.y - window.scrollY;
+            if (screenY < -20 || screenY > vh + 20) return;
+            ctx.beginPath();
+            ctx.arc(p.x, screenY, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color + p.alpha + ')';
+            ctx.fill();
+        }
+
+        function drawLines() {
+            const scrollY = window.scrollY;
+            const maxDist = 120;
+            for (let i = 0; i < particles.length; i++) {
+                const pi = particles[i];
+                const si = pi.y - scrollY;
+                if (si < -maxDist || si > vh + maxDist) continue;
+                for (let j = i + 1; j < particles.length; j++) {
+                    const pj = particles[j];
+                    const sj = pj.y - scrollY;
+                    if (sj < -maxDist || sj > vh + maxDist) continue;
+                    const dx = pi.x - pj.x;
+                    const dy = si - sj;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < maxDist) {
+                        const alpha = (1 - dist / maxDist) * 0.12;
+                        ctx.beginPath();
+                        ctx.moveTo(pi.x, si);
+                        ctx.lineTo(pj.x, sj);
+                        ctx.strokeStyle = 'rgba(79,110,247,' + alpha + ')';
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, vw, vh);
+            update();
+            drawLines();
+            particles.forEach(drawParticle);
+            animId = requestAnimationFrame(animate);
+        }
+
+        function init() {
+            resize();
+            createParticles();
+            if (animId) cancelAnimationFrame(animId);
+            animate();
+        }
+
+        const resizeObserver = new ResizeObserver(() => {
+            pageHeight = document.documentElement.scrollHeight;
+        });
+        resizeObserver.observe(document.documentElement);
+
+        window.addEventListener('resize', () => {
+            resize();
+            createParticles();
+        });
+
+        init();
+    })();
+</script>
 </body>
 </html>
