@@ -1,0 +1,20 @@
+/* ===== 联合公社 - 粒子背景 & 侧边装饰 ===== */
+
+/* 粒子画布 */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+.top-bar, .container, footer {
+    position: relative;
+    z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #particles-canvas {
+        display: none;
+    }
+}

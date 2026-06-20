@@ -1,0 +1,247 @@
+/* ===== 联合公社 - 公共基础样式 ===== */
+
+/* CSS 重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 设计变量 */
+:root {
+    --primary: #4f6ef7;
+    --primary-dark: #3b5de7;
+    --primary-light: #eef1fe;
+    --accent-red: #f06449;
+    --accent-orange: #f5a623;
+    --accent-blue: #4f9cf7;
+    --bg: #f5f7fb;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-secondary: #5a6a85;
+    --text-muted: #94a3b8;
+    --border: #e8ecf4;
+    --shadow-sm: 0 2px 8px rgba(79,110,247,0.06);
+    --shadow-md: 0 8px 24px rgba(79,110,247,0.08);
+    --shadow-lg: 0 16px 40px rgba(79,110,247,0.12);
+}
+
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ===== 顶部导航栏 ===== */
+.top-bar {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: var(--text);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 0 var(--border);
+    transition: box-shadow 0.3s;
+}
+.top-bar.scrolled {
+    box-shadow: 0 4px 20px rgba(79,110,247,0.08);
+}
+
+/* Logo */
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--primary), var(--accent-blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.logo-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--accent-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+/* 返回按钮 */
+.back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: 10px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+}
+.back-btn:hover {
+    background-color: var(--primary-light);
+}
+.back-arrow {
+    transition: transform 0.2s;
+}
+.back-btn:hover .back-arrow {
+    transform: translateX(-3px);
+}
+
+/* 汉堡菜单按钮 */
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 10px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.menu-btn:hover {
+    background-color: var(--primary-light);
+}
+.menu-icon {
+    width: 24px;
+    height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.menu-icon span {
+    display: block;
+    height: 2.5px;
+    background: var(--primary);
+    border-radius: 3px;
+    transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.menu-btn.active .menu-icon span:nth-child(1) {
+    transform: translateY(7.75px) rotate(45deg);
+}
+.menu-btn.active .menu-icon span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.menu-btn.active .menu-icon span:nth-child(3) {
+    transform: translateY(-7.75px) rotate(-45deg);
+}
+
+/* 下拉菜单 */
+.dropdown-container {
+    position: relative;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    width: 180px;
+    overflow: hidden;
+    z-index: 200;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    border: 1px solid var(--border);
+}
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+.dropdown-item {
+    padding: 0.8rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-bottom: 1px solid #f5f7fb;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+.dropdown-item:hover {
+    background-color: var(--primary-light);
+    color: var(--primary);
+}
+.dropdown-item-icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* ===== 主内容区 ===== */
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+/* ===== 页脚 ===== */
+footer {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+}
+footer a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* ===== 关键帧动画 ===== */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+@keyframes heroGradient {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+}
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem 1rem 2rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

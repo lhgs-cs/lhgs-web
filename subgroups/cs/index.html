@@ -4,77 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>计算机科学社 | 联合公社</title>
+    <link rel="stylesheet" href="/css/common.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
-            --primary: #4f6ef7;
-            --primary-dark: #3b5de7;
-            --primary-light: #eef1fe;
             --accent: #4f9cf7;
             --accent-light: #eef4ff;
             --accent-gradient: linear-gradient(135deg, #4f9cf7, #4f6ef7);
-            --bg: #f5f7fb;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-secondary: #5a6a85;
-            --text-muted: #94a3b8;
-            --border: #e8ecf4;
-            --shadow-sm: 0 2px 8px rgba(79,110,247,0.06);
-            --shadow-md: 0 8px 24px rgba(79,110,247,0.08);
-            --shadow-lg: 0 16px 40px rgba(79,110,247,0.12);
         }
-
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .top-bar {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 0 var(--border);
-            transition: box-shadow 0.3s;
-        }
-        .top-bar.scrolled { box-shadow: 0 4px 20px rgba(79,110,247,0.08); }
-
-        .logo {
-            font-size: 1.4rem; font-weight: 700; letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--primary), #4f9cf7);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
-        }
-        .logo-icon {
-            width: 28px; height: 28px; border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), #4f9cf7);
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;
-        }
-
-        .back-btn {
-            background: none; border: none; cursor: pointer;
-            padding: 0.5rem 0.8rem; border-radius: 10px;
-            transition: background 0.2s;
-            display: flex; align-items: center; gap: 0.3rem;
-            font-size: 0.9rem; font-weight: 600; color: var(--primary);
-            text-decoration: none;
-        }
-        .back-btn:hover { background-color: var(--primary-light); }
-        .back-arrow { transition: transform 0.2s; }
-        .back-btn:hover .back-arrow { transform: translateX(-3px); }
-
-        .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
         .page-hero {
             text-align: center;
@@ -114,10 +50,6 @@
         .page-hero::after {
             width: 120px; height: 120px; background: var(--primary-dark);
             bottom: -20px; right: -30px; animation: float 8s ease-in-out infinite reverse;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
         }
 
         .info-section { margin: 2.5rem 0; }
@@ -215,19 +147,24 @@
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        footer {
-            text-align: center; padding: 2.5rem 2rem;
-            color: var(--text-muted); font-size: 0.8rem;
-            border-top: 1px solid var(--border); margin-top: 2rem;
-        }
-
         @media (max-width: 768px) {
             .container { padding: 1rem 1rem 2rem; }
             .page-hero h1 { font-size: 2rem; }
             .page-hero-icon { width: 64px; height: 64px; font-size: 2rem; }
-            .feature-grid { grid-template-columns: 1fr 1fr; }
             .page-hero::before { width: 100px; height: 100px; }
             .page-hero::after { width: 60px; height: 60px; }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar { padding: 0.6rem 0.8rem; }
+            .logo { font-size: 1.2rem; }
+            .logo-icon { width: 24px; height: 24px; font-size: 0.7rem; border-radius: 6px; }
+            .back-btn { font-size: 0.82rem; padding: 0.4rem 0.6rem; }
+            .container { padding: 0.8rem 0.75rem 2rem; }
+            .page-hero h1 { font-size: 1.6rem; }
+            .page-hero-icon { width: 56px; height: 56px; font-size: 1.6rem; }
+            .info-card { padding: 1.2rem; }
+            .feature-grid { grid-template-columns: 1fr; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -254,33 +191,38 @@
     <div class="page-hero">
         <div class="page-hero-icon">💻</div>
         <h1>计算机科学社</h1>
-        <p class="page-hero-sub">探寻真理，开拓未来</p>
+        <p class="page-hero-sub">Computer Science Club</p>
     </div>
 
     <div class="info-section reveal">
         <h2 class="info-section-title">简介</h2>
         <div class="info-card">
-            计算机科学社是联合公社下属分社之一，致力于计算机科学与技术的学习与实践。社员们在编程、算法、Web 开发等领域不断探索，同时承担公社官网的搭建与维护工作，用技术为公社服务。
+            CS社，简称计科社，是联合公社的核心分社之一。负责技术开发与维护，培养计算机科学兴趣，组织开展编程、算法、系统设计等技术活动。
         </div>
     </div>
 
     <div class="info-section reveal">
-        <h2 class="info-section-title">主要方向</h2>
+        <h2 class="info-section-title">社团特色</h2>
         <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <div class="feature-name">Web 开发</div>
-                <div class="feature-desc">官网搭建与维护</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚙️</div>
-                <div class="feature-name">算法研究</div>
-                <div class="feature-desc">数据结构与算法</div>
-            </div>
             <div class="feature-card">
                 <div class="feature-icon">🖥️</div>
                 <div class="feature-name">编程实践</div>
-                <div class="feature-desc">项目开发与协作</div>
+                <div class="feature-desc">从入门到进阶的编程训练</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <div class="feature-name">网站开发</div>
+                <div class="feature-desc">维护与搭建联合公社官网</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <div class="feature-name">算法挑战</div>
+                <div class="feature-desc">算法竞赛与逻辑思维训练</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <div class="feature-name">项目协作</div>
+                <div class="feature-desc">Git协作与团队项目开发</div>
             </div>
         </div>
     </div>
@@ -308,7 +250,6 @@
         let members = MEMBERS.filter(m => 
             m.subgroups && m.subgroups.some(sg => sg.id === 'cs')
         );
-        // 排序：社长在前，社员在后
         members.sort((a, b) => {
             const roleA = a.subgroups.find(sg => sg.id === 'cs')?.role || '';
             const roleB = b.subgroups.find(sg => sg.id === 'cs')?.role || '';

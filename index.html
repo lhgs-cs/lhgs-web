@@ -4,180 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>联合公社 | 学生团体组织</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/effects.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #4f6ef7;
-            --primary-dark: #3b5de7;
-            --primary-light: #eef1fe;
-            --accent-red: #f06449;
-            --accent-orange: #f5a623;
-            --accent-blue: #4f9cf7;
-            --bg: #f5f7fb;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-secondary: #5a6a85;
-            --text-muted: #94a3b8;
-            --border: #e8ecf4;
-            --shadow-sm: 0 2px 8px rgba(79,110,247,0.06);
-            --shadow-md: 0 8px 24px rgba(79,110,247,0.08);
-            --shadow-lg: 0 16px 40px rgba(79,110,247,0.12);
-        }
-
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
             position: relative;
-        }
-
-        /* ===== 顶部导航栏 ===== */
-        .top-bar {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            color: var(--text);
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 0 var(--border);
-            transition: box-shadow 0.3s;
-        }
-        .top-bar.scrolled {
-            box-shadow: 0 4px 20px rgba(79,110,247,0.08);
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--primary), var(--accent-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .logo-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--accent-blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        /* 汉堡菜单按钮 */
-        .menu-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 10px;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .menu-btn:hover {
-            background-color: var(--primary-light);
-        }
-        .menu-icon {
-            width: 24px;
-            height: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .menu-icon span {
-            display: block;
-            height: 2.5px;
-            background: var(--primary);
-            border-radius: 3px;
-            transition: 0.3s cubic-bezier(0.4,0,0.2,1);
-        }
-        .menu-btn.active .menu-icon span:nth-child(1) {
-            transform: translateY(7.75px) rotate(45deg);
-        }
-        .menu-btn.active .menu-icon span:nth-child(2) {
-            opacity: 0;
-            transform: scaleX(0);
-        }
-        .menu-btn.active .menu-icon span:nth-child(3) {
-            transform: translateY(-7.75px) rotate(-45deg);
-        }
-
-        /* 下拉菜单容器 */
-        .dropdown-container {
-            position: relative;
-        }
-        .dropdown-menu {
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            width: 180px;
-            overflow: hidden;
-            z-index: 200;
-            opacity: 0;
-            transform: translateY(-8px) scale(0.96);
-            pointer-events: none;
-            transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
-            border: 1px solid var(--border);
-        }
-        .dropdown-menu.show {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-        .dropdown-item {
-            padding: 0.8rem 1.25rem;
-            font-size: 0.95rem;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.15s;
-            border-bottom: 1px solid #f5f7fb;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-        .dropdown-item:hover {
-            background-color: var(--primary-light);
-            color: var(--primary);
-        }
-        .dropdown-item-icon {
-            font-size: 1rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        /* ===== 主内容区 ===== */
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 4rem;
         }
 
         /* ===== 大标题区 Hero ===== */
@@ -196,10 +27,6 @@
             color: transparent;
             letter-spacing: 3px;
             animation: heroGradient 4s ease infinite;
-        }
-        @keyframes heroGradient {
-            0%, 100% { background-position: 0% center; }
-            50% { background-position: 100% center; }
         }
         .hero-domain {
             font-size: 0.9rem;
@@ -253,17 +80,8 @@
             right: -40px;
             animation: float 8s ease-in-out infinite reverse;
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
 
-        /* ===== 通用动画 ===== */
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* ===== 滚动显示动画 ===== */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -302,162 +120,151 @@
         }
         .section-title-icon {
             font-size: 1.3rem;
-            margin-left: 0.3rem;
         }
         .section-text {
             font-size: 1.05rem;
             color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1.2rem;
-        }
-
-        /* ===== 社训特殊样式 ===== */
-        .motto-box {
-            background: linear-gradient(135deg, var(--primary-light), #f0f4ff);
-            border-radius: 20px;
-            padding: 2rem 2.5rem;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(79,110,247,0.1);
-        }
-        .motto-box::before {
-            content: '\201C';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            font-size: 5rem;
-            color: var(--primary);
-            opacity: 0.1;
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-        .motto-text {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-dark);
             line-height: 2;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        .motto-text span {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.4s, transform 0.4s;
-        }
-        .motto-text.visible span {
-            opacity: 1;
-            transform: translateY(0);
+            padding-left: 1rem;
         }
 
-        /* ===== 卡片组 ===== */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .card {
-            background-color: var(--card-bg);
+        /* ===== 社训盒子 ===== */
+        .motto-box {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #f0f4ff 50%, #fef6f0 100%);
             border-radius: 20px;
-            padding: 1.8rem 1.4rem 1.6rem;
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s cubic-bezier(0.4,0,0.2,1);
-            display: flex;
-            flex-direction: column;
+            padding: 2rem 1.5rem;
+            text-align: center;
             border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
         }
-        .card::after {
+        .motto-box::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 8rem;
+            font-weight: 900;
+            color: var(--primary);
+            opacity: 0.04;
+            line-height: 1;
+            pointer-events: none;
+        }
+        .motto-text {
+            position: relative;
+            z-index: 1;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            line-height: 2.4;
+            letter-spacing: 1px;
+        }
+        .motto-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        /* ===== 分社卡片网格 ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s, border-color 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            border-radius: 20px 20px 0 0;
-            opacity: 0;
-            transition: opacity 0.3s;
+            height: 4px;
+            transition: height 0.3s;
         }
-        .card:hover::after {
-            opacity: 1;
+        .card:hover::before {
+            height: 100%;
+            opacity: 0.04;
         }
         .card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
         }
-
-        .card-red::after { background: linear-gradient(90deg, var(--accent-red), #ff8a65); }
-        .card-orange::after { background: linear-gradient(90deg, var(--accent-orange), #ffcc02); }
-        .card-blue::after { background: linear-gradient(90deg, var(--accent-blue), var(--primary)); }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
+        .card-red {
+            border-color: rgba(240,100,73,0.18);
         }
-        .card-red .card-icon { background: linear-gradient(135deg, #fff0ee, #ffe0db); }
-        .card-orange .card-icon { background: linear-gradient(135deg, #fff8ed, #ffedcc); }
-        .card-blue .card-icon { background: linear-gradient(135deg, #eef4ff, #ddeaff); }
-
+        .card-red::before {
+            background: var(--accent-red);
+        }
+        .card-red:hover {
+            border-color: rgba(240,100,73,0.4);
+        }
+        .card-orange {
+            border-color: rgba(245,166,35,0.18);
+        }
+        .card-orange::before {
+            background: var(--accent-orange);
+        }
+        .card-orange:hover {
+            border-color: rgba(245,166,35,0.4);
+        }
+        .card-blue {
+            border-color: rgba(79,156,247,0.18);
+        }
+        .card-blue::before {
+            background: var(--accent-blue);
+        }
+        .card-blue:hover {
+            border-color: rgba(79,156,247,0.4);
+        }
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
         .card-name {
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            margin-bottom: 0.4rem;
             color: var(--text);
+            margin-bottom: 0.3rem;
+            position: relative;
+            z-index: 1;
         }
         .card-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.2rem;
-            flex-grow: 1;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
         .card-btn {
-            align-self: flex-start;
-            background: var(--primary-light);
-            border: none;
+            background: none;
+            border: 1.5px solid var(--border);
             padding: 0.5rem 1.2rem;
-            border-radius: 40px;
+            border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--primary);
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-            position: relative;
-            overflow: hidden;
-        }
-        .card-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: var(--primary);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-            z-index: 0;
-        }
-        .card-btn:hover::before {
-            width: 200px;
-            height: 200px;
-        }
-        .card-btn:hover {
-            color: white;
-            transform: scale(1.02);
-        }
-        .card-btn span {
+            transition: all 0.2s;
             position: relative;
             z-index: 1;
+        }
+        .card-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
 
         /* ===== 社员列表 ===== */
@@ -465,7 +272,6 @@
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            margin-top: 1.5rem;
         }
         .member-card {
             display: flex;
@@ -552,20 +358,6 @@
             transform: translateX(3px);
         }
 
-        /* ===== 页脚 ===== */
-        footer {
-            text-align: center;
-            padding: 2.5rem 2rem;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
-        }
-        footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
         /* ===== 侧边装饰 ===== */
         .side-decor {
             position: absolute;
@@ -605,96 +397,67 @@
         /* 通用形状 */
         .side-shape {
             position: absolute;
-            pointer-events: none;
         }
 
-        /* 圆形1 */
+        /* 圆圈1 */
         .shape-circle-1 {
-            width: 40px;
-            height: 40px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent-blue));
-            opacity: 0.07;
-            animation: sideFloat1 7s ease-in-out infinite;
+            border: 1.5px solid var(--accent-blue);
+            opacity: 0.12;
+            animation: sideFloat1 10s ease-in-out infinite;
         }
-        .side-left .shape-circle-1 { top: 6%; left: 20%; }
-        .side-right .shape-circle-1 { top: 10%; right: 15%; }
+        .side-left .shape-circle-1 { top: 20%; left: 25%; }
+        .side-right .shape-circle-1 { top: 18%; right: 30%; }
 
-        /* 菱形1 */
+        /* 菱形 */
         .shape-diamond-1 {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
             background: var(--accent-orange);
-            opacity: 0.1;
+            opacity: 0.08;
             transform: rotate(45deg);
-            border-radius: 3px;
-            animation: sideFloat2 9s ease-in-out infinite;
+            animation: sideFloat1 8s ease-in-out infinite 1.5s;
         }
-        .side-left .shape-diamond-1 { top: 18%; left: 55%; }
-        .side-right .shape-diamond-1 { top: 22%; right: 50%; }
+        .side-left .shape-diamond-1 { top: 38%; left: 45%; }
+        .side-right .shape-diamond-1 { top: 40%; right: 40%; }
 
-        /* 小圆点1 */
-        .shape-dot-1 {
-            width: 8px;
-            height: 8px;
+        /* 点 */
+        .shape-dot-1, .shape-dot-2 {
             border-radius: 50%;
-            background: var(--accent-red);
-            opacity: 0.15;
-            animation: sideFloat3 6s ease-in-out infinite;
+            opacity: 0.18;
         }
-        .side-left .shape-dot-1 { top: 30%; left: 35%; }
-        .side-right .shape-dot-1 { top: 35%; right: 30%; }
-
-        /* 小圆点2 */
-        .shape-dot-2 {
+        .shape-dot-1 {
             width: 6px;
             height: 6px;
-            border-radius: 50%;
             background: var(--primary);
-            opacity: 0.12;
-            animation: sideFloat1 8s ease-in-out infinite reverse;
+            animation: sideFloat1 6s ease-in-out infinite 0.5s;
         }
-        .side-left .shape-dot-2 { top: 42%; left: 65%; }
-        .side-right .shape-dot-2 { top: 48%; right: 60%; }
-
-        /* 圆环1 */
-        .shape-ring-1 {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            opacity: 0.08;
-            animation: sideFloat2 10s ease-in-out infinite;
+        .side-left .shape-dot-1 { top: 55%; left: 60%; }
+        .side-right .shape-dot-1 { top: 58%; right: 55%; }
+        .shape-dot-2 {
+            width: 4px;
+            height: 4px;
+            background: var(--accent-red);
+            animation: sideFloat1 7s ease-in-out infinite 2s;
         }
-        .side-left .shape-ring-1 { top: 55%; left: 25%; }
-        .side-right .shape-ring-1 { top: 60%; right: 20%; }
+        .side-left .shape-dot-2 { top: 48%; left: 15%; }
+        .side-right .shape-dot-2 { top: 50%; right: 20%; }
 
-        /* 三角形1（左侧） */
-        .shape-triangle-1 {
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-bottom: 20px solid var(--accent-blue);
-            opacity: 0.08;
-            animation: sideFloat3 8s ease-in-out infinite;
-        }
-        .side-left .shape-triangle-1 { top: 70%; left: 50%; }
-
-        /* 十字1（右侧） */
+        /* 十字 */
         .shape-cross-1 {
+            position: absolute;
             width: 18px;
             height: 18px;
-            opacity: 0.08;
-            animation: sideFloat3 7s ease-in-out infinite reverse;
-            position: absolute;
+            opacity: 0.07;
+            animation: sideFloat1 12s ease-in-out infinite 3s;
         }
-        .shape-cross-1::before,
-        .shape-cross-1::after {
+        .shape-cross-1::before, .shape-cross-1::after {
             content: '';
             position: absolute;
-            background: var(--accent-orange);
-            border-radius: 1px;
+            background: var(--primary);
         }
         .shape-cross-1::before {
             width: 18px;
@@ -792,21 +555,6 @@
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-12px) rotate(5deg); }
         }
-        @keyframes sideFloat2 {
-            0%, 100% { transform: translateY(0) rotate(45deg); }
-            50% { transform: translateY(-10px) rotate(50deg); }
-        }
-        @keyframes sideFloat3 {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        /* 桌面端显示侧边装饰 */
-        @media (min-width: 1200px) {
-            .side-decor {
-                display: block;
-            }
-        }
 
         /* ===== 响应式 ===== */
         @media (max-width: 768px) {
@@ -814,61 +562,105 @@
                 padding: 1rem 1rem 2rem;
             }
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
+                letter-spacing: 1px;
+            }
+            .hero-image {
+                margin-top: 1.5rem;
             }
             .hero-image img {
-                width: 50%;
-                max-width: 140px;
+                max-width: 100px;
+            }
+            .section {
+                margin: 2.5rem 0;
             }
             .section-title {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
+            }
+            .section-text {
+                font-size: 0.95rem;
             }
             .card-grid {
                 grid-template-columns: 1fr;
+                gap: 0.8rem;
             }
-            .dropdown-menu {
-                width: 160px;
-                right: 0;
-            }
-            .member-avatar {
-                width: 46px;
-                height: 46px;
-            }
-            .motto-box {
-                padding: 1.5rem;
+            .card {
+                padding: 1.3rem 1rem;
             }
             .motto-text {
-                font-size: 1.05rem;
+                font-size: 0.95rem;
+                line-height: 2.2;
             }
-            .hero::before {
-                width: 120px;
-                height: 120px;
-            }
-            .hero::after {
-                width: 80px;
-                height: 80px;
+            footer {
+                padding: 2rem 1rem;
             }
         }
 
-        /* ===== 粒子背景 ===== */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .container, footer {
-            position: relative;
-            z-index: 1;
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0.5rem 0.8rem;
+            }
+            .logo {
+                font-size: 1.15rem;
+                letter-spacing: 0.5px;
+            }
+            .logo-icon {
+                width: 22px;
+                height: 22px;
+                font-size: 0.65rem;
+                border-radius: 6px;
+            }
+            .container {
+                padding: 0.8rem 0.8rem 2rem;
+            }
+            .hero {
+                margin: 2rem 0 1.5rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero-image img {
+                max-width: 80px;
+            }
+            .section {
+                margin: 2rem 0;
+            }
+            .section-title {
+                font-size: 1.15rem;
+            }
+            .section-text {
+                font-size: 0.9rem;
+            }
+            .motto-box {
+                padding: 1.5rem 1rem;
+            }
+            .motto-text {
+                font-size: 0.88rem;
+                line-height: 2;
+            }
+            .member-card {
+                padding: 0.8rem 0.9rem;
+            }
+            .member-avatar {
+                width: 42px;
+                height: 42px;
+                margin-right: 0.75rem;
+            }
+            .member-name {
+                font-size: 0.95rem;
+            }
+            .member-bio {
+                font-size: 0.78rem;
+            }
         }
 
-        /* ===== 减少动画偏好 ===== */
+        @media (min-width: 1200px) {
+            .side-decor {
+                display: block;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
             #particles-canvas {
                 display: none;
             }
@@ -886,25 +678,26 @@
     <div class="side-shape shape-diamond-1"></div>
     <div class="side-shape shape-dot-1"></div>
     <div class="side-shape shape-dot-2"></div>
-    <div class="side-shape shape-ring-1"></div>
-    <div class="side-shape shape-triangle-1"></div>
     <div class="side-shape shape-circle-2"></div>
-    <div class="float-strip strip-l1 strip-primary">
-        <div class="float-strip-icon">📜</div>
-        <div class="float-strip-text">实事求是<br>严谨求卓</div>
+    <div class="float-strip strip-l1 strip-accent-orange">
+        <div class="float-strip-icon">🧮</div>
+        <div class="float-strip-text">硬算社</div>
+        <div class="float-strip-sub">挑战极限</div>
     </div>
-    <div class="float-strip strip-l2 strip-accent-orange">
-        <div class="float-strip-icon">🏛️</div>
-        <div class="float-strip-text">联合各分社<br>形成合力</div>
-        <div class="float-strip-sub">共同进步</div>
+    <div class="float-strip strip-l2 strip-primary">
+        <div class="float-strip-icon">🎤</div>
+        <div class="float-strip-text">朗诵社</div>
+        <div class="float-strip-sub">以声传情</div>
     </div>
     <div class="float-strip strip-l3 strip-accent-blue">
-        <div class="float-strip-icon">🎤</div>
-        <div class="float-strip-text">幽默风雅<br>爱国进步</div>
+        <div class="float-strip-icon">💻</div>
+        <div class="float-strip-text">计算机科学社</div>
+        <div class="float-strip-sub">技术驱动</div>
     </div>
     <div class="float-strip strip-l4 strip-accent-red">
-        <div class="float-strip-icon">💡</div>
-        <div class="float-strip-text">探寻真理<br>开拓未来</div>
+        <div class="float-strip-icon">📜</div>
+        <div class="float-strip-text">联合公社</div>
+        <div class="float-strip-sub">团结协作</div>
     </div>
 </div>
 
@@ -915,22 +708,21 @@
     <div class="side-shape shape-diamond-1"></div>
     <div class="side-shape shape-dot-1"></div>
     <div class="side-shape shape-dot-2"></div>
-    <div class="side-shape shape-ring-1"></div>
-    <div class="side-shape shape-cross-1"></div>
     <div class="side-shape shape-circle-2"></div>
-    <div class="float-strip strip-r1 strip-accent-blue">
-        <div class="float-strip-icon">🧮</div>
-        <div class="float-strip-text">硬算社</div>
+    <div class="side-shape shape-cross-1"></div>
+    <div class="float-strip strip-r1 strip-accent-red">
+        <div class="float-strip-icon">✨</div>
+        <div class="float-strip-text">实事求是</div>
         <div class="float-strip-sub">严谨求卓</div>
     </div>
     <div class="float-strip strip-r2 strip-accent-orange">
-        <div class="float-strip-icon">🎤</div>
-        <div class="float-strip-text">朗诵社</div>
-        <div class="float-strip-sub">幽默风雅</div>
+        <div class="float-strip-icon">🎯</div>
+        <div class="float-strip-text">幽默风雅</div>
+        <div class="float-strip-sub">爱国进步</div>
     </div>
-    <div class="float-strip strip-r3 strip-primary">
-        <div class="float-strip-icon">💻</div>
-        <div class="float-strip-text">计算机科学社</div>
+    <div class="float-strip strip-r3 strip-accent-blue">
+        <div class="float-strip-icon">🚀</div>
+        <div class="float-strip-text">探寻真理</div>
         <div class="float-strip-sub">开拓未来</div>
     </div>
     <div class="float-strip strip-r4 strip-accent-red">
@@ -939,8 +731,9 @@
         <div class="float-strip-sub">lianhegongshe.cn</div>
     </div>
     <div class="float-strip strip-r5 strip-primary">
-        <div class="float-strip-icon">🤝</div>
-        <div class="float-strip-text">团结协作<br>共创辉煌</div>
+        <div class="float-strip-icon">🔗</div>
+        <div class="float-strip-text">联合公社</div>
+        <div class="float-strip-sub">共筑未来</div>
     </div>
 </div>
 
@@ -950,7 +743,7 @@
         联合公社
     </div>
     <div class="dropdown-container">
-        <button class="menu-btn" id="menuToggle" aria-label="菜单">
+        <button class="menu-btn" id="menuBtn" aria-label="菜单">
             <div class="menu-icon">
                 <span></span>
                 <span></span>
@@ -961,8 +754,11 @@
             <div class="dropdown-item" data-action="intro">
                 <span class="dropdown-item-icon">📖</span> 简介
             </div>
+            <div class="dropdown-item" data-action="motto">
+                <span class="dropdown-item-icon">📜</span> 社训
+            </div>
             <div class="dropdown-item" data-action="subgroups">
-                <span class="dropdown-item-icon">🏛️</span> 组成分社
+                <span class="dropdown-item-icon">🏛️</span> 分社
             </div>
             <div class="dropdown-item" data-action="members">
                 <span class="dropdown-item-icon">👥</span> 社员
@@ -1053,33 +849,18 @@
                 <img class="member-avatar" src="/images/members/gmyca.jpeg" alt="光明与尘埃头像">
                 <div class="member-info">
                     <div class="member-name">光明与尘埃</div>
-                    <div class="member-bio">计算机科学社社长、官网搭建与维护者</div>
+                    <div class="member-bio">CS社社长</div>
                 </div>
             </div>
-            <!-- 4. C0 -->
-            <div class="member-card">
-                <img class="member-avatar" src="/images/members/C0.jpg" alt="C0头像">
-                <div class="member-info">
-                    <div class="member-name">C0</div>
-                    <div class="member-bio">计算机科学社社员、官网优化与维护者</div>
-                </div>
-            </div>
-            <!-- 5. qian -->
-            <div class="member-card">
-                <img class="member-avatar" src="/images/members/qian.jpeg" alt="qian头像">
-                <div class="member-info">
-                    <div class="member-name">qian</div>
-                    <div class="member-bio">联合公社二办事处处长和文件编写员，朗诵社社员</div>
-                </div>
-            </div>
-            <!-- 6. 省略号占位 -->
-            <div class="member-card member-card-ellipsis">
-                <div style="text-align: center; width: 100%;">· · · · · ·</div>
+            <!-- 查看全部 -->
+            <div class="member-card member-card-ellipsis" onclick="window.location.href='/members/'" style="cursor:pointer;">
+                <span>…</span>
             </div>
         </div>
-        <!-- 全部社员按钮 -->
-        <div style="text-align: center;">
-            <a href="/members/index.html" class="btn-all">全部社员 <span class="btn-all-arrow">→</span></a>
+        <div style="text-align:center;">
+            <a href="/members/" class="btn-all">
+                查看全部社员 <span class="btn-all-arrow">→</span>
+            </a>
         </div>
     </div>
 </main>
@@ -1095,82 +876,64 @@
         topBar.classList.toggle('scrolled', window.scrollY > 10);
     });
 
-    // ===== 汉堡菜单交互 =====
-    const menuBtn = document.getElementById('menuToggle');
-    const dropdown = document.getElementById('dropdownMenu');
-
+    // ===== 汉堡菜单 =====
+    const menuBtn = document.getElementById('menuBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
     menuBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isOpen = dropdown.classList.toggle('show');
-        menuBtn.classList.toggle('active', isOpen);
+        menuBtn.classList.toggle('active');
+        dropdownMenu.classList.toggle('show');
     });
-
-    document.addEventListener('click', function(event) {
-        if (!menuBtn.contains(event.target) && !dropdown.contains(event.target)) {
-            dropdown.classList.remove('show');
+    document.addEventListener('click', (e) => {
+        if (!menuBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
             menuBtn.classList.remove('active');
+            dropdownMenu.classList.remove('show');
         }
     });
 
-    // 菜单项点击
-    const menuItems = document.querySelectorAll('.dropdown-item');
-    menuItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdown.classList.remove('show');
-            menuBtn.classList.remove('active');
-            const action = item.getAttribute('data-action');
-            switch(action) {
-                case 'intro':
-                    document.getElementById('intro-section').scrollIntoView({ behavior: 'smooth' });
-                    break;
-                case 'subgroups':
-                    document.getElementById('subgroups-section').scrollIntoView({ behavior: 'smooth' });
-                    break;
-                case 'members':
-                    document.getElementById('members-section').scrollIntoView({ behavior: 'smooth' });
-                    break;
-                case 'join':
-                    window.location.href = '/members/index.html#join-section';
-                    break;
+    // ===== 下拉菜单跳转 =====
+    dropdownMenu.addEventListener('click', (e) => {
+        const item = e.target.closest('.dropdown-item');
+        if (!item) return;
+        const action = item.dataset.action;
+        if (action === 'intro') {
+            document.getElementById('intro-section').scrollIntoView({ behavior: 'smooth' });
+        } else if (action === 'motto') {
+            document.querySelector('.motto-box').scrollIntoView({ behavior: 'smooth' });
+        } else if (action === 'subgroups') {
+            document.getElementById('subgroups-section').scrollIntoView({ behavior: 'smooth' });
+        } else if (action === 'members') {
+            document.getElementById('members-section').scrollIntoView({ behavior: 'smooth' });
+        } else if (action === 'join') {
+            window.location.href = '/join.html';
+        }
+        menuBtn.classList.remove('active');
+        dropdownMenu.classList.remove('show');
+    });
+
+    // ===== 分社卡片点击跳转 =====
+    document.querySelectorAll('.card-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const subgroup = btn.dataset.subgroup;
+            if (subgroup) {
+                window.location.href = `/subgroups/${subgroup}/`;
             }
         });
     });
 
-    // ===== "了解更多"按钮跳转 =====
-    const learnBtns = document.querySelectorAll('.card-btn');
-    learnBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const subgroup = btn.getAttribute('data-subgroup');
-            const urls = {
-                yingsuan: '/subgroups/yingsuan/index.html',
-                langsong: '/subgroups/langsong/index.html',
-                cs: '/subgroups/cs/index.html'
-            };
-            if (urls[subgroup]) {
-                window.location.href = urls[subgroup];
-            }
-        });
-    });
-
-    // ===== 滚动入场动画 (Intersection Observer) =====
+    // ===== 滚动显示动画 =====
     const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // 延迟依次出现
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, index * 100);
+                entry.target.classList.add('visible');
                 revealObserver.unobserve(entry.target);
             }
         });
     }, { threshold: 0.15 });
-
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // ===== 悬浮小条滚动入场 =====
+    // ===== 侧边悬浮小条入场动画 =====
     const floatStrips = document.querySelectorAll('.float-strip');
     const stripObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1179,21 +942,10 @@
                 stripObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.5 });
     floatStrips.forEach(strip => stripObserver.observe(strip));
 
-    // ===== 侧边装饰高度同步 =====
-    function syncSideDecorHeight() {
-        const docHeight = document.documentElement.scrollHeight;
-        document.querySelectorAll('.side-decor').forEach(el => {
-            el.style.height = docHeight + 'px';
-        });
-    }
-    syncSideDecorHeight();
-    window.addEventListener('resize', syncSideDecorHeight);
-    new ResizeObserver(syncSideDecorHeight).observe(document.documentElement);
-
-    // ===== 社训文字逐段动画 =====
+    // ===== 社训逐字动画 =====
     const mottoText = document.getElementById('mottoText');
     const mottoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1267,7 +1019,6 @@
 
         function createParticle(fadeIn) {
             const colorBase = colors[Math.random() < 0.75 ? Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 2)];
-            // 重生时放在当前视口范围内，确保可见
             const scrollY = window.scrollY;
             const yMin = fadeIn ? scrollY : 0;
             const yMax = fadeIn ? scrollY + vh : pageHeight;
@@ -1297,7 +1048,6 @@
         function update() {
             const scrollY = window.scrollY;
             particles.forEach((p, i) => {
-                // 鼠标交互（视口坐标）
                 const screenY = p.y - scrollY;
                 const dx = p.x - mouse.x;
                 const dy = screenY - mouse.y;
@@ -1313,7 +1063,6 @@
                 p.x += p.vx;
                 p.y += p.vy;
 
-                // 淡入
                 if (p.fadingIn) {
                     p.alpha += 0.012;
                     if (p.alpha >= p.targetAlpha) {
@@ -1322,13 +1071,11 @@
                     }
                 }
 
-                // 呼吸闪烁
                 if (!p.fadingIn && !p.fadingOut) {
                     p.alpha += p.alphaDir;
                     if (p.alpha > 0.55 || p.alpha < 0.1) p.alphaDir *= -1;
                 }
 
-                // 超出可视区域则淡出，回到可视区域则取消淡出
                 const margin = 50;
                 const viewY = p.y - scrollY;
                 const outOfView = p.x < -margin || p.x > vw + margin || viewY < -margin || viewY > vh + margin;
@@ -1339,7 +1086,6 @@
                     if (p.alpha < 0.1) p.alpha = 0.1;
                 }
 
-                // 淡出后随机位置重生
                 if (p.fadingOut) {
                     p.alpha -= 0.008;
                     if (p.alpha <= 0) {

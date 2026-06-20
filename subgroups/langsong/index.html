@@ -4,77 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>朗诵社 | 联合公社</title>
+    <link rel="stylesheet" href="/css/common.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
-            --primary: #4f6ef7;
-            --primary-dark: #3b5de7;
-            --primary-light: #eef1fe;
             --accent: #f5a623;
             --accent-light: #fff8ed;
             --accent-gradient: linear-gradient(135deg, #f5a623, #ffcc02);
-            --bg: #f5f7fb;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --text-secondary: #5a6a85;
-            --text-muted: #94a3b8;
-            --border: #e8ecf4;
-            --shadow-sm: 0 2px 8px rgba(79,110,247,0.06);
-            --shadow-md: 0 8px 24px rgba(79,110,247,0.08);
-            --shadow-lg: 0 16px 40px rgba(79,110,247,0.12);
         }
-
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .top-bar {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 0 var(--border);
-            transition: box-shadow 0.3s;
-        }
-        .top-bar.scrolled { box-shadow: 0 4px 20px rgba(79,110,247,0.08); }
-
-        .logo {
-            font-size: 1.4rem; font-weight: 700; letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--primary), #4f9cf7);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
-        }
-        .logo-icon {
-            width: 28px; height: 28px; border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), #4f9cf7);
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 0.8rem; font-weight: 800; flex-shrink: 0;
-        }
-
-        .back-btn {
-            background: none; border: none; cursor: pointer;
-            padding: 0.5rem 0.8rem; border-radius: 10px;
-            transition: background 0.2s;
-            display: flex; align-items: center; gap: 0.3rem;
-            font-size: 0.9rem; font-weight: 600; color: var(--primary);
-            text-decoration: none;
-        }
-        .back-btn:hover { background-color: var(--primary-light); }
-        .back-arrow { transition: transform 0.2s; }
-        .back-btn:hover .back-arrow { transform: translateX(-3px); }
-
-        .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
         .page-hero {
             text-align: center;
@@ -114,10 +50,6 @@
         .page-hero::after {
             width: 120px; height: 120px; background: var(--primary);
             bottom: -20px; right: -30px; animation: float 8s ease-in-out infinite reverse;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
         }
 
         .info-section { margin: 2.5rem 0; }
@@ -183,18 +115,23 @@
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        footer {
-            text-align: center; padding: 2.5rem 2rem;
-            color: var(--text-muted); font-size: 0.8rem;
-            border-top: 1px solid var(--border); margin-top: 2rem;
-        }
-
         @media (max-width: 768px) {
             .container { padding: 1rem 1rem 2rem; }
             .page-hero h1 { font-size: 2rem; }
             .page-hero-icon { width: 64px; height: 64px; font-size: 2rem; }
             .page-hero::before { width: 100px; height: 100px; }
             .page-hero::after { width: 60px; height: 60px; }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar { padding: 0.6rem 0.8rem; }
+            .logo { font-size: 1.2rem; }
+            .logo-icon { width: 24px; height: 24px; font-size: 0.7rem; border-radius: 6px; }
+            .back-btn { font-size: 0.82rem; padding: 0.4rem 0.6rem; }
+            .container { padding: 0.8rem 0.75rem 2rem; }
+            .page-hero h1 { font-size: 1.6rem; }
+            .page-hero-icon { width: 56px; height: 56px; font-size: 1.6rem; }
+            .info-card { padding: 1.2rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -254,7 +191,6 @@
         let members = MEMBERS.filter(m => 
             m.subgroups && m.subgroups.some(sg => sg.id === 'langsong')
         );
-        // 排序：社长在前，社员在后
         members.sort((a, b) => {
             const roleA = a.subgroups.find(sg => sg.id === 'langsong')?.role || '';
             const roleB = b.subgroups.find(sg => sg.id === 'langsong')?.role || '';
