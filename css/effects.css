@@ -8,7 +8,8 @@
     pointer-events: none;
     z-index: 0;
 }
-.top-bar, .container, footer {
+/* top-bar 保持 common.css 中的 sticky 定位和高 z-index，不在此覆盖 */
+.container, footer {
     position: relative;
     z-index: 1;
 }
