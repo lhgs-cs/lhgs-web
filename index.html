@@ -1147,8 +1147,8 @@
             return {
                 x: Math.random() * vw,
                 y: yMin + Math.random() * (yMax - yMin),
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.3 - 0.15,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: (Math.random() - 0.5) * 0.18 - 0.08,
                 radius: Math.random() * 2.5 + 1,
                 color: colorBase,
                 alpha: fadeIn ? 0 : (Math.random() * 0.4 + 0.15),
@@ -1167,8 +1167,19 @@
             }
         }
 
+        let lastScrollY = window.scrollY;
+
         function update() {
             const scrollY = window.scrollY;
+            const scrollDelta = scrollY - lastScrollY;
+            lastScrollY = scrollY;
+            // 快速滚动时粒子跟随页面，避免视觉抖动
+            if (Math.abs(scrollDelta) > 20) {
+                const compensation = scrollDelta * 0.7;
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].y += compensation;
+                }
+            }
             particles.forEach((p, i) => {
                 const screenY = p.y - scrollY;
                 const dx = p.x - mouse.x;
@@ -1198,7 +1209,7 @@
                     if (p.alpha > 0.55 || p.alpha < 0.1) p.alphaDir *= -1;
                 }
 
-                const margin = 50;
+                const margin = 250;
                 const viewY = p.y - scrollY;
                 const outOfView = p.x < -margin || p.x > vw + margin || viewY < -margin || viewY > vh + margin;
                 if (outOfView) {
@@ -1269,7 +1280,7 @@
         }
 
         const resizeObserver = new ResizeObserver(() => {
-            pageHeight = document.documentElement.scrollHeight;
+            resize();
         });
         resizeObserver.observe(document.documentElement);
 
