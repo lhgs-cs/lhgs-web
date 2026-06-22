@@ -665,6 +665,86 @@
                 display: none;
             }
         }
+
+        /* ===== 公告栏 ===== */
+        .announcement-bar {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, #fef9f0 0%, #fff7e6 50%, #fef6f0 100%);
+            border: 1px solid #f5d89a;
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            margin: 0 0 2rem;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(245, 166, 35, 0.1);
+            opacity: 0;
+            transform: translateY(-12px);
+            transition: opacity 0.3s, transform 0.3s, margin 0.3s, padding 0.3s, max-height 0.4s;
+            max-height: 300px;
+            overflow: hidden;
+        }
+        .announcement-bar.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .announcement-bar.hide {
+            opacity: 0;
+            transform: translateY(-12px);
+            margin: 0;
+            padding: 0;
+            max-height: 0;
+            border-width: 0;
+        }
+        .announcement-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .announcement-content {
+            flex: 1;
+            font-size: 0.95rem;
+            color: #8b6914;
+            line-height: 1.8;
+        }
+        .announcement-content strong {
+            color: #c0392b;
+            font-weight: 700;
+        }
+        .announcement-content h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 0.4rem;
+            color: #6b4c12;
+        }
+        .announcement-content em {
+            color: #9a7d3a;
+            font-style: italic;
+        }
+        .announcement-content p {
+            margin: 0.3rem 0;
+        }
+        .announcement-close {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            color: #c9a94e;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+            line-height: 1;
+            padding: 0;
+        }
+        .announcement-close:hover {
+            background: rgba(180, 130, 30, 0.12);
+            color: #8b6914;
+        }
     </style>
 </head>
 <body>
@@ -779,6 +859,13 @@
         </div>
     </div>
 
+    <!-- 公告栏 -->
+    <div class="announcement-bar" id="announcementBar">
+        <div class="announcement-icon">📢</div>
+        <div class="announcement-content" id="announcementContent"></div>
+        <button class="announcement-close" id="announcementClose" title="关闭">✕</button>
+    </div>
+
     <!-- 简介 -->
     <div class="section reveal" id="intro-section">
         <h2 class="section-title"><span class="section-title-icon">📖</span>简介</h2>
@@ -877,6 +964,38 @@
     window.addEventListener('scroll', () => {
         topBar.classList.toggle('scrolled', window.scrollY > 10);
     });
+
+    // ===== 公告栏 =====
+    (async function loadAnnouncement() {
+        const bar = document.getElementById('announcementBar');
+        const content = document.getElementById('announcementContent');
+        const closeBtn = document.getElementById('announcementClose');
+        try {
+            const resp = await fetch('/announcement/announcement.md');
+            if (!resp.ok) return;
+            const md = await resp.text();
+            if (!md.trim()) return;
+            let html = md
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/^\- (.+)$/gm, '<li>$1</li>')
+                .replace(/\n{2,}/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+            html = '<p>' + html + '</p>';
+            content.innerHTML = html;
+            bar.classList.add('show');
+        } catch (_) {}
+        closeBtn.addEventListener('click', () => {
+            bar.classList.remove('show');
+            bar.classList.add('hide');
+        });
+    })();
 
     // ===== 汉堡菜单 =====
     const menuBtn = document.getElementById('menuBtn');
