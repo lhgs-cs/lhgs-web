@@ -843,6 +843,9 @@
             <div class="dropdown-item" data-action="members">
                 <span class="dropdown-item-icon">👥</span> 社员
             </div>
+            <div class="dropdown-item" data-action="about">
+                <span class="dropdown-item-icon">ℹ️</span> 关于我们
+            </div>
             <div class="dropdown-item" data-action="join">
                 <span class="dropdown-item-icon">✨</span> 加入我们
             </div>
@@ -1026,6 +1029,8 @@
             document.getElementById('subgroups-section').scrollIntoView({ behavior: 'smooth' });
         } else if (action === 'members') {
             document.getElementById('members-section').scrollIntoView({ behavior: 'smooth' });
+        } else if (action === 'about') {
+            window.location.href = '/about/about.html';
         } else if (action === 'join') {
             window.location.href = '/join.html';
         }
