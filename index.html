@@ -831,17 +831,14 @@
             </div>
         </button>
         <div class="dropdown-menu" id="dropdownMenu">
-            <div class="dropdown-item" data-action="intro">
-                <span class="dropdown-item-icon">📖</span> 简介
-            </div>
-            <div class="dropdown-item" data-action="motto">
-                <span class="dropdown-item-icon">📜</span> 社训
-            </div>
             <div class="dropdown-item" data-action="subgroups">
                 <span class="dropdown-item-icon">🏛️</span> 分社
             </div>
             <div class="dropdown-item" data-action="members">
                 <span class="dropdown-item-icon">👥</span> 社员
+            </div>
+            <div class="dropdown-item" data-action="about">
+                <span class="dropdown-item-icon">ℹ️</span> 关于我们
             </div>
             <div class="dropdown-item" data-action="join">
                 <span class="dropdown-item-icon">✨</span> 加入我们
@@ -1018,14 +1015,12 @@
         const item = e.target.closest('.dropdown-item');
         if (!item) return;
         const action = item.dataset.action;
-        if (action === 'intro') {
-            document.getElementById('intro-section').scrollIntoView({ behavior: 'smooth' });
-        } else if (action === 'motto') {
-            document.querySelector('.motto-box').scrollIntoView({ behavior: 'smooth' });
-        } else if (action === 'subgroups') {
+        if (action === 'subgroups') {
             document.getElementById('subgroups-section').scrollIntoView({ behavior: 'smooth' });
         } else if (action === 'members') {
             document.getElementById('members-section').scrollIntoView({ behavior: 'smooth' });
+        } else if (action === 'about') {
+            window.location.href = '/about/about.html';
         } else if (action === 'join') {
             window.location.href = '/join.html';
         }

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>关于我们 | 联合公社</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/effects.css">
+    <style>
+        /* ===== 页面标题 ===== */
+        .page-header {
+            text-align: center;
+            margin: 2rem 0 3rem;
+            position: relative;
+        }
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 50%, var(--primary-dark) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            animation: heroGradient 4s ease infinite;
+        }
+
+        /* 装饰浮动圆 */
+        .page-header::before,
+        .page-header::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+        .page-header::before {
+            width: 160px;
+            height: 160px;
+            background: var(--primary);
+            top: -30px;
+            left: -40px;
+            animation: float 6s ease-in-out infinite;
+        }
+        .page-header::after {
+            width: 100px;
+            height: 100px;
+            background: var(--accent-orange);
+            bottom: -10px;
+            right: -30px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        /* ===== 信息卡片 ===== */
+        .info-section {
+            margin: 2rem 0;
+        }
+        .info-section:first-of-type {
+            margin-top: 0;
+        }
+        .info-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+            padding-left: 0.2rem;
+        }
+        .info-value {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 2;
+            padding: 1rem 1.2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+        .info-value a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .info-value a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== 联系邮箱卡片 ===== */
+        .contact-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #f0f4ff 50%, #fef6f0 100%);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            margin-top: 2.5rem;
+        }
+        .contact-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        .contact-card-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+        .contact-card-email {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-card-email:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem 1rem 2rem;
+            }
+            .page-header {
+                margin: 1.5rem 0 2rem;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+                letter-spacing: 1px;
+            }
+            .info-value {
+                font-size: 0.95rem;
+                padding: 0.9rem 1rem;
+                line-height: 1.8;
+            }
+            .contact-card {
+                padding: 1.5rem 1rem;
+                border-radius: 16px;
+            }
+            .contact-card-email {
+                font-size: 1rem;
+            }
+            .page-header::before {
+                width: 100px;
+                height: 100px;
+            }
+            .page-header::after {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0.6rem 0.8rem;
+            }
+            .logo {
+                font-size: 1.2rem;
+            }
+            .logo-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+                border-radius: 6px;
+            }
+            .back-btn {
+                font-size: 0.82rem;
+                padding: 0.4rem 0.6rem;
+            }
+            .container {
+                padding: 0.8rem 0.75rem 2rem;
+            }
+            .page-header {
+                margin: 1rem 0 1.5rem;
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+                letter-spacing: 0.5px;
+            }
+            .info-value {
+                font-size: 0.88rem;
+            }
+            .info-label {
+                font-size: 0.78rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            #particles-canvas {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<div class="top-bar" id="topBar">
+    <a href="/" class="logo">
+        <div class="logo-icon">联</div>
+        联合公社
+    </a>
+    <a href="/" class="back-btn">
+        <span class="back-arrow">←</span> 返回首页
+    </a>
+</div>
+
+<main class="container">
+    <div class="page-header">
+        <h1>关于我们</h1>
+    </div>
+
+    <div class="info-section">
+        <div class="info-label">性质</div>
+        <div class="info-value">学生团体组织</div>
+    </div>
+
+    <div class="info-section">
+        <div class="info-label">说明</div>
+        <div class="info-value">联合公社是一个大家庭，旗下有硬算社、朗诵社、计算机科学社等，每个分社各有特色，共同组成了我们。</div>
+    </div>
+
+    <div class="info-section">
+        <div class="info-label">网站构建</div>
+        <div class="info-value">
+            本网站为联合公社（Union Commune）官方网站，用于展示公社简介、社训、组成分社、社员风采等信息，并为各分社独立页面提供入口，社员也可以在其上放置自己的个人主页。<br><br>
+            技术栈：纯静态 HTML/CSS/JS，部署于阿里云 ESA Pages，版本控制：Git + GitHub。<br><br>
+            本网站由联合公社技术小组维护，主要搭建与维护者：光明与尘埃（GitHub: @gmyca）、C0（GitHub: @imxilin）。欢迎通过 Pull Request 或 Issue 提出建议。<br><br>
+            📂 GitHub 仓库：<a href="https://github.com/lhgs-cs/lhgs-web" target="_blank" rel="noopener noreferrer">github.com/lhgs-cs/lhgs-web</a>
+        </div>
+    </div>
+
+    <div class="contact-card">
+        <div class="contact-card-icon">📧</div>
+        <div class="contact-card-label">联系邮箱</div>
+        <a class="contact-card-email" href="mailto:927336167@qq.com">927336167@qq.com</a>
+    </div>
+</main>
+
+<footer>
+    © 2026 联合公社 · 学生团体组织
+</footer>
+
+<script>
+    // ===== 导航栏滚动效果 =====
+    const topBar = document.getElementById('topBar');
+    window.addEventListener('scroll', () => {
+        topBar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // ===== 粒子背景效果 =====
+    (function() {
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let vw, vh, pageHeight, particles, animId;
+        const mouse = { x: -9999, y: -9999 };
+
+        const colors = [
+            'rgba(79,110,247,',
+            'rgba(79,156,247,',
+            'rgba(59,93,231,',
+            'rgba(240,100,73,',
+            'rgba(245,166,35,',
+        ];
+
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        document.addEventListener('mouseleave', () => {
+            mouse.x = -9999;
+            mouse.y = -9999;
+        });
+
+        function resize() {
+            vw = canvas.width = window.innerWidth;
+            vh = canvas.height = window.innerHeight;
+            pageHeight = document.documentElement.scrollHeight;
+        }
+
+        function createParticle(fadeIn) {
+            const colorBase = colors[Math.random() < 0.75 ? Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 2)];
+            const scrollY = window.scrollY;
+            const yMin = fadeIn ? scrollY : 0;
+            const yMax = fadeIn ? scrollY + vh : pageHeight;
+            return {
+                x: Math.random() * vw,
+                y: yMin + Math.random() * (yMax - yMin),
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.3 - 0.15,
+                radius: Math.random() * 2.5 + 1,
+                color: colorBase,
+                alpha: fadeIn ? 0 : (Math.random() * 0.4 + 0.15),
+                targetAlpha: Math.random() * 0.4 + 0.15,
+                alphaDir: (Math.random() - 0.5) * 0.005,
+                fadingOut: false,
+                fadingIn: !!fadeIn,
+            };
+        }
+
+        function createParticles() {
+            const particleCount = Math.floor((vw * pageHeight) / 8000);
+            particles = [];
+            const visibleCount = Math.floor((vw * vh) / 8000);
+            for (let i = 0; i < particleCount; i++) {
+                const fadeIn = i < visibleCount;
+                particles.push(createParticle(fadeIn));
+            }
+        }
+
+        function drawEdge(a, b) {
+            const dist = Math.hypot(a.x - b.x, a.y - b.y);
+            if (dist < 140) {
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.strokeStyle = a.color + (0.06 * (1 - dist / 140)) + ')';
+                ctx.lineWidth = 0.6;
+                ctx.stroke();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, vw, vh);
+            const windowTop = window.scrollY;
+            const windowBottom = windowTop + vh;
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = vw;
+                if (p.x > vw) p.x = 0;
+                if (p.y < 0) p.y = pageHeight;
+                if (p.y > pageHeight) p.y = 0;
+
+                if (p.fadingIn) {
+                    p.alpha += 0.008;
+                    if (p.alpha >= p.targetAlpha) {
+                        p.alpha = p.targetAlpha;
+                        p.fadingIn = false;
+                    }
+                } else if (p.fadingOut) {
+                    p.alpha -= 0.008;
+                    if (p.alpha <= 0) {
+                        p.alpha = 0;
+                    }
+                } else {
+                    p.alpha += p.alphaDir;
+                    if (p.alpha >= 0.5 || p.alpha <= 0.05) p.alphaDir *= -1;
+                }
+
+                const inView = p.y >= windowTop && p.y <= windowBottom;
+                if (inView) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color + p.alpha + ')';
+                    ctx.fill();
+                }
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const q = particles[j];
+                    const aIn = p.y >= windowTop && p.y <= windowBottom;
+                    const bIn = q.y >= windowTop && q.y <= windowBottom;
+                    if (aIn || bIn) drawEdge(p, q);
+                }
+            }
+
+            animId = requestAnimationFrame(animate);
+        }
+
+        function init() {
+            resize();
+            createParticles();
+            animate();
+        }
+
+        window.addEventListener('resize', () => {
+            cancelAnimationFrame(animId);
+            init();
+        });
+
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            if (Math.abs(window.scrollY - lastScrollY) > vh * 1.5) {
+                lastScrollY = window.scrollY;
+                cancelAnimationFrame(animId);
+                init();
+            } else {
+                lastScrollY = window.scrollY;
+            }
+        });
+
+        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            init();
+        }
+    })();
+</script>
+
+</body>
+</html>
