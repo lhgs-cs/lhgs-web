@@ -4,12 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>计算机科学社 | 联合公社</title>
+
+    <meta name="description" content="计算机科学社（CS社）是联合公社核心分社之一，负责技术开发与维护，开展编程、算法、系统设计等技术活动。">
+    <link rel="canonical" href="https://lianhegongshe.cn/subgroups/cs/">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="theme-color" content="#1d5578">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="联合公社">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="计算机科学社 | 联合公社">
+    <meta property="og:description" content="计算机科学社（CS社）是联合公社核心分社之一，负责技术开发与维护，开展编程、算法、系统设计等技术活动。">
+    <meta property="og:url" content="https://lianhegongshe.cn/subgroups/cs/">
+    <meta property="og:image" content="https://lianhegongshe.cn/images/logo.jpeg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="395">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="计算机科学社 | 联合公社">
+    <meta name="twitter:description" content="计算机科学社（CS社）是联合公社核心分社之一，负责技术开发与维护，开展编程、算法、系统设计等技术活动。">
+    <meta name="twitter:image" content="https://lianhegongshe.cn/images/logo.jpeg">
     <link rel="stylesheet" href="/css/common.css">
     <style>
         :root {
-            --accent: #4f9cf7;
-            --accent-light: #eef4ff;
-            --accent-gradient: linear-gradient(135deg, #4f9cf7, #4f6ef7);
+            --accent: #2c6b8f;
+            --accent-light: #e7eef3;
+            --accent-gradient: linear-gradient(135deg, #2c6b8f, #1d5578);
         }
 
         .page-hero {
@@ -19,12 +38,12 @@
         }
         .page-hero-icon {
             width: 80px; height: 80px;
-            border-radius: 24px;
+            border-radius: var(--radius-lg);
             background: var(--accent-gradient);
             display: inline-flex; align-items: center; justify-content: center;
             font-size: 2.5rem;
             margin-bottom: 1.2rem;
-            box-shadow: 0 8px 24px rgba(79,156,247,0.2);
+            box-shadow: 0 8px 24px rgba(44,107,143,0.2);
             animation: iconFloat 3s ease-in-out infinite;
         }
         @keyframes iconFloat {
@@ -64,11 +83,11 @@
         }
 
         .info-card {
-            background: var(--card-bg); border-radius: 20px;
+            background: var(--card-bg); border-radius: var(--radius-lg);
             padding: 1.8rem;
             box-shadow: var(--shadow-sm); border: 1px solid var(--border);
             line-height: 1.8; color: var(--text-secondary);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
         }
         .info-card:hover {
             transform: translateY(-2px);
@@ -82,11 +101,11 @@
             margin-top: 1rem;
         }
         .feature-card {
-            background: var(--card-bg); border-radius: 16px;
+            background: var(--card-bg); border-radius: var(--radius-lg);
             padding: 1.3rem;
             box-shadow: var(--shadow-sm); border: 1px solid var(--border);
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
         }
         .feature-card:hover {
             transform: translateY(-3px);
@@ -110,10 +129,10 @@
         .member-list { display: flex; flex-direction: column; gap: 0.75rem; }
         .member-card {
             display: flex; align-items: center;
-            background: var(--card-bg); border-radius: 18px;
+            background: var(--card-bg); border-radius: var(--radius-lg);
             padding: 1rem 1.4rem;
             box-shadow: var(--shadow-sm); border: 1px solid var(--border);
-            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s, border-color 0.3s;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s, border-color 0.3s;
             cursor: default;
             opacity: 0; transform: translateX(-20px);
         }
@@ -124,10 +143,10 @@
             border-color: var(--accent);
         }
         .member-avatar {
-            width: 52px; height: 52px; border-radius: 14px;
-            object-fit: cover; background-color: #e8ecf4;
+            width: 52px; height: 52px; border-radius: var(--radius-md);
+            object-fit: cover; background-color: rgba(22,50,74,.10);
             margin-right: 1rem; flex-shrink: 0;
-            transition: transform 0.3s, border-radius 0.3s;
+            transition: transform 0.3s var(--ease), border-radius 0.3s var(--ease);
         }
         .member-card:hover .member-avatar {
             transform: scale(1.08); border-radius: 50%;
@@ -138,12 +157,12 @@
         .member-tag {
             display: inline-block; font-size: 0.7rem; font-weight: 600;
             padding: 0.15rem 0.55rem; border-radius: 6px; margin-top: 0.4rem;
-            background: var(--accent-light); color: var(--accent);
+            background: var(--accent-light); color: var(--primary-dark);
         }
 
         .reveal {
             opacity: 0; transform: translateY(25px);
-            transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -167,15 +186,9 @@
             .feature-grid { grid-template-columns: 1fr; }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
     </style>
 </head>
-<body>
+<body data-subgroup="cs">
 
 <div class="top-bar" id="topBar">
     <a href="/" class="logo">
@@ -234,64 +247,11 @@
 </main>
 
 <footer>
-    © 2026 联合公社 · 学生团体组织
+    © <span id="copyright-year">2026</span> 联合公社 · 学生团体组织
 </footer>
 
 <script src="/js/members-data.js"></script>
-<script>
-    const topBar = document.getElementById('topBar');
-    window.addEventListener('scroll', () => {
-        topBar.classList.toggle('scrolled', window.scrollY > 10);
-    });
-
-    function renderMembers() {
-        const container = document.getElementById('memberList');
-        if (!container) return;
-        let members = MEMBERS.filter(m => 
-            m.subgroups && m.subgroups.some(sg => sg.id === 'cs')
-        );
-        members.sort((a, b) => {
-            const roleA = a.subgroups.find(sg => sg.id === 'cs')?.role || '';
-            const roleB = b.subgroups.find(sg => sg.id === 'cs')?.role || '';
-            if (roleA === '社长' && roleB !== '社长') return -1;
-            if (roleA !== '社长' && roleB === '社长') return 1;
-            return 0;
-        });
-        container.innerHTML = '';
-        members.forEach(member => {
-            const sgObj = member.subgroups.find(sg => sg.id === 'cs');
-            const role = sgObj ? sgObj.role : '';
-            const card = document.createElement('div');
-            card.className = 'member-card';
-            const roleTag = role ? `<span class="member-tag">${role}</span>` : '';
-            card.innerHTML = `
-                <img class="member-avatar" src="${member.avatar}" alt="${member.name}头像">
-                <div class="member-info">
-                    <div class="member-name">${member.name}</div>
-                    <div class="member-bio">${member.bio || ''}</div>
-                    ${roleTag}
-                </div>
-            `;
-            container.appendChild(card);
-        });
-        const cards = document.querySelectorAll('.member-card');
-        cards.forEach((card, i) => {
-            setTimeout(() => card.classList.add('visible'), i * 120);
-        });
-    }
-
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => entry.target.classList.add('visible'), i * 100);
-                revealObs.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.15 });
-    reveals.forEach(el => revealObs.observe(el));
-
-    document.addEventListener('DOMContentLoaded', renderMembers);
-</script>
+<script src="/js/subgroup-members.js"></script>
+<script src="/js/site.js"></script>
 </body>
 </html>

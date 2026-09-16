@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>关于我们 | 联合公社</title>
+
+    <meta name="description" content="了解联合公社的性质、组成分社，以及本网站的建设与维护情况、联系方式。">
+    <link rel="canonical" href="https://lianhegongshe.cn/about/about.html">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="theme-color" content="#1d5578">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="联合公社">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="关于我们 | 联合公社">
+    <meta property="og:description" content="了解联合公社的性质、组成分社，以及本网站的建设与维护情况、联系方式。">
+    <meta property="og:url" content="https://lianhegongshe.cn/about/about.html">
+    <meta property="og:image" content="https://lianhegongshe.cn/images/logo.jpeg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="395">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="关于我们 | 联合公社">
+    <meta name="twitter:description" content="了解联合公社的性质、组成分社，以及本网站的建设与维护情况、联系方式。">
+    <meta name="twitter:image" content="https://lianhegongshe.cn/images/logo.jpeg">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/effects.css">
     <style>
@@ -73,7 +92,7 @@
             line-height: 2;
             padding: 1rem 1.2rem;
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
         }
@@ -81,7 +100,7 @@
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.2s;
+            transition: color 0.2s var(--ease);
         }
         .info-value a:hover {
             color: var(--primary-dark);
@@ -90,12 +109,22 @@
 
         /* ===== 联系邮箱卡片 ===== */
         .contact-card {
-            background: linear-gradient(135deg, var(--primary-light) 0%, #f0f4ff 50%, #fef6f0 100%);
-            border-radius: 20px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
             padding: 2rem 1.5rem;
             text-align: center;
             border: 1px solid var(--border);
             margin-top: 2.5rem;
+        }
+        /* 金色短线：与首页社训块呼应 */
+        .contact-card::before {
+            content: '';
+            display: block;
+            width: 46px;
+            height: 2px;
+            margin: 0 auto 1rem;
+            border-radius: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
         .contact-card-icon {
             font-size: 2rem;
@@ -111,7 +140,7 @@
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.2s var(--ease);
         }
         .contact-card-email:hover {
             color: var(--primary-dark);
@@ -137,7 +166,7 @@
             }
             .contact-card {
                 padding: 1.5rem 1rem;
-                border-radius: 16px;
+                border-radius: var(--radius-lg);
             }
             .contact-card-email {
                 font-size: 1rem;
@@ -187,20 +216,11 @@
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-            #particles-canvas {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
 
-<canvas id="particles-canvas"></canvas>
+<canvas id="particles-canvas" aria-hidden="true"></canvas>
 
 <div class="top-bar" id="topBar">
     <a href="/" class="logo">
@@ -245,164 +265,11 @@
 </main>
 
 <footer>
-    © 2026 联合公社 · 学生团体组织
+    © <span id="copyright-year">2026</span> 联合公社 · 学生团体组织
 </footer>
 
-<script>
-    // ===== 导航栏滚动效果 =====
-    const topBar = document.getElementById('topBar');
-    window.addEventListener('scroll', () => {
-        topBar.classList.toggle('scrolled', window.scrollY > 10);
-    });
+<script src="/js/particles.js"></script>
 
-    // ===== 粒子背景效果 =====
-    (function() {
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let vw, vh, pageHeight, particles, animId;
-        const mouse = { x: -9999, y: -9999 };
-
-        const colors = [
-            'rgba(79,110,247,',
-            'rgba(79,156,247,',
-            'rgba(59,93,231,',
-            'rgba(240,100,73,',
-            'rgba(245,166,35,',
-        ];
-
-        document.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        document.addEventListener('mouseleave', () => {
-            mouse.x = -9999;
-            mouse.y = -9999;
-        });
-
-        function resize() {
-            vw = canvas.width = window.innerWidth;
-            vh = canvas.height = window.innerHeight;
-            pageHeight = document.documentElement.scrollHeight;
-        }
-
-        function createParticle(fadeIn) {
-            const colorBase = colors[Math.random() < 0.75 ? Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 2)];
-            const scrollY = window.scrollY;
-            const yMin = fadeIn ? scrollY : 0;
-            const yMax = fadeIn ? scrollY + vh : pageHeight;
-            return {
-                x: Math.random() * vw,
-                y: yMin + Math.random() * (yMax - yMin),
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.3 - 0.15,
-                radius: Math.random() * 2.5 + 1,
-                color: colorBase,
-                alpha: fadeIn ? 0 : (Math.random() * 0.4 + 0.15),
-                targetAlpha: Math.random() * 0.4 + 0.15,
-                alphaDir: (Math.random() - 0.5) * 0.005,
-                fadingOut: false,
-                fadingIn: !!fadeIn,
-            };
-        }
-
-        function createParticles() {
-            const particleCount = Math.floor((vw * pageHeight) / 8000);
-            particles = [];
-            const visibleCount = Math.floor((vw * vh) / 8000);
-            for (let i = 0; i < particleCount; i++) {
-                const fadeIn = i < visibleCount;
-                particles.push(createParticle(fadeIn));
-            }
-        }
-
-        function drawEdge(a, b) {
-            const dist = Math.hypot(a.x - b.x, a.y - b.y);
-            if (dist < 140) {
-                ctx.beginPath();
-                ctx.moveTo(a.x, a.y);
-                ctx.lineTo(b.x, b.y);
-                ctx.strokeStyle = a.color + (0.06 * (1 - dist / 140)) + ')';
-                ctx.lineWidth = 0.6;
-                ctx.stroke();
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, vw, vh);
-            const windowTop = window.scrollY;
-            const windowBottom = windowTop + vh;
-
-            for (let i = 0; i < particles.length; i++) {
-                const p = particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0) p.x = vw;
-                if (p.x > vw) p.x = 0;
-                if (p.y < 0) p.y = pageHeight;
-                if (p.y > pageHeight) p.y = 0;
-
-                if (p.fadingIn) {
-                    p.alpha += 0.008;
-                    if (p.alpha >= p.targetAlpha) {
-                        p.alpha = p.targetAlpha;
-                        p.fadingIn = false;
-                    }
-                } else if (p.fadingOut) {
-                    p.alpha -= 0.008;
-                    if (p.alpha <= 0) {
-                        p.alpha = 0;
-                    }
-                } else {
-                    p.alpha += p.alphaDir;
-                    if (p.alpha >= 0.5 || p.alpha <= 0.05) p.alphaDir *= -1;
-                }
-
-                const inView = p.y >= windowTop && p.y <= windowBottom;
-                if (inView) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color + p.alpha + ')';
-                    ctx.fill();
-                }
-
-                for (let j = i + 1; j < particles.length; j++) {
-                    const q = particles[j];
-                    const aIn = p.y >= windowTop && p.y <= windowBottom;
-                    const bIn = q.y >= windowTop && q.y <= windowBottom;
-                    if (aIn || bIn) drawEdge(p, q);
-                }
-            }
-
-            animId = requestAnimationFrame(animate);
-        }
-
-        function init() {
-            resize();
-            createParticles();
-            animate();
-        }
-
-        window.addEventListener('resize', () => {
-            cancelAnimationFrame(animId);
-            init();
-        });
-
-        let lastScrollY = window.scrollY;
-        window.addEventListener('scroll', () => {
-            if (Math.abs(window.scrollY - lastScrollY) > vh * 1.5) {
-                lastScrollY = window.scrollY;
-                cancelAnimationFrame(animId);
-                init();
-            } else {
-                lastScrollY = window.scrollY;
-            }
-        });
-
-        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-            init();
-        }
-    })();
-</script>
-
+<script src="/js/site.js"></script>
 </body>
 </html>

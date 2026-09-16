@@ -4,7 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>页面未找到 - 联合公社</title>
+
+    <meta name="description" content="你访问的页面不存在或已经移除。">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="theme-color" content="#1d5578">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="联合公社">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="页面未找到 - 联合公社">
+    <meta property="og:description" content="你访问的页面不存在或已经移除。">
+    <meta property="og:image" content="https://lianhegongshe.cn/images/logo.jpeg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="395">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="页面未找到 - 联合公社">
+    <meta name="twitter:description" content="你访问的页面不存在或已经移除。">
+    <meta name="twitter:image" content="https://lianhegongshe.cn/images/logo.jpeg">
     <style>
+        /* 该页不引用 common.css，令牌在此内联定义 */
+        :root {
+            --primary: #1d5578;
+            --primary-dark: #143f5c;
+            --bg: #f5f3ee;
+            --text: #16324a;
+            --text-secondary: #4a5b6b;
+            --ease: cubic-bezier(.22, 1, .36, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +41,7 @@
 
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f5f3ee;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -29,7 +57,7 @@
         .error-code {
             font-size: 8rem;
             font-weight: 800;
-            color: #2563eb;  /* 蓝色 */
+            color: #1d5578;  /* 蓝色 */
             line-height: 1;
             margin-bottom: 1rem;
             letter-spacing: 4px;
@@ -38,31 +66,31 @@
         .error-message {
             font-size: 1.3rem;
             font-weight: 500;
-            color: #1e293b;  /* 深灰色/黑色调 */
+            color: #16324a;  /* 深灰色/黑色调 */
             margin-bottom: 0.5rem;
         }
 
         .error-hint {
             font-size: 1rem;
-            color: #475569;
+            color: #4a5b6b;
             margin-bottom: 2rem;
         }
 
         .home-btn {
             display: inline-block;
-            background-color: #2563eb;
+            background-color: #1d5578;
             color: white;
             text-decoration: none;
             padding: 0.75rem 2rem;
             font-size: 1rem;
             font-weight: 500;
-            border-radius: 40px;
-            transition: background 0.2s, transform 0.1s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            transition: background 0.2s var(--ease), transform 0.1s var(--ease);
+            box-shadow: 0 1px 2px rgba(22, 50, 74, .04), 0 2px 8px -2px rgba(22, 50, 74, .07);
         }
 
         .home-btn:hover {
-            background-color: #1d4ed8;
+            background-color: #143f5c;
             transform: translateY(-1px);
         }
 
@@ -105,7 +133,7 @@
     </style>
 </head>
 <body>
-    <canvas id="particles-canvas"></canvas>
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
     <div class="error-container">
         <div class="error-code">404</div>
         <div class="error-message">你访问的页面不存在或已经移除</div>
@@ -113,178 +141,6 @@
         <a href="/" class="home-btn">返回首页</a>
     </div>
 
-<script>
-    // ===== 粒子背景效果 =====
-    (function() {
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let vw, vh, pageHeight, particles, animId;
-        const mouse = { x: -9999, y: -9999 };
-
-        const colors = [
-            'rgba(79,110,247,',
-            'rgba(79,156,247,',
-            'rgba(59,93,231,',
-            'rgba(240,100,73,',
-            'rgba(245,166,35,',
-        ];
-
-        document.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        document.addEventListener('mouseleave', () => {
-            mouse.x = -9999;
-            mouse.y = -9999;
-        });
-
-        function resize() {
-            vw = canvas.width = window.innerWidth;
-            vh = canvas.height = window.innerHeight;
-            pageHeight = document.documentElement.scrollHeight;
-        }
-
-        function createParticle(fadeIn) {
-            const colorBase = colors[Math.random() < 0.75 ? Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 2)];
-            const scrollY = window.scrollY;
-            const yMin = fadeIn ? scrollY : 0;
-            const yMax = fadeIn ? scrollY + vh : pageHeight;
-            return {
-                x: Math.random() * vw,
-                y: yMin + Math.random() * (yMax - yMin),
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.3 - 0.15,
-                radius: Math.random() * 2.5 + 1,
-                color: colorBase,
-                alpha: fadeIn ? 0 : (Math.random() * 0.4 + 0.15),
-                targetAlpha: Math.random() * 0.4 + 0.15,
-                alphaDir: (Math.random() - 0.5) * 0.005,
-                fadingOut: false,
-                fadingIn: !!fadeIn,
-            };
-        }
-
-        function createParticles() {
-            const count = Math.min(Math.floor((vw * vh) / 18000), 80);
-            particles = [];
-            for (let i = 0; i < count; i++) {
-                particles.push(createParticle(false));
-            }
-        }
-
-        function update() {
-            const scrollY = window.scrollY;
-            particles.forEach((p, i) => {
-                const screenY = p.y - scrollY;
-                const dx = p.x - mouse.x;
-                const dy = screenY - mouse.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150 && dist > 0) {
-                    const force = (150 - dist) / 150 * 0.3;
-                    p.vx += (dx / dist) * force;
-                    p.vy += (dy / dist) * force;
-                }
-
-                p.vx *= 0.99;
-                p.vy *= 0.99;
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.fadingIn) {
-                    p.alpha += 0.012;
-                    if (p.alpha >= p.targetAlpha) {
-                        p.alpha = p.targetAlpha;
-                        p.fadingIn = false;
-                    }
-                }
-
-                if (!p.fadingIn && !p.fadingOut) {
-                    p.alpha += p.alphaDir;
-                    if (p.alpha > 0.55 || p.alpha < 0.1) p.alphaDir *= -1;
-                }
-
-                const margin = 50;
-                const viewY = p.y - scrollY;
-                const outOfView = p.x < -margin || p.x > vw + margin || viewY < -margin || viewY > vh + margin;
-                if (outOfView) {
-                    p.fadingOut = true;
-                } else if (p.fadingOut && !p.fadingIn) {
-                    p.fadingOut = false;
-                    if (p.alpha < 0.1) p.alpha = 0.1;
-                }
-
-                if (p.fadingOut) {
-                    p.alpha -= 0.008;
-                    if (p.alpha <= 0) {
-                        particles[i] = createParticle(true);
-                    }
-                }
-            });
-        }
-
-        function drawParticle(p) {
-            const screenY = p.y - window.scrollY;
-            if (screenY < -20 || screenY > vh + 20) return;
-            ctx.beginPath();
-            ctx.arc(p.x, screenY, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = p.color + p.alpha + ')';
-            ctx.fill();
-        }
-
-        function drawLines() {
-            const scrollY = window.scrollY;
-            const maxDist = 120;
-            for (let i = 0; i < particles.length; i++) {
-                const pi = particles[i];
-                const si = pi.y - scrollY;
-                if (si < -maxDist || si > vh + maxDist) continue;
-                for (let j = i + 1; j < particles.length; j++) {
-                    const pj = particles[j];
-                    const sj = pj.y - scrollY;
-                    if (sj < -maxDist || sj > vh + maxDist) continue;
-                    const dx = pi.x - pj.x;
-                    const dy = si - sj;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < maxDist) {
-                        const alpha = (1 - dist / maxDist) * 0.12;
-                        ctx.beginPath();
-                        ctx.moveTo(pi.x, si);
-                        ctx.lineTo(pj.x, sj);
-                        ctx.strokeStyle = 'rgba(79,110,247,' + alpha + ')';
-                        ctx.lineWidth = 0.6;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, vw, vh);
-            update();
-            drawLines();
-            particles.forEach(drawParticle);
-            animId = requestAnimationFrame(animate);
-        }
-
-        function init() {
-            resize();
-            createParticles();
-            if (animId) cancelAnimationFrame(animId);
-            animate();
-        }
-
-        const resizeObserver = new ResizeObserver(() => {
-            pageHeight = document.documentElement.scrollHeight;
-        });
-        resizeObserver.observe(document.documentElement);
-
-        window.addEventListener('resize', () => {
-            resize();
-            createParticles();
-        });
-
-        init();
-    })();
-</script>
+<script src="/js/particles.js"></script>
 </body>
 </html>

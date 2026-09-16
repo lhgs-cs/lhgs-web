@@ -9,21 +9,37 @@
 
 /* 设计变量 */
 :root {
-    --primary: #4f6ef7;
-    --primary-dark: #3b5de7;
-    --primary-light: #eef1fe;
-    --accent-red: #f06449;
-    --accent-orange: #f5a623;
-    --accent-blue: #4f9cf7;
-    --bg: #f5f7fb;
-    --card-bg: #ffffff;
-    --text: #1e293b;
-    --text-secondary: #5a6a85;
-    --text-muted: #94a3b8;
-    --border: #e8ecf4;
-    --shadow-sm: 0 2px 8px rgba(79,110,247,0.06);
-    --shadow-md: 0 8px 24px rgba(79,110,247,0.08);
-    --shadow-lg: 0 16px 40px rgba(79,110,247,0.12);
+    /* 主色：深靛蓝，呼应社徽底纹 */
+    --primary: #1d5578;
+    --primary-dark: #143f5c;
+    --primary-light: #e7eef3;
+    /* 分社强调色 */
+    --accent-red: #a83a2e;      /* 朱红 */
+    --accent-orange: #b08d4f;   /* 金色 —— 仅装饰，文字请用 --gold-text */
+    --accent-blue: #2c6b8f;     /* 靛蓝亮 */
+    /* 中性色 */
+    --bg: #f5f3ee;
+    --card-bg: #fffefb;
+    --surface-hover: #fbf9f5;
+    --text: #16324a;
+    --text-secondary: #4a5b6b;
+    --text-muted: #5c6b7a;
+    --border: rgba(22, 50, 74, .10);
+    /* 金色 */
+    --gold: #b08d4f;
+    --gold-text: #7d6231;
+    --gold-line: rgba(176, 141, 79, .55);
+    --gold-soft: rgba(176, 141, 79, .18);
+    /* 圆角 */
+    --radius-lg: 14px;
+    --radius-md: 11px;
+    --radius-sm: 8px;
+    /* 阴影：墨色低透明度，双层 */
+    --shadow-sm: 0 1px 2px rgba(22, 50, 74, .04), 0 2px 8px -2px rgba(22, 50, 74, .07);
+    --shadow-md: 0 2px 4px rgba(22, 50, 74, .045), 0 10px 24px -8px rgba(22, 50, 74, .13);
+    --shadow-lg: 0 2px 4px rgba(22, 50, 74, .045), 0 16px 34px -10px rgba(22, 50, 74, .20);
+    /* 统一缓动 */
+    --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
 body {
@@ -36,7 +52,7 @@ body {
 
 /* ===== 顶部导航栏 ===== */
 .top-bar {
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 254, 251, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     color: var(--text);
@@ -48,10 +64,10 @@ body {
     top: 0;
     z-index: 100;
     box-shadow: 0 1px 0 var(--border);
-    transition: box-shadow 0.3s;
+    transition: box-shadow 0.4s var(--ease);
 }
 .top-bar.scrolled {
-    box-shadow: 0 4px 20px rgba(79,110,247,0.08);
+    box-shadow: var(--shadow-md);
 }
 
 /* Logo */
@@ -71,7 +87,7 @@ body {
 .logo-icon {
     width: 28px;
     height: 28px;
-    border-radius: 8px;
+    border-radius: 6px;
     background: linear-gradient(135deg, var(--primary), var(--accent-blue));
     display: flex;
     align-items: center;
@@ -88,8 +104,8 @@ body {
     border: none;
     cursor: pointer;
     padding: 0.5rem 0.8rem;
-    border-radius: 10px;
-    transition: background 0.2s;
+    border-radius: var(--radius-sm);
+    transition: background 0.25s var(--ease);
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -102,7 +118,7 @@ body {
     background-color: var(--primary-light);
 }
 .back-arrow {
-    transition: transform 0.2s;
+    transition: transform 0.2s var(--ease);
 }
 .back-btn:hover .back-arrow {
     transform: translateX(-3px);
@@ -114,8 +130,8 @@ body {
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    border-radius: 10px;
-    transition: background 0.2s;
+    border-radius: var(--radius-sm);
+    transition: background 0.25s var(--ease);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,7 +151,7 @@ body {
     height: 2.5px;
     background: var(--primary);
     border-radius: 3px;
-    transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    transition: 0.3s var(--ease);
 }
 .menu-btn.active .menu-icon span:nth-child(1) {
     transform: translateY(7.75px) rotate(45deg);
@@ -156,8 +172,8 @@ body {
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: white;
-    border-radius: 16px;
+    background-color: var(--card-bg);
+    border-radius: 12px;
     box-shadow: var(--shadow-lg);
     width: 180px;
     overflow: hidden;
@@ -165,21 +181,28 @@ body {
     opacity: 0;
     transform: translateY(-8px) scale(0.96);
     pointer-events: none;
-    transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    visibility: hidden;
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0.25s;
     border: 1px solid var(--border);
 }
 .dropdown-menu.show {
     opacity: 1;
     transform: translateY(0) scale(1);
     pointer-events: auto;
+    visibility: visible;
 }
 .dropdown-item {
+    width: 100%;
     padding: 0.8rem 1.25rem;
     font-size: 0.95rem;
+    font-family: inherit;
+    text-align: left;
     color: var(--text);
+    background: none;
+    border: none;
     cursor: pointer;
-    transition: all 0.15s;
-    border-bottom: 1px solid #f5f7fb;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
+    border-bottom: 1px solid rgba(22, 50, 74, .06);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -244,4 +267,36 @@ footer a {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
     }
+}
+
+/* ===== 未启用 JavaScript 时的回退 ===== */
+/* 这些元素默认 opacity:0，靠脚本加 .visible 才显示；无脚本时直接显示，避免整块内容空白 */
+@media (scripting: none) {
+    .reveal,
+    .float-strip,
+    .member-card {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+.nojs-tip {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    padding: 0.8rem 0;
+}
+
+/* ===== 键盘焦点：与鼠标操作区分，只在键盘导航时出现 ===== */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* ===== 按钮通用交互（按下反馈） ===== */
+.btn-all:active,
+.card-btn:active,
+.join-page-btn:active {
+    transform: translateY(0) scale(.985);
 }

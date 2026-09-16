@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>全部社员 | 联合公社</title>
+
+    <meta name="description" content="联合公社全部社员名单，以及每位社员所属的分社。">
+    <link rel="canonical" href="https://lianhegongshe.cn/members/">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="theme-color" content="#1d5578">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="联合公社">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="全部社员 | 联合公社">
+    <meta property="og:description" content="联合公社全部社员名单，以及每位社员所属的分社。">
+    <meta property="og:url" content="https://lianhegongshe.cn/members/">
+    <meta property="og:image" content="https://lianhegongshe.cn/images/logo.jpeg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="395">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="全部社员 | 联合公社">
+    <meta name="twitter:description" content="联合公社全部社员名单，以及每位社员所属的分社。">
+    <meta name="twitter:image" content="https://lianhegongshe.cn/images/logo.jpeg">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/effects.css">
     <style>
@@ -68,11 +87,11 @@
             text-align: center;
             padding: 1rem 1.5rem;
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
             min-width: 120px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
         }
         .stat-item:hover {
             transform: translateY(-3px);
@@ -99,14 +118,15 @@
 
         .member-card {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: 1.5rem;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
             display: flex;
             align-items: center;
             gap: 1rem;
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s, border-color 0.35s;
+            transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+                        border-color 0.35s var(--ease);
             cursor: default;
             opacity: 0;
             transform: translateY(20px);
@@ -124,11 +144,11 @@
         .member-avatar {
             width: 56px;
             height: 56px;
-            border-radius: 16px;
+            border-radius: var(--radius-md);
             object-fit: cover;
-            background-color: #e8ecf4;
+            background-color: var(--surface-hover);
             flex-shrink: 0;
-            transition: transform 0.3s, border-radius 0.3s;
+            transition: transform 0.3s var(--ease), border-radius 0.3s var(--ease);
         }
         .member-card:hover .member-avatar {
             transform: scale(1.08);
@@ -183,14 +203,14 @@
             font-weight: 700;
             font-size: 1rem;
             padding: 0.85rem 2.5rem;
-            border-radius: 40px;
+            border-radius: var(--radius-sm);
             text-decoration: none;
-            transition: transform 0.25s, box-shadow 0.25s;
-            box-shadow: 0 4px 16px rgba(79,110,247,0.25);
+            transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease);
+            box-shadow: var(--shadow-sm);
         }
         .join-page-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(79,110,247,0.4);
+            box-shadow: 0 8px 28px rgba(29,85,120,0.4);
         }
 
         /* ===== 侧边装饰 ===== */
@@ -221,7 +241,7 @@
                 to bottom,
                 transparent 0%,
                 var(--border) 15%,
-                rgba(79,110,247,0.2) 50%,
+                rgba(29,85,120,0.2) 50%,
                 var(--border) 85%,
                 transparent 100%
             );
@@ -242,40 +262,40 @@
         /* 左侧形状定位 */
         .side-decor-left .side-circle-1 {
             width: 60px; height: 60px;
-            background: linear-gradient(135deg, rgba(79,110,247,0.08), rgba(79,156,247,0.05));
+            background: linear-gradient(135deg, rgba(29,85,120,0.08), rgba(44,107,143,0.05));
             top: 12%; right: 20px;
             animation: sideFloat 7s ease-in-out infinite;
         }
         .side-decor-left .side-diamond-1 {
             width: 28px; height: 28px;
             border-radius: 6px;
-            background: rgba(79,110,247,0.06);
+            background: rgba(29,85,120,0.06);
             top: 28%; right: 50px;
             transform: rotate(45deg);
             animation: sideFloat 9s ease-in-out infinite 1s;
         }
         .side-decor-left .side-circle-2 {
             width: 36px; height: 36px;
-            background: rgba(245,166,35,0.06);
+            background: rgba(176,141,79,0.06);
             top: 48%; right: 15px;
             animation: sideFloat 8s ease-in-out infinite 2s;
         }
         .side-decor-left .side-dot-1 {
             width: 8px; height: 8px;
-            background: rgba(79,110,247,0.15);
+            background: rgba(29,85,120,0.15);
             top: 22%; right: 70px;
             animation: sideFloat 6s ease-in-out infinite 0.5s;
         }
         .side-decor-left .side-dot-2 {
             width: 6px; height: 6px;
-            background: rgba(240,100,73,0.12);
+            background: rgba(168,58,46,0.12);
             top: 62%; right: 60px;
             animation: sideFloat 7.5s ease-in-out infinite 1.5s;
         }
         .side-decor-left .side-diamond-2 {
             width: 18px; height: 18px;
             border-radius: 4px;
-            background: rgba(79,156,247,0.06);
+            background: rgba(44,107,143,0.06);
             top: 75%; right: 35px;
             transform: rotate(45deg);
             animation: sideFloat 8.5s ease-in-out infinite 3s;
@@ -284,40 +304,40 @@
         /* 右侧形状定位（镜像） */
         .side-decor-right .side-circle-1 {
             width: 50px; height: 50px;
-            background: linear-gradient(135deg, rgba(79,156,247,0.08), rgba(79,110,247,0.05));
+            background: linear-gradient(135deg, rgba(44,107,143,0.08), rgba(29,85,120,0.05));
             top: 18%; left: 20px;
             animation: sideFloat 8s ease-in-out infinite 0.5s;
         }
         .side-decor-right .side-diamond-1 {
             width: 22px; height: 22px;
             border-radius: 5px;
-            background: rgba(240,100,73,0.06);
+            background: rgba(168,58,46,0.06);
             top: 35%; left: 55px;
             transform: rotate(45deg);
             animation: sideFloat 7s ease-in-out infinite 1.5s;
         }
         .side-decor-right .side-circle-2 {
             width: 40px; height: 40px;
-            background: rgba(79,110,247,0.06);
+            background: rgba(29,85,120,0.06);
             top: 55%; left: 10px;
             animation: sideFloat 9s ease-in-out infinite 2.5s;
         }
         .side-decor-right .side-dot-1 {
             width: 7px; height: 7px;
-            background: rgba(245,166,35,0.14);
+            background: rgba(176,141,79,0.14);
             top: 25%; left: 65px;
             animation: sideFloat 6.5s ease-in-out infinite 1s;
         }
         .side-decor-right .side-dot-2 {
             width: 9px; height: 9px;
-            background: rgba(79,110,247,0.12);
+            background: rgba(29,85,120,0.12);
             top: 70%; left: 45px;
             animation: sideFloat 7s ease-in-out infinite 2s;
         }
         .side-decor-right .side-diamond-2 {
             width: 16px; height: 16px;
             border-radius: 3px;
-            background: rgba(79,110,247,0.05);
+            background: rgba(29,85,120,0.05);
             top: 82%; left: 30px;
             transform: rotate(45deg);
             animation: sideFloat 8s ease-in-out infinite 3.5s;
@@ -377,12 +397,12 @@
             }
             .member-card {
                 padding: 1.1rem;
-                border-radius: 16px;
+                border-radius: var(--radius-lg);
             }
             .member-avatar {
                 width: 48px;
                 height: 48px;
-                border-radius: 14px;
+                border-radius: var(--radius-md);
             }
             .member-name {
                 font-size: 1rem;
@@ -394,7 +414,7 @@
             .stat-item {
                 min-width: 90px;
                 padding: 0.7rem 0.8rem;
-                border-radius: 12px;
+                border-radius: var(--radius-lg);
             }
             .stat-number {
                 font-size: 1.5rem;
@@ -463,7 +483,7 @@
             .member-avatar {
                 width: 42px;
                 height: 42px;
-                border-radius: 12px;
+                border-radius: var(--radius-md);
             }
             .member-name {
                 font-size: 0.95rem;
@@ -476,16 +496,11 @@
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            #particles-canvas {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
 
-<canvas id="particles-canvas"></canvas>
+<canvas id="particles-canvas" aria-hidden="true"></canvas>
 
 <!-- 左侧装饰 -->
 <div class="side-decor side-decor-left" aria-hidden="true">
@@ -542,6 +557,10 @@
     <!-- 社员列表 -->
     <div class="member-grid" id="memberGrid"></div>
 
+    <noscript>
+        <p class="nojs-tip">社员列表需要启用 JavaScript 才能显示。</p>
+    </noscript>
+
     <!-- 空状态 -->
     <div class="empty-state" id="emptyState">
         <div class="empty-icon">🔍</div>
@@ -555,7 +574,7 @@
 </main>
 
 <footer>
-    © 2026 联合公社 · 学生团体组织
+    © <span id="copyright-year">2026</span> 联合公社 · 学生团体组织
 </footer>
 
 <script src="/js/members-data.js"></script>
@@ -572,36 +591,54 @@
         });
     }
 
-    // ===== 导航栏滚动效果 =====
-    const topBar = document.getElementById('topBar');
-    window.addEventListener('scroll', () => {
-        topBar.classList.toggle('scrolled', window.scrollY > 10);
-    });
 
     // 渲染社员网格
     function renderMemberGrid() {
         const grid = document.getElementById('memberGrid');
         if (!grid) return;
-        grid.innerHTML = '';
-        MEMBERS.forEach(member => {
+
+        if (typeof MEMBERS === 'undefined' || !MEMBERS.length) {
+            const empty = document.getElementById('emptyState');
+            if (empty) empty.classList.add('show');
+            return;
+        }
+
+        grid.textContent = '';
+        MEMBERS.forEach((member) => {
             const card = document.createElement('div');
             card.className = 'member-card';
-            card.innerHTML = `
-                <img class="member-avatar" src="${member.avatar}" alt="${member.name}头像">
-                <div class="member-info">
-                    <div class="member-name">${member.name}</div>
-                    <div class="member-bio">${member.bio}</div>
-                </div>
-            `;
+
+            const img = document.createElement('img');
+            img.className = 'member-avatar';
+            img.src = member.avatar;
+            img.alt = member.name + '头像';
+            img.width = 200;
+            img.height = 200;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+
+            const info = document.createElement('div');
+            info.className = 'member-info';
+
+            const name = document.createElement('div');
+            name.className = 'member-name';
+            name.textContent = member.name;
+
+            const bio = document.createElement('div');
+            bio.className = 'member-bio';
+            bio.textContent = member.bio || '暂无简介';
+
+            info.append(name, bio);
+            card.append(img, info);
             grid.appendChild(card);
         });
+
         // 更新统计数字
         const totalEl = document.getElementById('totalCount');
-        if (totalEl) {
-            animateNumber(totalEl, MEMBERS.length);
-        }
-        // 添加入场动画类
-        document.querySelectorAll('.member-card').forEach((card, i) => {
+        if (totalEl) animateNumber(totalEl, MEMBERS.length);
+
+        // 入场动画
+        grid.querySelectorAll('.member-card').forEach((card, i) => {
             setTimeout(() => card.classList.add('visible'), i * 100);
         });
     }
@@ -621,177 +658,8 @@
 
     document.addEventListener('DOMContentLoaded', renderMemberGrid);
 
-    // ===== 粒子背景效果 =====
-    (function() {
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let vw, vh, pageHeight, particles, animId;
-        const mouse = { x: -9999, y: -9999 };
-
-        const colors = [
-            'rgba(79,110,247,',
-            'rgba(79,156,247,',
-            'rgba(59,93,231,',
-            'rgba(240,100,73,',
-            'rgba(245,166,35,',
-        ];
-
-        document.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        document.addEventListener('mouseleave', () => {
-            mouse.x = -9999;
-            mouse.y = -9999;
-        });
-
-        function resize() {
-            vw = canvas.width = window.innerWidth;
-            vh = canvas.height = window.innerHeight;
-            pageHeight = document.documentElement.scrollHeight;
-        }
-
-        function createParticle(fadeIn) {
-            const colorBase = colors[Math.random() < 0.75 ? Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 2)];
-            const scrollY = window.scrollY;
-            const yMin = fadeIn ? scrollY : 0;
-            const yMax = fadeIn ? scrollY + vh : pageHeight;
-            return {
-                x: Math.random() * vw,
-                y: yMin + Math.random() * (yMax - yMin),
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.3 - 0.15,
-                radius: Math.random() * 2.5 + 1,
-                color: colorBase,
-                alpha: fadeIn ? 0 : (Math.random() * 0.4 + 0.15),
-                targetAlpha: Math.random() * 0.4 + 0.15,
-                alphaDir: (Math.random() - 0.5) * 0.005,
-                fadingOut: false,
-                fadingIn: !!fadeIn,
-            };
-        }
-
-        function createParticles() {
-            const count = Math.min(Math.floor((vw * vh) / 18000), 80);
-            particles = [];
-            for (let i = 0; i < count; i++) {
-                particles.push(createParticle(false));
-            }
-        }
-
-        function update() {
-            const scrollY = window.scrollY;
-            particles.forEach((p, i) => {
-                const screenY = p.y - scrollY;
-                const dx = p.x - mouse.x;
-                const dy = screenY - mouse.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150 && dist > 0) {
-                    const force = (150 - dist) / 150 * 0.3;
-                    p.vx += (dx / dist) * force;
-                    p.vy += (dy / dist) * force;
-                }
-
-                p.vx *= 0.99;
-                p.vy *= 0.99;
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.fadingIn) {
-                    p.alpha += 0.012;
-                    if (p.alpha >= p.targetAlpha) {
-                        p.alpha = p.targetAlpha;
-                        p.fadingIn = false;
-                    }
-                }
-
-                if (!p.fadingIn && !p.fadingOut) {
-                    p.alpha += p.alphaDir;
-                    if (p.alpha > 0.55 || p.alpha < 0.1) p.alphaDir *= -1;
-                }
-
-                const margin = 50;
-                const viewY = p.y - scrollY;
-                const outOfView = p.x < -margin || p.x > vw + margin || viewY < -margin || viewY > vh + margin;
-                if (outOfView) {
-                    p.fadingOut = true;
-                } else if (p.fadingOut && !p.fadingIn) {
-                    p.fadingOut = false;
-                    if (p.alpha < 0.1) p.alpha = 0.1;
-                }
-
-                if (p.fadingOut) {
-                    p.alpha -= 0.008;
-                    if (p.alpha <= 0) {
-                        particles[i] = createParticle(true);
-                    }
-                }
-            });
-        }
-
-        function drawParticle(p) {
-            const screenY = p.y - window.scrollY;
-            if (screenY < -20 || screenY > vh + 20) return;
-            ctx.beginPath();
-            ctx.arc(p.x, screenY, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = p.color + p.alpha + ')';
-            ctx.fill();
-        }
-
-        function drawLines() {
-            const scrollY = window.scrollY;
-            const maxDist = 120;
-            for (let i = 0; i < particles.length; i++) {
-                const pi = particles[i];
-                const si = pi.y - scrollY;
-                if (si < -maxDist || si > vh + maxDist) continue;
-                for (let j = i + 1; j < particles.length; j++) {
-                    const pj = particles[j];
-                    const sj = pj.y - scrollY;
-                    if (sj < -maxDist || sj > vh + maxDist) continue;
-                    const dx = pi.x - pj.x;
-                    const dy = si - sj;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < maxDist) {
-                        const alpha = (1 - dist / maxDist) * 0.12;
-                        ctx.beginPath();
-                        ctx.moveTo(pi.x, si);
-                        ctx.lineTo(pj.x, sj);
-                        ctx.strokeStyle = 'rgba(79,110,247,' + alpha + ')';
-                        ctx.lineWidth = 0.6;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, vw, vh);
-            update();
-            drawLines();
-            particles.forEach(drawParticle);
-            animId = requestAnimationFrame(animate);
-        }
-
-        function init() {
-            resize();
-            createParticles();
-            if (animId) cancelAnimationFrame(animId);
-            animate();
-        }
-
-        const resizeObserver = new ResizeObserver(() => {
-            pageHeight = document.documentElement.scrollHeight;
-        });
-        resizeObserver.observe(document.documentElement);
-
-        window.addEventListener('resize', () => {
-            resize();
-            createParticles();
-        });
-
-        init();
-    })();
 </script>
+<script src="/js/particles.js"></script>
+<script src="/js/site.js"></script>
 </body>
 </html>

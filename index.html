@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>联合公社 | 学生团体组织</title>
+
+    <meta name="description" content="联合公社（Union Commune）是由各学生社团组成的学生团体组织，旗下设有硬算社、朗诵社、计算机科学社等分社，旨在联合各分社、形成合力、共同进步。">
+    <link rel="canonical" href="https://lianhegongshe.cn/">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <meta name="theme-color" content="#1d5578">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="联合公社">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="联合公社 | 学生团体组织">
+    <meta property="og:description" content="联合公社（Union Commune）是由各学生社团组成的学生团体组织，旗下设有硬算社、朗诵社、计算机科学社等分社，旨在联合各分社、形成合力、共同进步。">
+    <meta property="og:url" content="https://lianhegongshe.cn/">
+    <meta property="og:image" content="https://lianhegongshe.cn/images/logo.jpeg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="395">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="联合公社 | 学生团体组织">
+    <meta name="twitter:description" content="联合公社（Union Commune）是由各学生社团组成的学生团体组织，旗下设有硬算社、朗诵社、计算机科学社等分社，旨在联合各分社、形成合力、共同进步。">
+    <meta name="twitter:image" content="https://lianhegongshe.cn/images/logo.jpeg">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/effects.css">
     <style>
@@ -46,13 +65,13 @@
             max-width: 160px;
             width: 40%;
             height: auto;
-            border-radius: 24px;
+            border-radius: var(--radius-lg);
             box-shadow: var(--shadow-lg);
-            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s;
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
         }
         .hero-image img:hover {
             transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 20px 50px rgba(79,110,247,0.18);
+            box-shadow: 0 20px 50px rgba(29,85,120,0.18);
         }
 
         /* 装饰浮动圆 */
@@ -85,7 +104,7 @@
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
         }
         .reveal.visible {
             opacity: 1;
@@ -130,13 +149,25 @@
 
         /* ===== 社训盒子 ===== */
         .motto-box {
-            background: linear-gradient(135deg, var(--primary-light) 0%, #f0f4ff 50%, #fef6f0 100%);
-            border-radius: 20px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
             padding: 2rem 1.5rem;
             text-align: center;
             border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
+        }
+        /* 金色短线：签名元素在静态状态下的呼应 */
+        .motto-box::after {
+            content: '';
+            position: absolute;
+            top: 1.1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 46px;
+            height: 2px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
         .motto-box::before {
             content: '"';
@@ -145,8 +176,8 @@
             left: 20px;
             font-size: 8rem;
             font-weight: 900;
-            color: var(--primary);
-            opacity: 0.04;
+            color: var(--gold);
+            opacity: 0.16;
             line-height: 1;
             pointer-events: none;
         }
@@ -163,7 +194,7 @@
             display: inline-block;
             opacity: 0;
             transform: translateY(15px);
-            transition: opacity 0.5s, transform 0.5s;
+            transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
         }
 
         /* ===== 分社卡片网格 ===== */
@@ -174,64 +205,49 @@
         }
         .card {
             background: var(--card-bg);
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             padding: 1.8rem 1.5rem;
             text-align: center;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s, border-color 0.35s;
+            transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease),
+                        border-color 0.45s var(--ease);
             position: relative;
             overflow: hidden;
         }
+        /* 签名元素：悬停时右上角浮现金色直角标记，呼应社徽的烫金描边 */
         .card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            transition: height 0.3s;
-        }
-        .card:hover::before {
-            height: 100%;
-            opacity: 0.04;
+            top: 12px;
+            right: 12px;
+            width: 19px;
+            height: 19px;
+            border-top: 1.5px solid var(--gold);
+            border-right: 1.5px solid var(--gold);
+            border-top-right-radius: 3px;
+            opacity: 0;
+            transform: translate(-4px, 4px);
+            transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
         }
         .card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
+            border-color: var(--gold-line);
         }
-        .card-red {
-            border-color: rgba(240,100,73,0.18);
-        }
-        .card-red::before {
-            background: var(--accent-red);
-        }
-        .card-red:hover {
-            border-color: rgba(240,100,73,0.4);
-        }
-        .card-orange {
-            border-color: rgba(245,166,35,0.18);
-        }
-        .card-orange::before {
-            background: var(--accent-orange);
-        }
-        .card-orange:hover {
-            border-color: rgba(245,166,35,0.4);
-        }
-        .card-blue {
-            border-color: rgba(79,156,247,0.18);
-        }
-        .card-blue::before {
-            background: var(--accent-blue);
-        }
-        .card-blue:hover {
-            border-color: rgba(79,156,247,0.4);
+        .card:hover::before {
+            opacity: 1;
+            transform: translate(0, 0);
         }
         .card-icon {
             font-size: 2.2rem;
             margin-bottom: 0.8rem;
             position: relative;
             z-index: 1;
+            transition: transform 0.45s var(--ease);
+        }
+        .card:hover .card-icon {
+            transform: scale(1.05);
         }
         .card-name {
             font-size: 1.15rem;
@@ -252,12 +268,15 @@
             background: none;
             border: 1.5px solid var(--border);
             padding: 0.5rem 1.2rem;
-            border-radius: 20px;
+            border-radius: var(--radius-sm);
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--primary);
             cursor: pointer;
-            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+            transition: background 0.32s var(--ease), color 0.32s var(--ease),
+                        border-color 0.32s var(--ease), transform 0.32s var(--ease),
+                        box-shadow 0.32s var(--ease);
             position: relative;
             z-index: 1;
         }
@@ -265,6 +284,8 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 16px -6px rgba(29, 85, 120, .55);
         }
 
         /* ===== 社员列表 ===== */
@@ -277,27 +298,28 @@
             display: flex;
             align-items: center;
             background: var(--card-bg);
-            border-radius: 18px;
+            border-radius: var(--radius-lg);
             padding: 1rem 1.4rem;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
-            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s, border-color 0.3s;
+            transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease),
+                        border-color 0.32s var(--ease);
             cursor: default;
         }
         .member-card:hover {
-            transform: translateX(6px);
+            transform: translateX(5px);
             box-shadow: var(--shadow-md);
             border-color: var(--primary);
         }
         .member-avatar {
             width: 52px;
             height: 52px;
-            border-radius: 14px;
+            border-radius: var(--radius-md);
             object-fit: cover;
-            background-color: #e8ecf4;
+            background-color: var(--surface-hover);
             margin-right: 1rem;
             flex-shrink: 0;
-            transition: transform 0.3s, border-radius 0.3s;
+            transition: transform 0.32s var(--ease), border-radius 0.32s var(--ease);
         }
         .member-card:hover .member-avatar {
             transform: scale(1.08);
@@ -318,6 +340,7 @@
         }
         .member-card-ellipsis {
             justify-content: center;
+            text-decoration: none;
             color: var(--text-muted);
             font-size: 1.5rem;
             font-weight: 500;
@@ -334,12 +357,14 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             padding: 0.65rem 1.8rem;
-            border-radius: 40px;
+            border-radius: var(--radius-sm);
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--primary);
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            transition: background 0.32s var(--ease), color 0.32s var(--ease),
+                        border-color 0.32s var(--ease), transform 0.32s var(--ease),
+                        box-shadow 0.32s var(--ease);
             margin-top: 1.5rem;
             cursor: pointer;
             box-shadow: var(--shadow-sm);
@@ -348,11 +373,11 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 16px -6px rgba(29, 85, 120, .55);
         }
         .btn-all-arrow {
-            transition: transform 0.3s;
+            transition: transform 0.3s var(--ease);
         }
         .btn-all:hover .btn-all-arrow {
             transform: translateX(3px);
@@ -492,16 +517,16 @@
             position: absolute;
             left: 8%;
             right: 8%;
-            background: rgba(255,255,255,0.72);
+            background: rgba(255, 254, 251, 0.72);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border-radius: 14px;
+            border-radius: var(--radius-lg);
             padding: 0.85rem 1rem;
-            border: 1px solid rgba(79,110,247,0.08);
-            box-shadow: 0 4px 18px rgba(79,110,247,0.06);
+            border: 1px solid rgba(29,85,120,0.08);
+            box-shadow: 0 4px 18px rgba(29,85,120,0.06);
             text-align: center;
             pointer-events: auto;
-            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s;
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
             opacity: 0;
             transform: translateY(20px);
         }
@@ -511,7 +536,7 @@
         }
         .float-strip:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(79,110,247,0.12);
+            box-shadow: 0 8px 30px rgba(29,85,120,0.12);
         }
         .side-right .float-strip {
             left: 8%;
@@ -547,7 +572,7 @@
 
         /* 不同颜色变体 */
         .float-strip.strip-accent-red .float-strip-text { color: var(--accent-red); }
-        .float-strip.strip-accent-orange .float-strip-text { color: var(--accent-orange); }
+        .float-strip.strip-accent-orange .float-strip-text { color: var(--gold-text); }
         .float-strip.strip-accent-blue .float-strip-text { color: var(--accent-blue); }
         .float-strip.strip-primary .float-strip-text { color: var(--primary-dark); }
 
@@ -660,27 +685,23 @@
             }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            #particles-canvas {
-                display: none;
-            }
-        }
 
         /* ===== 公告栏 ===== */
         .announcement-bar {
             display: flex;
             align-items: flex-start;
             gap: 0.8rem;
-            background: linear-gradient(135deg, #fef9f0 0%, #fff7e6 50%, #fef6f0 100%);
-            border: 1px solid #f5d89a;
-            border-radius: 16px;
+            background: linear-gradient(135deg, #fdf9f1 0%, #fbf5e9 50%, #f7f2e8 100%);
+            border: 1px solid rgba(176,141,79,.35);
+            border-radius: 12px;
             padding: 1rem 1.2rem;
             margin: 0 0 2rem;
             position: relative;
-            box-shadow: 0 4px 16px rgba(245, 166, 35, 0.1);
+            box-shadow: 0 4px 16px rgba(176, 141, 79, 0.10);
             opacity: 0;
             transform: translateY(-12px);
-            transition: opacity 0.3s, transform 0.3s, margin 0.3s, padding 0.3s, max-height 0.4s;
+            transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), margin 0.3s var(--ease),
+                        padding 0.3s var(--ease), max-height 0.4s var(--ease);
             max-height: 300px;
             overflow: hidden;
         }
@@ -704,21 +725,25 @@
         .announcement-content {
             flex: 1;
             font-size: 0.95rem;
-            color: #8b6914;
+            color: #6b5528;
             line-height: 1.8;
         }
         .announcement-content strong {
-            color: #c0392b;
+            color: #a83a2e;
             font-weight: 700;
         }
-        .announcement-content h1 {
+        .announcement-content h3,
+        .announcement-content h4 {
             font-size: 1.1rem;
             font-weight: 700;
             margin: 0 0 0.4rem;
-            color: #6b4c12;
+            color: #5a4520;
+        }
+        .announcement-content ul {
+            margin: 0.3rem 0 0.3rem 1.2rem;
         }
         .announcement-content em {
-            color: #9a7d3a;
+            color: #7d6231;
             font-style: italic;
         }
         .announcement-content p {
@@ -730,26 +755,26 @@
             height: 28px;
             border: none;
             background: transparent;
-            color: #c9a94e;
+            color: #8a7448;
             font-size: 1.1rem;
             cursor: pointer;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s, color 0.2s;
+            transition: background 0.2s var(--ease), color 0.2s var(--ease);
             line-height: 1;
             padding: 0;
         }
         .announcement-close:hover {
             background: rgba(180, 130, 30, 0.12);
-            color: #8b6914;
+            color: #6b5528;
         }
     </style>
 </head>
 <body>
 
-<canvas id="particles-canvas"></canvas>
+<canvas id="particles-canvas" aria-hidden="true"></canvas>
 
 <!-- 左侧装饰 -->
 <div class="side-decor side-left" aria-hidden="true">
@@ -823,7 +848,7 @@
         联合公社
     </div>
     <div class="dropdown-container">
-        <button class="menu-btn" id="menuBtn" aria-label="菜单">
+        <button class="menu-btn" id="menuBtn" aria-label="菜单" aria-haspopup="true" aria-expanded="false" aria-controls="dropdownMenu">
             <div class="menu-icon">
                 <span></span>
                 <span></span>
@@ -831,18 +856,18 @@
             </div>
         </button>
         <div class="dropdown-menu" id="dropdownMenu">
-            <div class="dropdown-item" data-action="subgroups">
-                <span class="dropdown-item-icon">🏛️</span> 分社
-            </div>
-            <div class="dropdown-item" data-action="members">
-                <span class="dropdown-item-icon">👥</span> 社员
-            </div>
-            <div class="dropdown-item" data-action="about">
-                <span class="dropdown-item-icon">ℹ️</span> 关于我们
-            </div>
-            <div class="dropdown-item" data-action="join">
-                <span class="dropdown-item-icon">✨</span> 加入我们
-            </div>
+            <button type="button" class="dropdown-item" data-action="subgroups">
+                <span class="dropdown-item-icon" aria-hidden="true">🏛️</span> 分社
+            </button>
+            <button type="button" class="dropdown-item" data-action="members">
+                <span class="dropdown-item-icon" aria-hidden="true">👥</span> 社员
+            </button>
+            <button type="button" class="dropdown-item" data-action="about">
+                <span class="dropdown-item-icon" aria-hidden="true">ℹ️</span> 关于我们
+            </button>
+            <button type="button" class="dropdown-item" data-action="join">
+                <span class="dropdown-item-icon" aria-hidden="true">✨</span> 加入我们
+            </button>
         </div>
     </div>
 </div>
@@ -852,7 +877,7 @@
         <h1>联合公社</h1>
         <div class="hero-domain">lianhegongshe.cn</div>
         <div class="hero-image">
-            <img src="/images/logo.jpeg" alt="联合公社社徽">
+            <img src="/images/logo.jpeg" alt="联合公社社徽" width="400" height="395" decoding="async" fetchpriority="high">
         </div>
     </div>
 
@@ -887,21 +912,21 @@
             <div class="card card-red" data-subgroup="yingsuan">
                 <div class="card-icon">🧮</div>
                 <div class="card-name">硬算社</div>
-                <div class="card-desc">暂无简介</div>
+                <div class="card-desc">专注数学与逻辑推理</div>
                 <button class="card-btn" data-type="learn-more" data-subgroup="yingsuan"><span>了解更多 →</span></button>
             </div>
             <!-- 朗诵社 -->
             <div class="card card-orange" data-subgroup="langsong">
                 <div class="card-icon">🎤</div>
                 <div class="card-name">朗诵社</div>
-                <div class="card-desc">暂无简介</div>
+                <div class="card-desc">以朗诵艺术为核心</div>
                 <button class="card-btn" data-type="learn-more" data-subgroup="langsong"><span>了解更多 →</span></button>
             </div>
             <!-- 计算机科学社 -->
             <div class="card card-blue" data-subgroup="cs">
                 <div class="card-icon">💻</div>
                 <div class="card-name">计算机科学社</div>
-                <div class="card-desc">官网维护/搭建者</div>
+                <div class="card-desc">技术开发与网站维护</div>
                 <button class="card-btn" data-type="learn-more" data-subgroup="cs"><span>了解更多 →</span></button>
             </div>
         </div>
@@ -911,35 +936,14 @@
     <!-- 社员 -->
     <div class="section reveal" id="members-section">
         <h2 class="section-title"><span class="section-title-icon">👥</span>社员</h2>
-        <div class="member-list">
-            <!-- 1. 老魏 -->
-            <div class="member-card">
-                <img class="member-avatar" src="/images/members/wei.jpeg" alt="老魏头像">
-                <div class="member-info">
-                    <div class="member-name">老魏</div>
-                    <div class="member-bio">公社社长、硬算社社长</div>
-                </div>
-            </div>
-            <!-- 2. 向死而生 -->
-            <div class="member-card">
-                <img class="member-avatar" src="/images/members/xses.jpeg" alt="向死而生头像">
-                <div class="member-info">
-                    <div class="member-name">向死而生</div>
-                    <div class="member-bio">公社常务委员会委员长、朗诵社社长、宣传委员会委员长</div>
-                </div>
-            </div>
-            <!-- 3. 光明与尘埃 -->
-            <div class="member-card">
-                <img class="member-avatar" src="/images/members/gmyca.jpeg" alt="光明与尘埃头像">
-                <div class="member-info">
-                    <div class="member-name">光明与尘埃</div>
-                    <div class="member-bio">计算机科学社社长、官网搭建与维护者</div>
-                </div>
-            </div>
-            <!-- 查看全部 -->
-            <div class="member-card member-card-ellipsis" onclick="window.location.href='/members/'" style="cursor:pointer;">
+        <div class="member-list" id="homeMemberList">
+            <!-- 前 3 位社员由 js/members-data.js 渲染 -->
+            <noscript>
+                <p class="nojs-tip">社员列表需要启用 JavaScript 才能显示，你也可以直接访问「全部社员」页面。</p>
+            </noscript>
+            <a href="/members/" class="member-card member-card-ellipsis" aria-label="查看全部社员">
                 <span>…</span>
-            </div>
+            </a>
         </div>
         <div style="text-align:center;">
             <a href="/members/" class="btn-all">
@@ -950,62 +954,101 @@
 </main>
 
 <footer>
-    © 2026 联合公社 · 学生团体组织
+    © <span id="copyright-year">2026</span> 联合公社 · 学生团体组织
     &nbsp;·&nbsp;
     <a href="https://github.com/lhgs-cs/lhgs-web" target="_blank" rel="noopener noreferrer">GitHub</a>
 </footer>
 
+<script src="/js/members-data.js"></script>
 <script>
-    // ===== 导航栏滚动效果 =====
-    const topBar = document.getElementById('topBar');
-    window.addEventListener('scroll', () => {
-        topBar.classList.toggle('scrolled', window.scrollY > 10);
-    });
 
     // ===== 公告栏 =====
+    function renderAnnouncementMarkdown(md) {
+        const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        return md.split(/\r?\n\s*\r?\n/).map((block) => {
+            const lines = block.split(/\r?\n/).filter((l) => l.trim() !== '');
+            if (!lines.length) return '';
+
+            // 整块都是 "- " 开头时渲染为列表，避免产生没有 <ul> 包裹的孤立 <li>
+            if (lines.every((l) => /^[ \t]*-[ \t]+/.test(l))) {
+                return '<ul>' + lines
+                    .map((l) => '<li>' + escapeHtml(l.replace(/^[ \t]*-[ \t]+/, '')) + '</li>')
+                    .join('') + '</ul>';
+            }
+
+            const body = escapeHtml(block)
+                .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+                .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^# (.+)$/gm, '<h3>$1</h3>')   // 降级为 h3，避免页面出现第二个 h1
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/\r?\n/g, '<br>');
+
+            return /^<h[34]>/.test(body) ? body : '<p>' + body + '</p>';
+        }).join('');
+    }
+
     (async function loadAnnouncement() {
         const bar = document.getElementById('announcementBar');
         const content = document.getElementById('announcementContent');
         const closeBtn = document.getElementById('announcementClose');
+        if (!bar || !content || !closeBtn) return;
+
+        let md;
         try {
             const resp = await fetch('/announcement/announcement.md');
             if (!resp.ok) return;
-            const md = await resp.text();
-            if (!md.trim()) return;
-            let html = md
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>')
-                .replace(/^\- (.+)$/gm, '<li>$1</li>')
-                .replace(/\n{2,}/g, '</p><p>')
-                .replace(/\n/g, '<br>');
-            html = '<p>' + html + '</p>';
-            content.innerHTML = html;
-            bar.classList.add('show');
-        } catch (_) {}
+            md = await resp.text();
+        } catch (_) {
+            return;
+        }
+        if (!md.trim()) return;
+
+        // 用内容指纹记录「已读」：关闭后不再打扰，公告更新后自动重新出现
+        const STORAGE_KEY = 'lhgs-announcement-dismissed';
+        let fingerprint = 5381;
+        for (let i = 0; i < md.length; i++) {
+            fingerprint = ((fingerprint << 5) + fingerprint + md.charCodeAt(i)) | 0;
+        }
+
+        try {
+            if (localStorage.getItem(STORAGE_KEY) === String(fingerprint)) return;
+        } catch (_) { /* 隐私模式下 localStorage 不可用，忽略 */ }
+
+        content.innerHTML = renderAnnouncementMarkdown(md);
+        bar.classList.add('show');
+
         closeBtn.addEventListener('click', () => {
             bar.classList.remove('show');
             bar.classList.add('hide');
+            try { localStorage.setItem(STORAGE_KEY, String(fingerprint)); } catch (_) {}
         });
     })();
 
     // ===== 汉堡菜单 =====
     const menuBtn = document.getElementById('menuBtn');
     const dropdownMenu = document.getElementById('dropdownMenu');
+
+    function setMenuOpen(open) {
+        menuBtn.classList.toggle('active', open);
+        dropdownMenu.classList.toggle('show', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+    }
+
     menuBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        menuBtn.classList.toggle('active');
-        dropdownMenu.classList.toggle('show');
+        setMenuOpen(!dropdownMenu.classList.contains('show'));
     });
     document.addEventListener('click', (e) => {
         if (!menuBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            menuBtn.classList.remove('active');
-            dropdownMenu.classList.remove('show');
+            setMenuOpen(false);
+        }
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && dropdownMenu.classList.contains('show')) {
+            setMenuOpen(false);
+            menuBtn.focus();
         }
     });
 
@@ -1024,8 +1067,7 @@
         } else if (action === 'join') {
             window.location.href = '/join.html';
         }
-        menuBtn.classList.remove('active');
-        dropdownMenu.classList.remove('show');
+        setMenuOpen(false);
     });
 
     // ===== 分社卡片点击跳转 =====
@@ -1038,17 +1080,41 @@
         });
     });
 
-    // ===== 滚动显示动画 =====
-    const revealElements = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                revealObserver.unobserve(entry.target);
-            }
+    // ===== 首页社员预览（数据源：js/members-data.js） =====
+    (function renderHomeMembers() {
+        const list = document.getElementById('homeMemberList');
+        if (!list || typeof MEMBERS === 'undefined') return;
+
+        const anchor = list.querySelector('.member-card-ellipsis');
+        MEMBERS.slice(0, 3).forEach((member) => {
+            const card = document.createElement('div');
+            card.className = 'member-card';
+
+            const img = document.createElement('img');
+            img.className = 'member-avatar';
+            img.src = member.avatar;
+            img.alt = member.name + '头像';
+            img.width = 200;
+            img.height = 200;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+
+            const info = document.createElement('div');
+            info.className = 'member-info';
+
+            const name = document.createElement('div');
+            name.className = 'member-name';
+            name.textContent = member.name;
+
+            const bio = document.createElement('div');
+            bio.className = 'member-bio';
+            bio.textContent = member.bio || '暂无简介';
+
+            info.append(name, bio);
+            card.append(img, info);
+            list.insertBefore(card, anchor);   // anchor 为 null 时等同于 appendChild
         });
-    }, { threshold: 0.15 });
-    revealElements.forEach(el => revealObserver.observe(el));
+    })();
 
     // ===== 侧边悬浮小条入场动画 =====
     const floatStrips = document.querySelectorAll('.float-strip');
@@ -1089,7 +1155,7 @@
                 cards.forEach((card, i) => {
                     card.style.opacity = '0';
                     card.style.transform = 'translateX(-20px)';
-                    card.style.transition = `opacity 0.5s ${i * 0.12}s, transform 0.5s ${i * 0.12}s`;
+                    card.style.transition = `opacity 0.5s var(--ease) ${i * 0.12}s, transform 0.5s var(--ease) ${i * 0.12}s`;
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             card.style.opacity = '1';
@@ -1104,188 +1170,8 @@
     const memberList = document.querySelector('.member-list');
     if (memberList) memberObserver.observe(memberList);
 
-    // ===== 粒子背景效果 =====
-    (function() {
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let vw, vh, pageHeight, particles, animId;
-        const mouse = { x: -9999, y: -9999 };
-
-        const colors = [
-            'rgba(79,110,247,',
-            'rgba(79,156,247,',
-            'rgba(59,93,231,',
-            'rgba(240,100,73,',
-            'rgba(245,166,35,',
-        ];
-
-        document.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        document.addEventListener('mouseleave', () => {
-            mouse.x = -9999;
-            mouse.y = -9999;
-        });
-
-        function resize() {
-            vw = canvas.width = window.innerWidth;
-            vh = canvas.height = window.innerHeight;
-            pageHeight = document.documentElement.scrollHeight;
-        }
-
-        function createParticle(fadeIn) {
-            const colorBase = colors[Math.random() < 0.75 ? Math.floor(Math.random() * 3) : 3 + Math.floor(Math.random() * 2)];
-            const scrollY = window.scrollY;
-            const yMin = fadeIn ? scrollY : 0;
-            const yMax = fadeIn ? scrollY + vh : pageHeight;
-            return {
-                x: Math.random() * vw,
-                y: yMin + Math.random() * (yMax - yMin),
-                vx: (Math.random() - 0.5) * 0.25,
-                vy: (Math.random() - 0.5) * 0.18 - 0.08,
-                radius: Math.random() * 2.5 + 1,
-                color: colorBase,
-                alpha: fadeIn ? 0 : (Math.random() * 0.4 + 0.15),
-                targetAlpha: Math.random() * 0.4 + 0.15,
-                alphaDir: (Math.random() - 0.5) * 0.005,
-                fadingOut: false,
-                fadingIn: !!fadeIn,
-            };
-        }
-
-        function createParticles() {
-            const count = Math.min(Math.floor((vw * vh) / 18000), 80);
-            particles = [];
-            for (let i = 0; i < count; i++) {
-                particles.push(createParticle(false));
-            }
-        }
-
-        let lastScrollY = window.scrollY;
-
-        function update() {
-            const scrollY = window.scrollY;
-            const scrollDelta = scrollY - lastScrollY;
-            lastScrollY = scrollY;
-            // 快速滚动时粒子跟随页面，避免视觉抖动
-            if (Math.abs(scrollDelta) > 20) {
-                const compensation = scrollDelta * 0.7;
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].y += compensation;
-                }
-            }
-            particles.forEach((p, i) => {
-                const screenY = p.y - scrollY;
-                const dx = p.x - mouse.x;
-                const dy = screenY - mouse.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150 && dist > 0) {
-                    const force = (150 - dist) / 150 * 0.3;
-                    p.vx += (dx / dist) * force;
-                    p.vy += (dy / dist) * force;
-                }
-
-                p.vx *= 0.99;
-                p.vy *= 0.99;
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.fadingIn) {
-                    p.alpha += 0.012;
-                    if (p.alpha >= p.targetAlpha) {
-                        p.alpha = p.targetAlpha;
-                        p.fadingIn = false;
-                    }
-                }
-
-                if (!p.fadingIn && !p.fadingOut) {
-                    p.alpha += p.alphaDir;
-                    if (p.alpha > 0.55 || p.alpha < 0.1) p.alphaDir *= -1;
-                }
-
-                const margin = 250;
-                const viewY = p.y - scrollY;
-                const outOfView = p.x < -margin || p.x > vw + margin || viewY < -margin || viewY > vh + margin;
-                if (outOfView) {
-                    p.fadingOut = true;
-                } else if (p.fadingOut && !p.fadingIn) {
-                    p.fadingOut = false;
-                    if (p.alpha < 0.1) p.alpha = 0.1;
-                }
-
-                if (p.fadingOut) {
-                    p.alpha -= 0.008;
-                    if (p.alpha <= 0) {
-                        particles[i] = createParticle(true);
-                    }
-                }
-            });
-        }
-
-        function drawParticle(p) {
-            const screenY = p.y - window.scrollY;
-            if (screenY < -20 || screenY > vh + 20) return;
-            ctx.beginPath();
-            ctx.arc(p.x, screenY, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = p.color + p.alpha + ')';
-            ctx.fill();
-        }
-
-        function drawLines() {
-            const scrollY = window.scrollY;
-            const maxDist = 120;
-            for (let i = 0; i < particles.length; i++) {
-                const pi = particles[i];
-                const si = pi.y - scrollY;
-                if (si < -maxDist || si > vh + maxDist) continue;
-                for (let j = i + 1; j < particles.length; j++) {
-                    const pj = particles[j];
-                    const sj = pj.y - scrollY;
-                    if (sj < -maxDist || sj > vh + maxDist) continue;
-                    const dx = pi.x - pj.x;
-                    const dy = si - sj;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < maxDist) {
-                        const alpha = (1 - dist / maxDist) * 0.12;
-                        ctx.beginPath();
-                        ctx.moveTo(pi.x, si);
-                        ctx.lineTo(pj.x, sj);
-                        ctx.strokeStyle = 'rgba(79,110,247,' + alpha + ')';
-                        ctx.lineWidth = 0.6;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, vw, vh);
-            update();
-            drawLines();
-            particles.forEach(drawParticle);
-            animId = requestAnimationFrame(animate);
-        }
-
-        function init() {
-            resize();
-            createParticles();
-            if (animId) cancelAnimationFrame(animId);
-            animate();
-        }
-
-        const resizeObserver = new ResizeObserver(() => {
-            resize();
-        });
-        resizeObserver.observe(document.documentElement);
-
-        window.addEventListener('resize', () => {
-            resize();
-            createParticles();
-        });
-
-        init();
-    })();
 </script>
+<script src="/js/particles.js"></script>
+<script src="/js/site.js"></script>
 </body>
 </html>
