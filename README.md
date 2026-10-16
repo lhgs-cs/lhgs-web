@@ -1,7 +1,7 @@
 # 联合公社官网
 
 本仓库为联合公社（Union Commune）官方网站的源代码。  
-网站地址：[https://lianhegongshe.cn](https://lianhegongshe.cn)
+网站地址：[https://www.lianhegongshe.cn](https://lianhegongshe.cn)
 
 ## 项目简介
 
@@ -80,7 +80,6 @@
 
 自定义域名 `lianhegongshe.cn` 配置在仓库的 **Settings → Pages → Custom domain**，不通过 `CNAME` 文件（GitHub Actions 部署模式下该文件会被忽略）。
 
-首次迁移或更换域名时需要在 DNS 服务商处配置：`A` 记录指向 `185.199.108.153`、`185.199.109.153`、`185.199.110.153`、`185.199.111.153`，`www` 的 `CNAME` 记录指向 `gmyca.github.io`。
 
 ## 维护与贡献
 
@@ -88,7 +87,7 @@
 **主要搭建与维护者：**
 
 - 光明与尘埃（GitHub: @gmyca）
-- C0（GitHub: @imxilin）
+- C0（GitHub: @IMXILIN）
 
 欢迎通过 Pull Request 或 Issue 提出建议。
 
