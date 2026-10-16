@@ -11,13 +11,14 @@
 ## 技术栈
 
 - 纯静态 HTML/CSS/JS，无构建步骤，克隆后直接打开 `index.html` 即可预览
-- 部署于阿里云 ESA Pages
+- 部署于 GitHub Pages（push 到 `main` 分支后由 GitHub Actions 自动部署）
 - 版本控制：Git + GitHub
 
 ## 项目结构
 
 ```
 .
+├── .github/workflows/deploy.yml   GitHub Pages 部署流水线
 ├── index.html                 首页（简介、社训、分社、社员预览、公告栏）
 ├── join.html                  加入我们
 ├── 404.html                   404 页面
@@ -38,7 +39,8 @@
 │   ├── particles.js           全站共用的粒子背景效果
 │   ├── subgroup-members.js    分社页的社员列表渲染
 │   └── site.js                全站公共脚本（页脚年份、导航栏、滚动淡入）
-└── images/                    社徽与社员头像
+├── images/                    社徽与社员头像
+└── docs/superpowers/          设计规格与实施计划（仅供维护参考，不部署到线上）
 ```
 
 ## 常见维护操作
@@ -67,6 +69,18 @@
 ```
 
 `role` 为 `"社长"` 的成员会在对应分社页排在最前面。
+
+## 部署
+
+网站通过 GitHub Pages 发布，源为 `main` 分支，流水线在 `.github/workflows/deploy.yml`。
+
+- push 到 `main` 即自动部署，也可以在 Actions 页面手动触发
+- 项目是纯静态站点，**没有构建步骤**，仓库内容就是发布内容
+- 仓库中的 `docs/`、`README.md`、`.github/` 等不属于网站的文件会在部署前被剔除，不会出现在线上
+
+自定义域名 `lianhegongshe.cn` 配置在仓库的 **Settings → Pages → Custom domain**，不通过 `CNAME` 文件（GitHub Actions 部署模式下该文件会被忽略）。
+
+首次迁移或更换域名时需要在 DNS 服务商处配置：`A` 记录指向 `185.199.108.153`、`185.199.109.153`、`185.199.110.153`、`185.199.111.153`，`www` 的 `CNAME` 记录指向 `gmyca.github.io`。
 
 ## 维护与贡献
 
