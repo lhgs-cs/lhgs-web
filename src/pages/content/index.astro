@@ -1,0 +1,171 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+// 内容板块索引：当前只有计科资源中心，未来加其他分社时在这里追加即可
+const sections = [
+  {
+    title: '计科资源中心',
+    desc: '学习资源、社内教程与代码仓库',
+    href: '/content/cs/',
+    icon: '💻',
+  },
+];
+---
+<Base
+  title="内容 | 联合公社"
+  description="联合公社的内容板块：学习资源、社内教程与代码仓库。"
+  canonical="https://lianhegongshe.cn/content/"
+>
+  <Nav mode="back" backHref="/" backLabel="返回首页" active="content" />
+
+  <main class="container">
+    <div class="page-header">
+      <h1>内容</h1>
+      <p>学习资源、社内教程与代码仓库</p>
+    </div>
+
+    <div class="card-grid">
+      {sections.map((s) => (
+        <div class="card">
+          <div class="card-icon">{s.icon}</div>
+          <div class="card-name">{s.title}</div>
+          <div class="card-desc">{s.desc}</div>
+          <a class="card-btn" href={s.href}><span>进入 →</span></a>
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .page-header {
+      text-align: center;
+      margin: 2rem 0 3rem;
+      position: relative;
+  }
+  .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 50%, var(--primary-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+      animation: heroGradient 4s ease infinite;
+  }
+  .page-header p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+  }
+  .page-header::before,
+  .page-header::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.06;
+      pointer-events: none;
+  }
+  .page-header::before {
+      width: 160px; height: 160px;
+      background: var(--primary);
+      top: -30px; left: -40px;
+      animation: float 6s ease-in-out infinite;
+  }
+  .page-header::after {
+      width: 100px; height: 100px;
+      background: var(--accent-orange);
+      bottom: -10px; right: -30px;
+      animation: float 8s ease-in-out infinite reverse;
+  }
+
+  .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+  }
+  .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease),
+                  border-color 0.45s var(--ease);
+      position: relative;
+      overflow: hidden;
+  }
+  .card::before {
+      content: '';
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 19px; height: 19px;
+      border-top: 1.5px solid var(--gold);
+      border-right: 1.5px solid var(--gold);
+      border-top-right-radius: 3px;
+      opacity: 0;
+      transform: translate(-4px, 4px);
+      transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  }
+  .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-line);
+  }
+  .card:hover::before {
+      opacity: 1;
+      transform: translate(0, 0);
+  }
+  .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      transition: transform 0.45s var(--ease);
+  }
+  .card:hover .card-icon { transform: scale(1.05); }
+  .card-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+  }
+  .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+  }
+  .card-btn {
+      display: inline-block;
+      border: 1.5px solid var(--border);
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+      transition: background 0.32s var(--ease), color 0.32s var(--ease),
+                  border-color 0.32s var(--ease), transform 0.32s var(--ease),
+                  box-shadow 0.32s var(--ease);
+  }
+  .card-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 16px -6px rgba(29, 85, 120, .55);
+  }
+
+  @media (max-width: 768px) {
+      .page-header h1 { font-size: 2rem; }
+      .card-grid { grid-template-columns: 1fr; gap: 0.8rem; }
+  }
+  @media (max-width: 480px) {
+      .page-header h1 { font-size: 1.6rem; }
+  }
+</style>

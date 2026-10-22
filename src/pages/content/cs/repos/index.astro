@@ -1,0 +1,165 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import { repos, githubOrgUrl } from '../../../../data/repos';
+---
+<Base
+  title="GitHub 组织仓库 | 计科资源中心"
+  description="联合公社在 GitHub 上的组织主页与公开仓库。"
+  canonical="https://lianhegongshe.cn/content/cs/repos/"
+>
+  <Nav mode="back" backHref="/content/cs/" backLabel="返回资源中心" active="content" />
+
+  <main class="container">
+    <div class="page-header">
+      <h1>GitHub 组织仓库</h1>
+      <p>公社的开源项目都放在这里</p>
+    </div>
+
+    <div class="org-card">
+      <div class="org-icon">🐙</div>
+      <div class="org-info">
+        <div class="org-name">lhgs-cs</div>
+        <div class="org-desc">联合公社的 GitHub 组织主页</div>
+      </div>
+      <a class="org-link" href={githubOrgUrl} target="_blank" rel="noopener noreferrer">前往组织 →</a>
+    </div>
+
+    {repos.length === 0 ? (
+      <p class="empty-tip">还没有公开仓库。</p>
+    ) : (
+      <div class="repo-grid">
+        {repos.map((r) => (
+          <a class="repo-card" href={r.url} target="_blank" rel="noopener noreferrer">
+            <div class="repo-name">{r.name}</div>
+            <div class="repo-desc">{r.description}</div>
+            <div class="repo-meta">
+              {r.language && <span class="repo-lang">{r.language}</span>}
+              {(r.topics || []).map((t) => <span class="repo-topic">{t}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .page-header {
+      text-align: center;
+      margin: 2rem 0 3rem;
+  }
+  .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 50%, var(--primary-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+      animation: heroGradient 4s ease infinite;
+  }
+  .page-header p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+  }
+
+  .org-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+  }
+  .org-icon { font-size: 2rem; }
+  .org-info { flex: 1; min-width: 160px; }
+  .org-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+  .org-desc { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .org-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.45rem 1rem;
+      transition: background 0.25s var(--ease), color 0.25s var(--ease),
+                  border-color 0.25s var(--ease);
+  }
+  .org-link:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+  }
+
+  .repo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+  }
+  .repo-card {
+      display: block;
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 1.3rem;
+      text-decoration: none;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+                  border-color 0.3s var(--ease);
+  }
+  .repo-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+  }
+  .repo-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+  }
+  .repo-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 0.7rem;
+  }
+  .repo-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .repo-lang, .repo-topic {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.12rem 0.5rem;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+  }
+  .repo-topic {
+      background: rgba(22, 50, 74, .05);
+      color: var(--text-muted);
+  }
+  .empty-tip {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 2rem 0;
+  }
+
+  @media (max-width: 768px) {
+      .page-header h1 { font-size: 2rem; }
+      .repo-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+      .page-header h1 { font-size: 1.6rem; }
+  }
+</style>

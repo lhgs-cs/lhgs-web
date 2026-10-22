@@ -1,0 +1,199 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const tutorials = (await getCollection('tutorials', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const tags = [...new Set(tutorials.flatMap((t) => t.data.tags))].sort();
+---
+<Base
+  title="社内自创内容 | 计科资源中心"
+  description="计算机科学社成员编写的教程、笔记与经验总结。"
+  canonical="https://lianhegongshe.cn/content/cs/tutorials/"
+>
+  <Nav mode="back" backHref="/content/cs/" backLabel="返回资源中心" active="content" />
+
+  <main class="container">
+    <div class="page-header">
+      <h1>社内自创内容</h1>
+      <p>成员编写的教程、笔记与经验总结</p>
+    </div>
+
+    {tutorials.length === 0 ? (
+      <p class="empty-tip">还没有社内教程。</p>
+    ) : (
+      <>
+        <div class="tag-filter" id="tagFilter">
+          <button class="tag-chip is-active" data-tag="all" type="button">全部</button>
+          {tags.map((tag) => (
+            <button class="tag-chip" data-tag={tag} type="button">{tag}</button>
+          ))}
+        </div>
+
+        <ul class="tutorial-list" id="tutorialList">
+          {tutorials.map((t) => (
+            <li class="tutorial-item" data-tags={t.data.tags.join(',')}>
+              <a class="tutorial-title" href={`/content/cs/tutorials/${t.id}/`}>{t.data.title}</a>
+              <p class="tutorial-desc">{t.data.description}</p>
+              <div class="tutorial-meta">
+                <time datetime={t.data.publishDate.toISOString()}>
+                  {t.data.publishDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                </time>
+                {t.data.tags.map((tag) => <span class="tutorial-tag">{tag}</span>)}
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <noscript>
+          <p class="noscript-tip">标签筛选需要启用 JavaScript，上面已按时间列出全部教程。</p>
+        </noscript>
+      </>
+    )}
+  </main>
+
+  <Footer />
+</Base>
+
+<script>
+  const filter = document.getElementById('tagFilter');
+  const list = document.getElementById('tutorialList');
+  if (filter && list) {
+    filter.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.tag-chip') as HTMLElement | null;
+      if (!btn) return;
+      const tag = btn.dataset.tag || 'all';
+      filter.querySelectorAll('.tag-chip').forEach((b) => b.classList.toggle('is-active', b === btn));
+      list.querySelectorAll('.tutorial-item').forEach((item) => {
+        const el = item as HTMLElement;
+        const itemTags = (el.dataset.tags || '').split(',').filter(Boolean);
+        el.hidden = tag !== 'all' && !itemTags.includes(tag);
+      });
+    });
+  }
+</script>
+
+<style>
+  .page-header {
+      text-align: center;
+      margin: 2rem 0 2.5rem;
+  }
+  .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 50%, var(--primary-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+      animation: heroGradient 4s ease infinite;
+  }
+  .page-header p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+  }
+
+  .tag-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+  }
+  .tag-chip {
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease),
+                  border-color 0.2s var(--ease);
+  }
+  .tag-chip:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+  }
+  .tag-chip.is-active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+  }
+
+  .tutorial-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+  }
+  .tutorial-item {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 1.2rem 1.4rem;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+                  border-color 0.3s var(--ease);
+  }
+  .tutorial-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+  }
+  .tutorial-item[hidden] { display: none; }
+  .tutorial-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s var(--ease);
+  }
+  .tutorial-title:hover { color: var(--primary); }
+  .tutorial-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-top: 0.3rem;
+  }
+  .tutorial-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.7rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+  }
+  .tutorial-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.12rem 0.5rem;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+  }
+  .empty-tip, .noscript-tip {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 1.5rem 0;
+  }
+
+  @media (max-width: 768px) {
+      .page-header h1 { font-size: 2rem; }
+      .tutorial-item { padding: 1rem 1.1rem; }
+  }
+  @media (max-width: 480px) {
+      .page-header h1 { font-size: 1.6rem; }
+  }
+</style>

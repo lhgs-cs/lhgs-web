@@ -1,0 +1,146 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import { resources } from '../../../../data/resources';
+
+// 按 category 分组，保持数据文件中首次出现的顺序
+const groups = new Map<string, typeof resources>();
+for (const r of resources) {
+  if (!groups.has(r.category)) groups.set(r.category, []);
+  groups.get(r.category)!.push(r);
+}
+---
+<Base
+  title="推荐学习资源 | 计科资源中心"
+  description="计算机科学社整理的推荐学习资源，涵盖前端、算法、计算机基础与工具协作。"
+  canonical="https://lianhegongshe.cn/content/cs/resources/"
+>
+  <Nav mode="back" backHref="/content/cs/" backLabel="返回资源中心" active="content" />
+
+  <main class="container">
+    <div class="page-header">
+      <h1>推荐学习资源</h1>
+      <p>按方向整理的入门与进阶材料</p>
+    </div>
+
+    {resources.length === 0 ? (
+      <p class="empty-tip">还没有添加学习资源。</p>
+    ) : (
+      Array.from(groups.entries()).map(([category, items]) => (
+        <section class="group">
+          <h2 class="group-title">{category}</h2>
+          <ul class="item-list">
+            {items.map((r) => (
+              <li class="item">
+                <a href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
+                <span class="item-desc">{r.description}</span>
+                {r.level && <span class="item-meta">{r.level}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    )}
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .page-header {
+      text-align: center;
+      margin: 2rem 0 3rem;
+  }
+  .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 50%, var(--primary-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+      animation: heroGradient 4s ease infinite;
+  }
+  .page-header p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+  }
+
+  .group {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 1.4rem 1.6rem;
+      margin: 1.2rem 0;
+  }
+  .group-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      padding-left: 0.8rem;
+      position: relative;
+      margin-bottom: 0.8rem;
+  }
+  .group-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 70%;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--primary), var(--accent-blue));
+  }
+
+  .item-list { list-style: none; margin: 0; padding: 0; }
+  .item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(22, 50, 74, .06);
+  }
+  .item:last-child { border-bottom: none; }
+  .item a {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s var(--ease);
+  }
+  .item a:hover { color: var(--primary); }
+  .item-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+  }
+  .item-meta {
+      align-self: flex-start;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.1rem 0.5rem;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      margin-top: 0.25rem;
+  }
+  .empty-tip {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 2rem 0;
+  }
+
+  @media (max-width: 768px) {
+      .page-header h1 { font-size: 2rem; }
+      .group { padding: 1.1rem 1rem; }
+  }
+  @media (max-width: 480px) {
+      .page-header h1 { font-size: 1.6rem; }
+  }
+</style>

@@ -1,0 +1,203 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { resources } from '../../../data/resources';
+import { repos } from '../../../data/repos';
+
+const PREVIEW = 4;
+
+const tutorials = (await getCollection('tutorials', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const previewResources = resources.slice(0, PREVIEW);
+const previewTutorials = tutorials.slice(0, PREVIEW);
+const previewRepos = repos.slice(0, PREVIEW);
+---
+<Base
+  title="计科资源中心 | 联合公社"
+  description="计算机科学社的学习资源、社内教程与代码仓库。"
+  canonical="https://lianhegongshe.cn/content/cs/"
+>
+  <Nav mode="back" backHref="/content/" backLabel="返回内容" active="content" />
+
+  <main class="container">
+    <div class="page-header">
+      <h1>计科资源中心</h1>
+      <p>学习资源、社内教程与代码仓库</p>
+    </div>
+
+    <section class="content-block">
+      <div class="block-head">
+        <h2 class="block-title">推荐学习资源</h2>
+        <a class="block-all" href="/content/cs/resources/">全部 →</a>
+      </div>
+      {previewResources.length ? (
+        <ul class="item-list">
+          {previewResources.map((r) => (
+            <li class="item">
+              <a href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
+              <span class="item-desc">{r.description}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty-tip">还没有添加学习资源。</p>
+      )}
+    </section>
+
+    <section class="content-block">
+      <div class="block-head">
+        <h2 class="block-title">社内自创内容</h2>
+        <a class="block-all" href="/content/cs/tutorials/">全部 →</a>
+      </div>
+      {previewTutorials.length ? (
+        <ul class="item-list">
+          {previewTutorials.map((t) => (
+            <li class="item">
+              <a href={`/content/cs/tutorials/${t.id}/`}>{t.data.title}</a>
+              <span class="item-desc">{t.data.description}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty-tip">还没有社内教程。</p>
+      )}
+    </section>
+
+    <section class="content-block">
+      <div class="block-head">
+        <h2 class="block-title">GitHub 组织仓库</h2>
+        <a class="block-all" href="/content/cs/repos/">全部 →</a>
+      </div>
+      {previewRepos.length ? (
+        <ul class="item-list">
+          {previewRepos.map((r) => (
+            <li class="item">
+              <a href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
+              <span class="item-desc">{r.description}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty-tip">还没有公开仓库。</p>
+      )}
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .page-header {
+      text-align: center;
+      margin: 2rem 0 3rem;
+      position: relative;
+  }
+  .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 50%, var(--primary-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+      animation: heroGradient 4s ease infinite;
+  }
+  .page-header p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+  }
+
+  .content-block {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 1.5rem 1.6rem;
+      margin: 1.5rem 0;
+  }
+  .block-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.8rem;
+      margin-bottom: 0.9rem;
+  }
+  .block-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      position: relative;
+      padding-left: 0.8rem;
+  }
+  .block-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 70%;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--primary), var(--accent-blue));
+  }
+  .block-all {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .block-all:hover {
+      color: var(--primary-dark);
+      transform: translateX(2px);
+  }
+
+  .item-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+  }
+  .item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(22, 50, 74, .06);
+  }
+  .item:last-child { border-bottom: none; }
+  .item a {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s var(--ease);
+  }
+  .item a:hover { color: var(--primary); }
+  .item-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+  }
+  .empty-tip {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 0.5rem 0;
+  }
+
+  @media (max-width: 768px) {
+      .page-header h1 { font-size: 2rem; }
+      .content-block { padding: 1.2rem 1.1rem; }
+  }
+  @media (max-width: 480px) {
+      .page-header h1 { font-size: 1.6rem; }
+      .block-head { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  }
+</style>
