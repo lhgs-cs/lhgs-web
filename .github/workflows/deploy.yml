@@ -24,18 +24,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
-
-      # 仓库里有些文件不属于网站本身（设计文档、仓库元数据）。
-      # 这一步只删除 runner 上的临时副本，不会改动仓库内容。
-      - name: Strip non-site files
-        run: rm -rf docs .github README.md .gitignore
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
