@@ -1,0 +1,106 @@
+---
+interface Props {
+  icon: string;
+  name: string;
+  desc: string;
+  href: string;
+  variant: 'red' | 'orange' | 'blue';
+}
+
+const { icon, name, desc, href, variant } = Astro.props;
+---
+<div class={`card card-${variant}`}>
+  <div class="card-icon">{icon}</div>
+  <div class="card-name">{name}</div>
+  <div class="card-desc">{desc}</div>
+  <a class="card-btn" href={href}><span>了解更多 →</span></a>
+</div>
+
+<style>
+  .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease),
+                  border-color 0.45s var(--ease);
+      position: relative;
+      overflow: hidden;
+  }
+  /* 签名元素：悬停时右上角浮现金色直角标记，呼应社徽的烫金描边 */
+  .card::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 19px;
+      height: 19px;
+      border-top: 1.5px solid var(--gold);
+      border-right: 1.5px solid var(--gold);
+      border-top-right-radius: 3px;
+      opacity: 0;
+      transform: translate(-4px, 4px);
+      transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  }
+  .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-line);
+  }
+  .card:hover::before {
+      opacity: 1;
+      transform: translate(0, 0);
+  }
+  .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.45s var(--ease);
+  }
+  .card:hover .card-icon {
+      transform: scale(1.05);
+  }
+  .card-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+      position: relative;
+      z-index: 1;
+  }
+  .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+  }
+  .card-btn {
+      display: inline-block;
+      background: none;
+      border: 1.5px solid var(--border);
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background 0.32s var(--ease), color 0.32s var(--ease),
+                  border-color 0.32s var(--ease), transform 0.32s var(--ease),
+                  box-shadow 0.32s var(--ease);
+      position: relative;
+      z-index: 1;
+  }
+  .card-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 16px -6px rgba(29, 85, 120, .55);
+  }
+</style>

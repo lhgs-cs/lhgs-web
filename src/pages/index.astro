@@ -1,0 +1,596 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import SideDecor from '../components/SideDecor.astro';
+import Card from '../components/Card.astro';
+import MemberCard from '../components/MemberCard.astro';
+import { members } from '../data/members';
+
+const preview = members.slice(0, 3);
+
+const subgroups = [
+  { id: 'yingsuan', icon: '🧮', name: '硬算社', desc: '专注数学与逻辑推理', variant: 'red' as const },
+  { id: 'langsong', icon: '🎤', name: '朗诵社', desc: '以朗诵艺术为核心', variant: 'orange' as const },
+  { id: 'cs', icon: '💻', name: '计算机科学社', desc: '技术开发与网站维护', variant: 'blue' as const },
+];
+---
+<Base
+  title="联合公社 | 学生团体组织"
+  description="联合公社（Union Commune）是由各学生社团组成的学生团体组织，旗下设有硬算社、朗诵社、计算机科学社等分社，旨在联合各分社、形成合力、共同进步。"
+  canonical="https://lianhegongshe.cn/"
+  loadParticles={true}
+>
+  <SideDecor />
+  <Nav mode="menu" />
+
+  <main class="container">
+    <div class="hero">
+      <h1>联合公社</h1>
+      <div class="hero-domain">lianhegongshe.cn</div>
+      <div class="hero-image">
+        <img src="/images/logo.jpeg" alt="联合公社社徽" width="400" height="395" decoding="async" fetchpriority="high" />
+      </div>
+    </div>
+
+    <!-- 公告栏 -->
+    <div class="announcement-bar" id="announcementBar">
+      <div class="announcement-icon">📢</div>
+      <div class="announcement-content" id="announcementContent"></div>
+      <button class="announcement-close" id="announcementClose" title="关闭">✕</button>
+    </div>
+
+    <!-- 简介 -->
+    <div class="section reveal" id="intro-section">
+      <h2 class="section-title"><span class="section-title-icon">📖</span>简介</h2>
+      <p class="section-text">联合公社是由各学生社团组成的学生团体组织，旨在联合各分社，形成合力，共同进步。</p>
+    </div>
+
+    <!-- 社训 -->
+    <div class="section reveal">
+      <h2 class="section-title"><span class="section-title-icon">📜</span>社训</h2>
+      <div class="motto-box">
+        <div class="motto-text" id="mottoText">
+          <span>实事求是，严谨求卓；</span><span>幽默风雅，爱国进步；</span><span>探寻真理，开拓未来。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 组成分社 -->
+    <div class="section reveal" id="subgroups-section">
+      <h2 class="section-title"><span class="section-title-icon">🏛️</span>组成分社</h2>
+      <div class="card-grid">
+        {subgroups.map((s) => (
+          <Card icon={s.icon} name={s.name} desc={s.desc} href={`/subgroups/${s.id}/`} variant={s.variant} />
+        ))}
+      </div>
+    </div>
+
+    <!-- 社员 -->
+    <div class="section reveal" id="members-section">
+      <h2 class="section-title"><span class="section-title-icon">👥</span>社员</h2>
+      <div class="member-list" id="homeMemberList">
+        {preview.map((m) => <MemberCard member={m} />)}
+        <a href="/members/" class="member-ellipsis" aria-label="查看全部社员">
+          <span>…</span>
+        </a>
+      </div>
+      <div style="text-align:center;">
+        <a href="/members/" class="btn-all">
+          查看全部社员 <span class="btn-all-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<script>
+  // ===== 公告栏 =====
+  function renderAnnouncementMarkdown(md: string): string {
+    const escapeHtml = (s: string) =>
+      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    return md.split(/\r?\n\s*\r?\n/).map((block) => {
+      const lines = block.split(/\r?\n/).filter((l) => l.trim() !== '');
+      if (!lines.length) return '';
+
+      // 整块都是 "- " 开头时渲染为列表，避免产生没有 <ul> 包裹的孤立 <li>
+      if (lines.every((l) => /^[ \t]*-[ \t]+/.test(l))) {
+        return '<ul>' + lines
+          .map((l) => '<li>' + escapeHtml(l.replace(/^[ \t]*-[ \t]+/, '')) + '</li>')
+          .join('') + '</ul>';
+      }
+
+      const body = escapeHtml(block)
+        .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+        .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+        .replace(/^# (.+)$/gm, '<h3>$1</h3>')   // 降级为 h3，避免页面出现第二个 h1
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/\r?\n/g, '<br>');
+
+      return /^<h[34]>/.test(body) ? body : '<p>' + body + '</p>';
+    }).join('');
+  }
+
+  (async function loadAnnouncement() {
+    const bar = document.getElementById('announcementBar');
+    const content = document.getElementById('announcementContent');
+    const closeBtn = document.getElementById('announcementClose');
+    if (!bar || !content || !closeBtn) return;
+
+    let md: string;
+    try {
+      const resp = await fetch('/announcement/announcement.md');
+      if (!resp.ok) return;
+      md = await resp.text();
+    } catch (_) {
+      return;
+    }
+    if (!md.trim()) return;
+
+    // 用内容指纹记录「已读」：关闭后不再打扰，公告更新后自动重新出现
+    const STORAGE_KEY = 'lhgs-announcement-dismissed';
+    let fingerprint = 5381;
+    for (let i = 0; i < md.length; i++) {
+      fingerprint = ((fingerprint << 5) + fingerprint + md.charCodeAt(i)) | 0;
+    }
+
+    try {
+      if (localStorage.getItem(STORAGE_KEY) === String(fingerprint)) return;
+    } catch (_) { /* 隐私模式下 localStorage 不可用，忽略 */ }
+
+    content.innerHTML = renderAnnouncementMarkdown(md);
+    bar.classList.add('show');
+
+    closeBtn.addEventListener('click', () => {
+      bar.classList.remove('show');
+      bar.classList.add('hide');
+      try { localStorage.setItem(STORAGE_KEY, String(fingerprint)); } catch (_) {}
+    });
+  })();
+
+  // ===== 侧边悬浮小条入场动画 =====
+  const floatStrips = document.querySelectorAll('.float-strip');
+  const stripObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        stripObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  floatStrips.forEach((strip) => stripObserver.observe(strip));
+
+  // ===== 社训逐字动画 =====
+  const mottoText = document.getElementById('mottoText');
+  if (mottoText) {
+    const mottoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const spans = entry.target.querySelectorAll('span');
+          spans.forEach((span, i) => {
+            setTimeout(() => {
+              (span as HTMLElement).style.opacity = '1';
+              (span as HTMLElement).style.transform = 'translateY(0)';
+            }, i * 300);
+          });
+          mottoObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    mottoObserver.observe(mottoText);
+  }
+
+  // ===== 社员卡片交错入场 =====
+  const memberList = document.querySelector('.member-list');
+  if (memberList) {
+    const memberObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const cards = entry.target.querySelectorAll('.member-card, .member-ellipsis');
+          cards.forEach((card, i) => {
+            const el = card as HTMLElement;
+            el.style.opacity = '0';
+            el.style.transform = 'translateX(-20px)';
+            el.style.transition = `opacity 0.5s var(--ease) ${i * 0.12}s, transform 0.5s var(--ease) ${i * 0.12}s`;
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateX(0)';
+              });
+            });
+          });
+          memberObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    memberObserver.observe(memberList);
+  }
+</script>
+
+<style>
+  /* ===== 大标题区 Hero ===== */
+  .hero {
+      text-align: center;
+      margin: 3rem 0 2rem;
+      position: relative;
+  }
+  .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 50%, var(--primary-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 3px;
+      animation: heroGradient 4s ease infinite;
+  }
+  .hero-domain {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      letter-spacing: 1px;
+      opacity: 0;
+      animation: fadeSlideUp 0.6s 0.3s forwards;
+  }
+  .hero-image {
+      margin-top: 2rem;
+      text-align: center;
+      opacity: 0;
+      animation: fadeSlideUp 0.8s 0.5s forwards;
+  }
+  .hero-image img {
+      max-width: 160px;
+      width: 40%;
+      height: auto;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .hero-image img:hover {
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 20px 50px rgba(29,85,120,0.18);
+  }
+
+  /* 装饰浮动圆 */
+  .hero::before,
+  .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.08;
+      pointer-events: none;
+  }
+  .hero::before {
+      width: 200px;
+      height: 200px;
+      background: var(--primary);
+      top: -40px;
+      left: -60px;
+      animation: float 6s ease-in-out infinite;
+  }
+  .hero::after {
+      width: 140px;
+      height: 140px;
+      background: var(--accent-orange);
+      bottom: -20px;
+      right: -40px;
+      animation: float 8s ease-in-out infinite reverse;
+  }
+
+  /* ===== 滚动显示动画 ===== */
+  .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+  .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  /* ===== 章节通用样式 ===== */
+  .section {
+      margin: 4rem 0;
+  }
+  .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+  }
+  .section-title::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 70%;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--primary), var(--accent-blue));
+  }
+  .section-title-icon {
+      font-size: 1.3rem;
+  }
+  .section-text {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 2;
+      padding-left: 1rem;
+  }
+
+  /* ===== 社训盒子 ===== */
+  .motto-box {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+  }
+  /* 金色短线：签名元素在静态状态下的呼应 */
+  .motto-box::after {
+      content: '';
+      position: absolute;
+      top: 1.1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 46px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .motto-box::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      font-size: 8rem;
+      font-weight: 900;
+      color: var(--gold);
+      opacity: 0.16;
+      line-height: 1;
+      pointer-events: none;
+  }
+  .motto-text {
+      position: relative;
+      z-index: 1;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      line-height: 2.4;
+      letter-spacing: 1px;
+  }
+  .motto-text span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(15px);
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+
+  /* ===== 分社卡片网格 ===== */
+  .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+  }
+
+  /* ===== 社员列表 ===== */
+  .member-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+  }
+  /* 「查看全部」虚线卡片：结构上是 <a>，样式独立于 MemberCard 组件 */
+  .member-ellipsis {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.4rem;
+      border: 1px dashed var(--border);
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 4px;
+      transition: transform 0.32s var(--ease), border-color 0.32s var(--ease);
+  }
+  .member-ellipsis:hover {
+      transform: translateX(5px);
+      border-color: var(--primary);
+  }
+
+  /* ===== 按钮通用 ===== */
+  .btn-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 0.65rem 1.8rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      transition: background 0.32s var(--ease), color 0.32s var(--ease),
+                  border-color 0.32s var(--ease), transform 0.32s var(--ease),
+                  box-shadow 0.32s var(--ease);
+      margin-top: 1.5rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+  }
+  .btn-all:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 16px -6px rgba(29, 85, 120, .55);
+  }
+  .btn-all-arrow {
+      transition: transform 0.3s var(--ease);
+  }
+  .btn-all:hover .btn-all-arrow {
+      transform: translateX(3px);
+  }
+
+  /* ===== 公告栏 ===== */
+  .announcement-bar {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      background: linear-gradient(135deg, #fdf9f1 0%, #fbf5e9 50%, #f7f2e8 100%);
+      border: 1px solid rgba(176,141,79,.35);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin: 0 0 2rem;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(176, 141, 79, 0.10);
+      opacity: 0;
+      transform: translateY(-12px);
+      transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), margin 0.3s var(--ease),
+                  padding 0.3s var(--ease), max-height 0.4s var(--ease);
+      max-height: 300px;
+      overflow: hidden;
+  }
+  .announcement-bar.show {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  .announcement-bar.hide {
+      opacity: 0;
+      transform: translateY(-12px);
+      margin: 0;
+      padding: 0;
+      max-height: 0;
+      border-width: 0;
+  }
+  .announcement-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      line-height: 1;
+  }
+  .announcement-content {
+      flex: 1;
+      font-size: 0.95rem;
+      color: #6b5528;
+      line-height: 1.8;
+  }
+  .announcement-content strong {
+      color: #a83a2e;
+      font-weight: 700;
+  }
+  .announcement-content h3,
+  .announcement-content h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 0.4rem;
+      color: #5a4520;
+  }
+  .announcement-content ul {
+      margin: 0.3rem 0 0.3rem 1.2rem;
+  }
+  .announcement-content em {
+      color: #7d6231;
+      font-style: italic;
+  }
+  .announcement-content p {
+      margin: 0.3rem 0;
+  }
+  .announcement-close {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: #8a7448;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease);
+      line-height: 1;
+      padding: 0;
+  }
+  .announcement-close:hover {
+      background: rgba(125, 98, 49, .14);
+      color: #6b5528;
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 768px) {
+      .hero h1 {
+          font-size: 2.2rem;
+          letter-spacing: 1px;
+      }
+      .hero-image {
+          margin-top: 1.5rem;
+      }
+      .hero-image img {
+          max-width: 100px;
+      }
+      .section {
+          margin: 2.5rem 0;
+      }
+      .section-title {
+          font-size: 1.3rem;
+      }
+      .section-text {
+          font-size: 0.95rem;
+      }
+      .card-grid {
+          grid-template-columns: 1fr;
+          gap: 0.8rem;
+      }
+      .motto-text {
+          font-size: 0.95rem;
+          line-height: 2.2;
+      }
+  }
+
+  @media (max-width: 480px) {
+      .hero {
+          margin: 2rem 0 1.5rem;
+      }
+      .hero h1 {
+          font-size: 1.8rem;
+      }
+      .hero-image img {
+          max-width: 80px;
+      }
+      .section {
+          margin: 2rem 0;
+      }
+      .section-title {
+          font-size: 1.15rem;
+      }
+      .section-text {
+          font-size: 0.9rem;
+      }
+      .motto-box {
+          padding: 1.5rem 1rem;
+      }
+      .motto-text {
+          font-size: 0.88rem;
+          line-height: 2;
+      }
+      .member-ellipsis {
+          padding: 0.8rem 0.9rem;
+      }
+  }
+</style>
