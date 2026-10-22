@@ -1,0 +1,258 @@
+---
+interface Props {
+  /** 'menu' = 首页的汉堡菜单；'back' = 子页面的返回按钮 */
+  mode?: 'menu' | 'back';
+  /** mode='back' 时的返回目标 */
+  backHref?: string;
+  /** mode='back' 时的返回文案 */
+  backLabel?: string;
+  /** 当前所在栏目，用于 aria-current */
+  active?: string;
+}
+
+const {
+  mode = 'menu',
+  backHref = '/',
+  backLabel = '返回首页',
+  active,
+} = Astro.props;
+
+const items = [
+  { id: 'subgroups', label: '分社', icon: '🏛️', href: '/#subgroups-section' },
+  { id: 'members',   label: '社员', icon: '👥', href: '/members/' },
+  { id: 'content',   label: '内容', icon: '📚', href: '/content/' },
+  { id: 'about',     label: '关于我们', icon: 'ℹ️', href: '/about/about.html' },
+  { id: 'join',      label: '加入我们', icon: '✨', href: '/join.html' },
+];
+---
+<div class="top-bar" id="topBar">
+  <a href="/" class="logo">
+    <div class="logo-icon">联</div>
+    联合公社
+  </a>
+
+  {mode === 'menu' ? (
+    <div class="dropdown-container">
+      <button class="menu-btn" id="menuBtn" aria-label="菜单" aria-haspopup="true" aria-expanded="false" aria-controls="dropdownMenu">
+        <div class="menu-icon"><span></span><span></span><span></span></div>
+      </button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        {items.map((it) => (
+          <a class="dropdown-item" href={it.href} aria-current={active === it.id ? 'page' : undefined}>
+            <span class="dropdown-item-icon" aria-hidden="true">{it.icon}</span> {it.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <a href={backHref} class="back-btn">
+      <span class="back-arrow">←</span> {backLabel}
+    </a>
+  )}
+</div>
+
+{mode === 'menu' && (
+  <script>
+    const menuBtn = document.getElementById('menuBtn')!;
+    const dropdownMenu = document.getElementById('dropdownMenu')!;
+    const setMenuOpen = (open: boolean) => {
+      menuBtn.classList.toggle('active', open);
+      dropdownMenu.classList.toggle('show', open);
+      menuBtn.setAttribute('aria-expanded', String(open));
+    };
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setMenuOpen(!dropdownMenu.classList.contains('show'));
+    });
+    document.addEventListener('click', (e) => {
+      const t = e.target as Node;
+      if (!menuBtn.contains(t) && !dropdownMenu.contains(t)) setMenuOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dropdownMenu.classList.contains('show')) {
+        setMenuOpen(false);
+        menuBtn.focus();
+      }
+    });
+  </script>
+)}
+
+<style>
+  /* ===== 顶部导航栏 ===== */
+  .top-bar {
+      background: rgba(255, 254, 251, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: var(--text);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 0 var(--border);
+      transition: box-shadow 0.4s var(--ease);
+  }
+  .top-bar.scrolled {
+      box-shadow: var(--shadow-md);
+  }
+
+  /* Logo */
+  .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+  }
+  .logo-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 800;
+      flex-shrink: 0;
+  }
+
+  /* 返回按钮 */
+  .back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 0.8rem;
+      border-radius: var(--radius-sm);
+      transition: background 0.25s var(--ease);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+  }
+  .back-btn:hover {
+      background-color: var(--primary-light);
+  }
+  .back-arrow {
+      transition: transform 0.2s var(--ease);
+  }
+  .back-btn:hover .back-arrow {
+      transform: translateX(-3px);
+  }
+
+  /* 汉堡菜单按钮 */
+  .menu-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
+      transition: background 0.25s var(--ease);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .menu-btn:hover {
+      background-color: var(--primary-light);
+  }
+  .menu-icon {
+      width: 24px;
+      height: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  }
+  .menu-icon span {
+      display: block;
+      height: 2.5px;
+      background: var(--primary);
+      border-radius: 3px;
+      transition: 0.3s var(--ease);
+  }
+  .menu-btn.active .menu-icon span:nth-child(1) {
+      transform: translateY(7.75px) rotate(45deg);
+  }
+  .menu-btn.active .menu-icon span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+  }
+  .menu-btn.active .menu-icon span:nth-child(3) {
+      transform: translateY(-7.75px) rotate(-45deg);
+  }
+
+  /* 下拉菜单 */
+  .dropdown-container {
+      position: relative;
+  }
+  .dropdown-menu {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      width: 180px;
+      overflow: hidden;
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(-8px) scale(0.96);
+      pointer-events: none;
+      visibility: hidden;
+      transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0.25s;
+      border: 1px solid var(--border);
+  }
+  .dropdown-menu.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      visibility: visible;
+  }
+  .dropdown-item {
+      width: 100%;
+      padding: 0.8rem 1.25rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      text-align: left;
+      color: var(--text);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease);
+      border-bottom: 1px solid rgba(22, 50, 74, .06);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+  }
+  .dropdown-item:last-child {
+      border-bottom: none;
+  }
+  .dropdown-item:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+  }
+  .dropdown-item-icon {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+  }
+
+  /* 窄屏适配 */
+  @media (max-width: 480px) {
+      .top-bar { padding: 0.6rem 0.8rem; }
+      .logo { font-size: 1.2rem; }
+      .logo-icon { width: 24px; height: 24px; font-size: 0.7rem; border-radius: 6px; }
+      .back-btn { font-size: 0.82rem; padding: 0.4rem 0.6rem; }
+  }
+</style>
