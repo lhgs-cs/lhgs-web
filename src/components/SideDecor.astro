@@ -4,8 +4,6 @@ import Icon from './Icon.astro';
 // 首页侧边装饰：两列竖线 + 浮动形状 + 悬浮小条
 // 结构来自原 index.html 的 .side-decor.side-left / .side-decor.side-right
 ---
-import Icon from './Icon.astro';
-
 <div class="side-decor side-left" aria-hidden="true">
   <div class="side-line"></div>
   <div class="side-shape shape-circle-1"></div>
@@ -14,7 +12,7 @@ import Icon from './Icon.astro';
   <div class="side-shape shape-dot-2"></div>
   <div class="side-shape shape-circle-2"></div>
   <div class="float-strip strip-l1 strip-accent-orange">
-    <div class="float-strip-icon"><Icon name="sigma" size={18} /></div>
+    <div class="float-strip-icon"><Icon name="calculator" size={18} /></div>
     <div class="float-strip-text">硬算社</div>
     <div class="float-strip-sub">挑战极限</div>
   </div>
@@ -233,6 +231,7 @@ import Icon from './Icon.astro';
   .float-strip-icon {
       display: flex;
       align-items: center;
+      justify-content: center;
       margin-bottom: 0.4rem;
   }
   .float-strip-text {

@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 interface Props {
   /** 'menu' = 首页的汉堡菜单；'back' = 子页面的返回按钮 */
   mode?: 'menu' | 'back';
@@ -16,8 +17,6 @@ const {
   backLabel = '返回首页',
   active,
 } = Astro.props;
-
-import Icon from './Icon.astro';
 
 const items = [
   { id: 'subgroups', label: '分社', icon: 'landmark' as const, href: '/#subgroups-section' },
