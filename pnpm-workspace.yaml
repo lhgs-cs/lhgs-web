@@ -1,0 +1,4 @@
+# pnpm 11 使用 allowBuilds 声明允许运行构建脚本的依赖
+allowBuilds:
+  esbuild: true
+  sharp: true

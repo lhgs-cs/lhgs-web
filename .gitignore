@@ -1,1 +1,7 @@
 .codewhale/
+
+# Astro / Node
+node_modules/
+dist/
+.astro/
+pnpm-debug.log*
