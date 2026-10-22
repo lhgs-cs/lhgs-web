@@ -54,6 +54,21 @@ body {
     position: relative;
 }
 
+/* ===== 粒子背景容器 ===== */
+/* canvas 由 particles.js 按视口尺寸绘制，必须固定定位，否则会撑开文档流 */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+/* 内容层要盖在粒子之上 */
+.container,
+footer {
+    position: relative;
+    z-index: 1;
+}
 /* ===== 主内容区 ===== */
 .container {
     max-width: 960px;
