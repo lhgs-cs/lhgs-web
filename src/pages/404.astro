@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  title="页面未找到 - 联合公社"
+  description="你访问的页面不存在或已经移除。"
+  robots="noindex"
+  loadParticles={true}
+>
+  <div class="error-container">
+    <div class="error-code">404</div>
+    <div class="error-message">你访问的页面不存在或已经移除</div>
+    <div class="error-hint">如果你确定该页面应该存在，请联系网站管理员</div>
+    <a href="/" class="home-btn">返回首页</a>
+  </div>
+</Base>
+
+<style>
+  /* 该页不使用 Nav / Footer，body 需要垂直居中 */
+  body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+  }
+
+  .error-container {
+      text-align: center;
+      max-width: 600px;
+      position: relative;
+      z-index: 1;
+  }
+
+  .error-code {
+      font-size: 8rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 1rem;
+      letter-spacing: 4px;
+  }
+
+  .error-message {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+  }
+
+  .error-hint {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+  }
+
+  .home-btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: background 0.2s var(--ease), transform 0.1s var(--ease);
+      box-shadow: 0 1px 2px rgba(22, 50, 74, .04), 0 2px 8px -2px rgba(22, 50, 74, .07);
+  }
+
+  .home-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+  }
+
+  .home-btn:active {
+      transform: translateY(1px);
+  }
+
+  /* 粒子背景固定在视口 */
+  :global(#particles-canvas) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+  }
+
+  @media (max-width: 480px) {
+      .error-code {
+          font-size: 5rem;
+      }
+      .error-message {
+          font-size: 1.1rem;
+      }
+  }
+</style>
