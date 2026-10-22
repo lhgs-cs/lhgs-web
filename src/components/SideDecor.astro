@@ -1,0 +1,274 @@
+---
+// 首页侧边装饰：两列竖线 + 浮动形状 + 悬浮小条
+// 结构来自原 index.html 的 .side-decor.side-left / .side-decor.side-right
+---
+<div class="side-decor side-left" aria-hidden="true">
+  <div class="side-line"></div>
+  <div class="side-shape shape-circle-1"></div>
+  <div class="side-shape shape-diamond-1"></div>
+  <div class="side-shape shape-dot-1"></div>
+  <div class="side-shape shape-dot-2"></div>
+  <div class="side-shape shape-circle-2"></div>
+  <div class="float-strip strip-l1 strip-accent-orange">
+    <div class="float-strip-icon">🧮</div>
+    <div class="float-strip-text">硬算社</div>
+    <div class="float-strip-sub">挑战极限</div>
+  </div>
+  <div class="float-strip strip-l2 strip-primary">
+    <div class="float-strip-icon">🎤</div>
+    <div class="float-strip-text">朗诵社</div>
+    <div class="float-strip-sub">以声传情</div>
+  </div>
+  <div class="float-strip strip-l3 strip-accent-blue">
+    <div class="float-strip-icon">💻</div>
+    <div class="float-strip-text">计算机科学社</div>
+    <div class="float-strip-sub">技术驱动</div>
+  </div>
+  <div class="float-strip strip-l4 strip-accent-red">
+    <div class="float-strip-icon">📜</div>
+    <div class="float-strip-text">联合公社</div>
+    <div class="float-strip-sub">团结协作</div>
+  </div>
+</div>
+
+<div class="side-decor side-right" aria-hidden="true">
+  <div class="side-line"></div>
+  <div class="side-shape shape-circle-1"></div>
+  <div class="side-shape shape-diamond-1"></div>
+  <div class="side-shape shape-dot-1"></div>
+  <div class="side-shape shape-dot-2"></div>
+  <div class="side-shape shape-circle-2"></div>
+  <div class="side-shape shape-cross-1"></div>
+  <div class="float-strip strip-r1 strip-accent-red">
+    <div class="float-strip-icon">✨</div>
+    <div class="float-strip-text">实事求是</div>
+    <div class="float-strip-sub">严谨求卓</div>
+  </div>
+  <div class="float-strip strip-r2 strip-accent-orange">
+    <div class="float-strip-icon">🎯</div>
+    <div class="float-strip-text">幽默风雅</div>
+    <div class="float-strip-sub">爱国进步</div>
+  </div>
+  <div class="float-strip strip-r3 strip-accent-blue">
+    <div class="float-strip-icon">🚀</div>
+    <div class="float-strip-text">探寻真理</div>
+    <div class="float-strip-sub">开拓未来</div>
+  </div>
+  <div class="float-strip strip-r4 strip-accent-red">
+    <div class="float-strip-icon">✨</div>
+    <div class="float-strip-text">加入我们</div>
+    <div class="float-strip-sub">lianhegongshe.cn</div>
+  </div>
+  <div class="float-strip strip-r5 strip-primary">
+    <div class="float-strip-icon">🔗</div>
+    <div class="float-strip-text">联合公社</div>
+    <div class="float-strip-sub">共筑未来</div>
+  </div>
+</div>
+
+<style>
+  /* ===== 侧边装饰 ===== */
+  .side-decor {
+      position: absolute;
+      top: 0;
+      width: calc((100vw - 960px) / 2 - 2rem);
+      max-width: 200px;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      display: none;
+  }
+  .side-left {
+      left: 1rem;
+  }
+  .side-right {
+      right: 1rem;
+  }
+
+  /* 竖线 */
+  .side-line {
+      position: absolute;
+      top: 5%;
+      width: 2px;
+      height: 90%;
+      border-radius: 2px;
+      opacity: 0.06;
+  }
+  .side-left .side-line {
+      left: 50%;
+      background: linear-gradient(180deg, transparent, var(--primary), var(--accent-blue), var(--primary), transparent);
+  }
+  .side-right .side-line {
+      right: 50%;
+      background: linear-gradient(180deg, transparent, var(--accent-blue), var(--primary), var(--accent-blue), transparent);
+  }
+
+  /* 通用形状 */
+  .side-shape {
+      position: absolute;
+  }
+
+  /* 圆圈1 */
+  .shape-circle-1 {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-blue);
+      opacity: 0.12;
+      animation: sideFloat1 10s ease-in-out infinite;
+  }
+  .side-left .shape-circle-1 { top: 20%; left: 25%; }
+  .side-right .shape-circle-1 { top: 18%; right: 30%; }
+
+  /* 菱形 */
+  .shape-diamond-1 {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      background: var(--accent-orange);
+      opacity: 0.08;
+      transform: rotate(45deg);
+      animation: sideFloat1 8s ease-in-out infinite 1.5s;
+  }
+  .side-left .shape-diamond-1 { top: 38%; left: 45%; }
+  .side-right .shape-diamond-1 { top: 40%; right: 40%; }
+
+  /* 点 */
+  .shape-dot-1, .shape-dot-2 {
+      border-radius: 50%;
+      opacity: 0.18;
+  }
+  .shape-dot-1 {
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      animation: sideFloat1 6s ease-in-out infinite 0.5s;
+  }
+  .side-left .shape-dot-1 { top: 55%; left: 60%; }
+  .side-right .shape-dot-1 { top: 58%; right: 55%; }
+  .shape-dot-2 {
+      width: 4px;
+      height: 4px;
+      background: var(--accent-red);
+      animation: sideFloat1 7s ease-in-out infinite 2s;
+  }
+  .side-left .shape-dot-2 { top: 48%; left: 15%; }
+  .side-right .shape-dot-2 { top: 50%; right: 20%; }
+
+  /* 十字 */
+  .shape-cross-1 {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      opacity: 0.07;
+      animation: sideFloat1 12s ease-in-out infinite 3s;
+  }
+  .shape-cross-1::before, .shape-cross-1::after {
+      content: '';
+      position: absolute;
+      background: var(--primary);
+  }
+  .shape-cross-1::before {
+      width: 18px;
+      height: 3px;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+  }
+  .shape-cross-1::after {
+      width: 3px;
+      height: 18px;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+  }
+  .side-right .shape-cross-1 { top: 75%; right: 45%; }
+
+  /* 圆形2 */
+  .shape-circle-2 {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+      opacity: 0.06;
+      animation: sideFloat1 11s ease-in-out infinite;
+  }
+  .side-left .shape-circle-2 { top: 82%; left: 40%; }
+  .side-right .shape-circle-2 { top: 85%; right: 35%; }
+
+  /* ===== 悬浮小条 ===== */
+  .float-strip {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      background: rgba(255, 254, 251, 0.72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: var(--radius-lg);
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(29,85,120,0.08);
+      box-shadow: 0 4px 18px rgba(29,85,120,0.06);
+      text-align: center;
+      pointer-events: auto;
+      transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  .float-strip.visible {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  .float-strip:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px rgba(29,85,120,0.12);
+  }
+  .side-right .float-strip {
+      left: 8%;
+      right: 8%;
+  }
+  .float-strip-icon {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+  }
+  .float-strip-text {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+  }
+  .float-strip-sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+  }
+
+  /* 小条位置 */
+  .strip-l1 { top: 14%; }
+  .strip-l2 { top: 38%; }
+  .strip-l3 { top: 62%; }
+  .strip-l4 { top: 84%; }
+  .strip-r1 { top: 8%; }
+  .strip-r2 { top: 30%; }
+  .strip-r3 { top: 52%; }
+  .strip-r4 { top: 74%; }
+  .strip-r5 { top: 92%; }
+
+  /* 不同颜色变体 */
+  .float-strip.strip-accent-red .float-strip-text { color: var(--accent-red); }
+  .float-strip.strip-accent-orange .float-strip-text { color: var(--gold-text); }
+  .float-strip.strip-accent-blue .float-strip-text { color: var(--accent-blue); }
+  .float-strip.strip-primary .float-strip-text { color: var(--primary-dark); }
+
+  @keyframes sideFloat1 {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  /* 桌面端显示侧边装饰 */
+  @media (min-width: 1200px) {
+      .side-decor {
+          display: block;
+      }
+  }
+</style>

@@ -50,6 +50,8 @@ body {
     color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
+    /* 侧边装饰使用绝对定位，需要 body 作为定位参照 */
+    position: relative;
 }
 
 /* ===== 主内容区 ===== */
