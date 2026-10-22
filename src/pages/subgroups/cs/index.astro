@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
 import MemberCard from '../../../components/MemberCard.astro';
+import Icon from '../../../components/Icon.astro';
 import { membersOf } from '../../../data/members';
 
 const subgroupId = 'cs';
@@ -18,7 +19,7 @@ const list = membersOf(subgroupId);
 
   <main class="container">
     <div class="page-hero">
-      <div class="page-hero-icon">💻</div>
+      <div class="page-hero-icon"><Icon name="terminal" size={40} strokeWidth={1.75} /></div>
       <h1>计算机科学社</h1>
       <p class="page-hero-sub">Computer Science Club</p>
     </div>
@@ -34,22 +35,22 @@ const list = membersOf(subgroupId);
       <h2 class="info-section-title">社团特色</h2>
       <div class="feature-grid">
         <div class="feature-card">
-          <div class="feature-icon">🖥️</div>
+          <div class="feature-icon"><Icon name="monitor" size={28} strokeWidth={1.75} /></div>
           <div class="feature-name">编程实践</div>
           <div class="feature-desc">从入门到进阶的编程训练</div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🌐</div>
+          <div class="feature-icon"><Icon name="globe" size={28} strokeWidth={1.75} /></div>
           <div class="feature-name">网站开发</div>
           <div class="feature-desc">维护与搭建联合公社官网</div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🔧</div>
+          <div class="feature-icon"><Icon name="wrench" size={28} strokeWidth={1.75} /></div>
           <div class="feature-name">算法挑战</div>
           <div class="feature-desc">算法竞赛与逻辑思维训练</div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🤝</div>
+          <div class="feature-icon"><Icon name="handshake" size={28} strokeWidth={1.75} /></div>
           <div class="feature-name">项目协作</div>
           <div class="feature-desc">Git协作与团队项目开发</div>
         </div>
@@ -196,8 +197,11 @@ const list = membersOf(subgroupId);
       box-shadow: var(--shadow-md);
   }
   .feature-icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
   }
   .feature-name {
       font-size: 0.95rem;

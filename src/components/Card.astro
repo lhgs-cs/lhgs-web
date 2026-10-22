@@ -1,6 +1,9 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
-  icon: string;
+  /** 图标名，对应 Icon.astro 里的键 */
+  icon: 'sigma' | 'book-open' | 'terminal';
   name: string;
   desc: string;
   href: string;
@@ -10,7 +13,7 @@ interface Props {
 const { icon, name, desc, href, variant } = Astro.props;
 ---
 <div class={`card card-${variant}`}>
-  <div class="card-icon">{icon}</div>
+  <div class="card-icon"><Icon name={icon} size={40} strokeWidth={1.75} /></div>
   <div class="card-name">{name}</div>
   <div class="card-desc">{desc}</div>
   <a class="card-btn" href={href}><span>了解更多 →</span></a>
@@ -53,12 +56,30 @@ const { icon, name, desc, href, variant } = Astro.props;
       opacity: 1;
       transform: translate(0, 0);
   }
+  /* 图标底座：让线描图标在卡片里也有一点体量感 */
   .card-icon {
-      font-size: 2.2rem;
-      margin-bottom: 0.8rem;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
       position: relative;
       z-index: 1;
       transition: transform 0.45s var(--ease);
+  }
+  .card-red .card-icon {
+      color: var(--accent-red);
+      background: var(--accent-red-light, rgba(168, 58, 46, .10));
+  }
+  .card-orange .card-icon {
+      color: var(--gold-text);
+      background: var(--gold-soft);
+  }
+  .card-blue .card-icon {
+      color: var(--primary);
+      background: var(--primary-light);
   }
   .card:hover .card-icon {
       transform: scale(1.05);

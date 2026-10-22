@@ -1,7 +1,11 @@
 ---
+import Icon from './Icon.astro';
+
 // 首页侧边装饰：两列竖线 + 浮动形状 + 悬浮小条
 // 结构来自原 index.html 的 .side-decor.side-left / .side-decor.side-right
 ---
+import Icon from './Icon.astro';
+
 <div class="side-decor side-left" aria-hidden="true">
   <div class="side-line"></div>
   <div class="side-shape shape-circle-1"></div>
@@ -10,22 +14,22 @@
   <div class="side-shape shape-dot-2"></div>
   <div class="side-shape shape-circle-2"></div>
   <div class="float-strip strip-l1 strip-accent-orange">
-    <div class="float-strip-icon">🧮</div>
+    <div class="float-strip-icon"><Icon name="sigma" size={18} /></div>
     <div class="float-strip-text">硬算社</div>
     <div class="float-strip-sub">挑战极限</div>
   </div>
   <div class="float-strip strip-l2 strip-primary">
-    <div class="float-strip-icon">🎤</div>
+    <div class="float-strip-icon"><Icon name="book-open" size={18} /></div>
     <div class="float-strip-text">朗诵社</div>
     <div class="float-strip-sub">以声传情</div>
   </div>
   <div class="float-strip strip-l3 strip-accent-blue">
-    <div class="float-strip-icon">💻</div>
+    <div class="float-strip-icon"><Icon name="terminal" size={18} /></div>
     <div class="float-strip-text">计算机科学社</div>
     <div class="float-strip-sub">技术驱动</div>
   </div>
   <div class="float-strip strip-l4 strip-accent-red">
-    <div class="float-strip-icon">📜</div>
+    <div class="float-strip-icon"><Icon name="scroll-text" size={18} /></div>
     <div class="float-strip-text">联合公社</div>
     <div class="float-strip-sub">团结协作</div>
   </div>
@@ -40,27 +44,27 @@
   <div class="side-shape shape-circle-2"></div>
   <div class="side-shape shape-cross-1"></div>
   <div class="float-strip strip-r1 strip-accent-red">
-    <div class="float-strip-icon">✨</div>
+    <div class="float-strip-icon"><Icon name="landmark" size={18} /></div>
     <div class="float-strip-text">实事求是</div>
     <div class="float-strip-sub">严谨求卓</div>
   </div>
   <div class="float-strip strip-r2 strip-accent-orange">
-    <div class="float-strip-icon">🎯</div>
+    <div class="float-strip-icon"><Icon name="feather" size={18} /></div>
     <div class="float-strip-text">幽默风雅</div>
     <div class="float-strip-sub">爱国进步</div>
   </div>
   <div class="float-strip strip-r3 strip-accent-blue">
-    <div class="float-strip-icon">🚀</div>
+    <div class="float-strip-icon"><Icon name="compass" size={18} /></div>
     <div class="float-strip-text">探寻真理</div>
     <div class="float-strip-sub">开拓未来</div>
   </div>
   <div class="float-strip strip-r4 strip-accent-red">
-    <div class="float-strip-icon">✨</div>
+    <div class="float-strip-icon"><Icon name="user-plus" size={18} /></div>
     <div class="float-strip-text">加入我们</div>
     <div class="float-strip-sub">lianhegongshe.cn</div>
   </div>
   <div class="float-strip strip-r5 strip-primary">
-    <div class="float-strip-icon">🔗</div>
+    <div class="float-strip-icon"><Icon name="link" size={18} /></div>
     <div class="float-strip-text">联合公社</div>
     <div class="float-strip-sub">共筑未来</div>
   </div>
@@ -227,8 +231,9 @@
       right: 8%;
   }
   .float-strip-icon {
-      font-size: 1.3rem;
-      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.4rem;
   }
   .float-strip-text {
       font-size: 0.78rem;

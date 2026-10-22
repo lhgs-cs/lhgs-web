@@ -4,15 +4,16 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import SideDecor from '../components/SideDecor.astro';
 import Card from '../components/Card.astro';
+import Icon from '../components/Icon.astro';
 import MemberCard from '../components/MemberCard.astro';
 import { members } from '../data/members';
 
 const preview = members.slice(0, 3);
 
 const subgroups = [
-  { id: 'yingsuan', icon: '🧮', name: '硬算社', desc: '专注数学与逻辑推理', variant: 'red' as const },
-  { id: 'langsong', icon: '🎤', name: '朗诵社', desc: '以朗诵艺术为核心', variant: 'orange' as const },
-  { id: 'cs', icon: '💻', name: '计算机科学社', desc: '技术开发与网站维护', variant: 'blue' as const },
+  { id: 'yingsuan', icon: 'sigma' as const, name: '硬算社', desc: '专注数学与逻辑推理', variant: 'red' as const },
+  { id: 'langsong', icon: 'book-open' as const, name: '朗诵社', desc: '以朗诵艺术为核心', variant: 'orange' as const },
+  { id: 'cs', icon: 'terminal' as const, name: '计算机科学社', desc: '技术开发与网站维护', variant: 'blue' as const },
 ];
 ---
 <Base
@@ -35,20 +36,20 @@ const subgroups = [
 
     <!-- 公告栏 -->
     <div class="announcement-bar" id="announcementBar">
-      <div class="announcement-icon">📢</div>
+      <div class="announcement-icon"><Icon name="megaphone" size={22} /></div>
       <div class="announcement-content" id="announcementContent"></div>
       <button class="announcement-close" id="announcementClose" title="关闭">✕</button>
     </div>
 
     <!-- 简介 -->
     <div class="section reveal" id="intro-section">
-      <h2 class="section-title"><span class="section-title-icon">📖</span>简介</h2>
+      <h2 class="section-title"><span class="section-title-icon"><Icon name="book-open" size={20} /></span>简介</h2>
       <p class="section-text">联合公社是由各学生社团组成的学生团体组织，旨在联合各分社，形成合力，共同进步。</p>
     </div>
 
     <!-- 社训 -->
     <div class="section reveal">
-      <h2 class="section-title"><span class="section-title-icon">📜</span>社训</h2>
+      <h2 class="section-title"><span class="section-title-icon"><Icon name="scroll-text" size={20} /></span>社训</h2>
       <div class="motto-box">
         <div class="motto-text" id="mottoText">
           <span>实事求是，严谨求卓；</span><span>幽默风雅，爱国进步；</span><span>探寻真理，开拓未来。</span>
@@ -58,7 +59,7 @@ const subgroups = [
 
     <!-- 组成分社 -->
     <div class="section reveal" id="subgroups-section">
-      <h2 class="section-title"><span class="section-title-icon">🏛️</span>组成分社</h2>
+      <h2 class="section-title"><span class="section-title-icon"><Icon name="landmark" size={20} /></span>组成分社</h2>
       <div class="card-grid">
         {subgroups.map((s) => (
           <Card icon={s.icon} name={s.name} desc={s.desc} href={`/subgroups/${s.id}/`} variant={s.variant} />
@@ -68,7 +69,7 @@ const subgroups = [
 
     <!-- 社员 -->
     <div class="section reveal" id="members-section">
-      <h2 class="section-title"><span class="section-title-icon">👥</span>社员</h2>
+      <h2 class="section-title"><span class="section-title-icon"><Icon name="users" size={20} /></span>社员</h2>
       <div class="member-list" id="homeMemberList">
         {preview.map((m) => <MemberCard member={m} />)}
         <a href="/members/" class="member-ellipsis" aria-label="查看全部社员">
@@ -320,7 +321,9 @@ const subgroups = [
       background: linear-gradient(180deg, var(--primary), var(--accent-blue));
   }
   .section-title-icon {
-      font-size: 1.3rem;
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary);
   }
   .section-text {
       font-size: 1.05rem;
@@ -479,9 +482,10 @@ const subgroups = [
       border-width: 0;
   }
   .announcement-icon {
-      font-size: 1.6rem;
       flex-shrink: 0;
-      line-height: 1;
+      display: flex;
+      align-items: center;
+      color: var(--gold-text);
   }
   .announcement-content {
       flex: 1;

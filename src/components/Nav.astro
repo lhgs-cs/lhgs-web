@@ -17,12 +17,14 @@ const {
   active,
 } = Astro.props;
 
+import Icon from './Icon.astro';
+
 const items = [
-  { id: 'subgroups', label: '分社', icon: '🏛️', href: '/#subgroups-section' },
-  { id: 'members',   label: '社员', icon: '👥', href: '/members/' },
-  { id: 'content',   label: '内容', icon: '📚', href: '/content/' },
-  { id: 'about',     label: '关于我们', icon: 'ℹ️', href: '/about/' },
-  { id: 'join',      label: '加入我们', icon: '✨', href: '/join/' },
+  { id: 'subgroups', label: '分社', icon: 'landmark' as const, href: '/#subgroups-section' },
+  { id: 'members',   label: '社员', icon: 'users' as const, href: '/members/' },
+  { id: 'content',   label: '内容', icon: 'library' as const, href: '/content/' },
+  { id: 'about',     label: '关于我们', icon: 'info' as const, href: '/about/' },
+  { id: 'join',      label: '加入我们', icon: 'user-plus' as const, href: '/join/' },
 ];
 ---
 <div class="top-bar" id="topBar">
@@ -39,7 +41,7 @@ const items = [
       <div class="dropdown-menu" id="dropdownMenu">
         {items.map((it) => (
           <a class="dropdown-item" href={it.href} aria-current={active === it.id ? 'page' : undefined}>
-            <span class="dropdown-item-icon" aria-hidden="true">{it.icon}</span> {it.label}
+            <span class="dropdown-item-icon" aria-hidden="true"><Icon name={it.icon} size={16} /></span> {it.label}
           </a>
         ))}
       </div>
@@ -168,28 +170,28 @@ const items = [
       background-color: var(--primary-light);
   }
   .menu-icon {
-      width: 24px;
-      height: 18px;
+      width: 22px;
+      height: 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
   }
   .menu-icon span {
       display: block;
-      height: 2.5px;
+      height: 2px;
       background: var(--primary);
-      border-radius: 3px;
+      border-radius: 2px;
       transition: 0.3s var(--ease);
   }
   .menu-btn.active .menu-icon span:nth-child(1) {
-      transform: translateY(7.75px) rotate(45deg);
+      transform: translateY(7px) rotate(45deg);
   }
   .menu-btn.active .menu-icon span:nth-child(2) {
       opacity: 0;
       transform: scaleX(0);
   }
   .menu-btn.active .menu-icon span:nth-child(3) {
-      transform: translateY(-7.75px) rotate(-45deg);
+      transform: translateY(-7px) rotate(-45deg);
   }
 
   /* 下拉菜单 */

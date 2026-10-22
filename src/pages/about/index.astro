@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import Icon from '../../components/Icon.astro';
 ---
 <Base
   title="关于我们 | 联合公社"
@@ -33,12 +34,12 @@ import Footer from '../../components/Footer.astro';
         技术栈：Astro（内容集合 + 静态输出），部署于 GitHub Pages，版本控制：Git + GitHub。<br /><br />
         站内的学习资源、社内教程与代码仓库统一收录在「计科资源中心」。<br /><br />
         本网站由联合公社技术小组维护，主要搭建与维护者：光明与尘埃（GitHub: @gmyca）、C0（GitHub: @imxilin）。欢迎通过 Pull Request 或 Issue 提出建议。<br /><br />
-        📂 GitHub 仓库：<a href="https://github.com/lhgs-cs/lhgs-web" target="_blank" rel="noopener noreferrer">github.com/lhgs-cs/lhgs-web</a>
+        GitHub 仓库：<a href="https://github.com/lhgs-cs/lhgs-web" target="_blank" rel="noopener noreferrer">github.com/lhgs-cs/lhgs-web</a>
       </div>
     </div>
 
     <div class="contact-card">
-      <div class="contact-card-icon">📧</div>
+      <div class="contact-card-icon"><Icon name="mail" size={28} strokeWidth={1.75} /></div>
       <div class="contact-card-label">联系邮箱</div>
       <a class="contact-card-email" href="mailto:927336167@qq.com">927336167@qq.com</a>
     </div>
@@ -149,7 +150,10 @@ import Footer from '../../components/Footer.astro';
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
   }
   .contact-card-icon {
-      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
       margin-bottom: 0.8rem;
   }
   .contact-card-label {

@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
 import MemberCard from '../../../components/MemberCard.astro';
+import Icon from '../../../components/Icon.astro';
 import { membersOf } from '../../../data/members';
 
 const subgroupId = 'langsong';
@@ -18,7 +19,7 @@ const list = membersOf(subgroupId);
 
   <main class="container">
     <div class="page-hero">
-      <div class="page-hero-icon">🎤</div>
+      <div class="page-hero-icon"><Icon name="book-open" size={40} strokeWidth={1.75} /></div>
       <h1>朗诵社</h1>
       <p class="page-hero-sub">幽默风雅，爱国进步</p>
     </div>
