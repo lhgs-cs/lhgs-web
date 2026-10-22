@@ -1,0 +1,134 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import MemberCard from '../../../components/MemberCard.astro';
+import { membersOf } from '../../../data/members';
+
+const subgroupId = 'yingsuan';
+const list = membersOf(subgroupId);
+---
+<Base
+  title="硬算社 | 联合公社"
+  description="硬算社是联合公社下属分社之一，专注于数学与逻辑推理，以严谨求卓为宗旨，鼓励社员在数学领域深入探索。"
+  canonical="https://lianhegongshe.cn/subgroups/yingsuan/"
+  loadParticles={false}
+>
+  <Nav mode="back" backHref="/" backLabel="返回首页" active="subgroups" />
+
+  <main class="container">
+    <div class="page-hero">
+      <div class="page-hero-icon">🧮</div>
+      <h1>硬算社</h1>
+      <p class="page-hero-sub">实事求是，严谨求卓</p>
+    </div>
+
+    <div class="info-section reveal">
+      <h2 class="info-section-title">简介</h2>
+      <div class="info-card">
+        硬算社是联合公社下属分社之一，专注于数学与逻辑推理。以严谨求卓为宗旨，鼓励社员在数学领域深入探索，感受数学之美与逻辑之力。
+      </div>
+    </div>
+
+    <div class="info-section reveal">
+      <h2 class="info-section-title">社员</h2>
+      <div class="member-list">
+        {list.map((m) => <MemberCard member={m} showRoleFor={subgroupId} />)}
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .container {
+      --accent: #a83a2e;
+      --accent-light: #f7ece9;
+      --accent-gradient: linear-gradient(135deg, #a83a2e, #c25a4a);
+  }
+
+  .page-hero {
+      text-align: center;
+      margin: 2rem 0 3rem;
+      position: relative;
+  }
+  .page-hero-icon {
+      width: 80px; height: 80px;
+      border-radius: var(--radius-lg);
+      background: var(--accent-gradient);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 8px 24px rgba(168,58,46,0.2);
+      animation: iconFloat 3s ease-in-out infinite;
+  }
+  @keyframes iconFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+  }
+  .page-hero h1 {
+      font-size: 2.5rem; font-weight: 800;
+      color: var(--text); letter-spacing: 2px;
+  }
+  .page-hero-sub {
+      color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem;
+  }
+
+  .page-hero::before,
+  .page-hero::after {
+      content: ''; position: absolute; border-radius: 50%; opacity: 0.06; pointer-events: none;
+  }
+  .page-hero::before {
+      width: 180px; height: 180px; background: var(--accent);
+      top: -40px; left: -50px; animation: float 6s ease-in-out infinite;
+  }
+  .page-hero::after {
+      width: 120px; height: 120px; background: var(--primary);
+      bottom: -20px; right: -30px; animation: float 8s ease-in-out infinite reverse;
+  }
+
+  .info-section { margin: 2.5rem 0; }
+  .info-section-title {
+      font-size: 1.3rem; font-weight: 700; color: var(--text);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+  }
+  .info-section-title::before {
+      content: ''; width: 4px; height: 24px; border-radius: 4px;
+      background: var(--accent-gradient);
+  }
+
+  .info-card {
+      background: var(--card-bg); border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+      line-height: 1.8; color: var(--text-secondary);
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  }
+  .info-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+  }
+
+  .member-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .reveal {
+      opacity: 0; transform: translateY(25px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+      .page-hero h1 { font-size: 2rem; }
+      .page-hero-icon { width: 64px; height: 64px; font-size: 2rem; }
+      .page-hero::before { width: 100px; height: 100px; }
+      .page-hero::after { width: 60px; height: 60px; }
+  }
+
+  @media (max-width: 480px) {
+      .page-hero h1 { font-size: 1.6rem; }
+      .page-hero-icon { width: 56px; height: 56px; font-size: 1.6rem; }
+      .info-card { padding: 1.2rem; }
+  }
+</style>
