@@ -1,0 +1,94 @@
+---
+import type { Member } from '../data/members';
+
+interface Props {
+  member: Member;
+  /** 传入分社 id 时显示该成员在此分社的角色标签 */
+  showRoleFor?: string;
+}
+
+const { member, showRoleFor } = Astro.props;
+const role = showRoleFor
+  ? (member.subgroups.find((s) => s.id === showRoleFor)?.role ?? '')
+  : '';
+---
+<div class="member-card">
+  <img
+    class="member-avatar"
+    src={member.avatar}
+    alt={`${member.name}头像`}
+    width="200"
+    height="200"
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="member-info">
+    <div class="member-name">{member.name}</div>
+    <div class="member-bio">{member.bio || '暂无简介'}</div>
+    {role && <span class="member-tag">{role}</span>}
+  </div>
+</div>
+
+<style>
+  .member-card {
+      display: flex;
+      align-items: center;
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease),
+                  border-color 0.32s var(--ease);
+      cursor: default;
+      opacity: 0;
+      transform: translateX(-20px);
+  }
+  .member-card.visible {
+      opacity: 1;
+      transform: translateX(0);
+  }
+  .member-card:hover {
+      transform: translateX(5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+  }
+  .member-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      background-color: var(--surface-hover);
+      margin-right: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.32s var(--ease), border-radius 0.32s var(--ease);
+  }
+  .member-card:hover .member-avatar {
+      transform: scale(1.08);
+      border-radius: 50%;
+  }
+  .member-info {
+      flex: 1;
+      min-width: 0;
+  }
+  .member-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+  }
+  .member-bio {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+  }
+  .member-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.55rem;
+      border-radius: 6px;
+      margin-top: 0.4rem;
+      background: var(--accent-light, var(--primary-light));
+      color: var(--primary-dark);
+  }
+</style>
