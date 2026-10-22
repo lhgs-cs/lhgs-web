@@ -2,20 +2,21 @@
 import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import Icon from '../../components/Icon.astro';
 
 // 内容板块索引：当前只有计科资源中心，未来加其他分社时在这里追加即可
 const sections = [
   {
     title: '计科资源中心',
-    desc: '学习资源、社内教程与代码仓库',
+    desc: '计科社整理的资源、教程与代码仓库',
     href: '/content/cs/',
-    icon: '💻',
+    icon: 'terminal' as const,
   },
 ];
 ---
 <Base
   title="内容 | 联合公社"
-  description="联合公社的内容板块：学习资源、社内教程与代码仓库。"
+  description="公社社员产出的内容，包括学习资源、作品展示等。"
   canonical="https://lianhegongshe.cn/content/"
 >
   <Nav mode="back" backHref="/" backLabel="返回首页" active="content" />
@@ -23,13 +24,13 @@ const sections = [
   <main class="container">
     <div class="page-header">
       <h1>内容</h1>
-      <p>学习资源、社内教程与代码仓库</p>
+      <p>公社社员产出的内容，包括学习资源、作品展示等</p>
     </div>
 
     <div class="card-grid">
       {sections.map((s) => (
         <div class="card">
-          <div class="card-icon">{s.icon}</div>
+          <div class="card-icon"><Icon name={s.icon} size={40} strokeWidth={1.75} /></div>
           <div class="card-name">{s.title}</div>
           <div class="card-desc">{s.desc}</div>
           <a class="card-btn" href={s.href}><span>进入 →</span></a>
@@ -123,8 +124,15 @@ const sections = [
       transform: translate(0, 0);
   }
   .card-icon {
-      font-size: 2.2rem;
-      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 0.9rem;
+      border-radius: var(--radius-md);
+      color: var(--primary);
+      background: var(--primary-light);
       transition: transform 0.45s var(--ease);
   }
   .card:hover .card-icon { transform: scale(1.05); }

@@ -2,18 +2,20 @@
 import Base from '../../../../layouts/Base.astro';
 import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
-import { resources } from '../../../../data/resources';
+import { getCollection } from 'astro:content';
 
-// 按 category 分组，保持数据文件中首次出现的顺序
-const groups = new Map<string, typeof resources>();
-for (const r of resources) {
-  if (!groups.has(r.category)) groups.set(r.category, []);
-  groups.get(r.category)!.push(r);
-}
+// 排序：置顶优先，其余按发布时间倒序
+const items = (await getCollection('resources', ({ data }) => !data.draft))
+  .sort((a, b) => {
+    if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
+    return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+  });
+
+const tags = [...new Set(items.flatMap((r) => r.data.tags))].sort();
 ---
 <Base
   title="推荐学习资源 | 计科资源中心"
-  description="计算机科学社整理的推荐学习资源，涵盖前端、算法、计算机基础与工具协作。"
+  description="社员写下的学习资源推荐：为什么值得看、适合谁、怎么用。"
   canonical="https://lianhegongshe.cn/content/cs/resources/"
 >
   <Nav mode="back" backHref="/content/cs/" backLabel="返回资源中心" active="content" />
@@ -21,36 +23,72 @@ for (const r of resources) {
   <main class="container">
     <div class="page-header">
       <h1>推荐学习资源</h1>
-      <p>按方向整理的入门与进阶材料</p>
+      <p>不是链接导航，是社员写下的推荐理由</p>
     </div>
 
-    {resources.length === 0 ? (
-      <p class="empty-tip">还没有添加学习资源。</p>
+    {items.length === 0 ? (
+      <p class="empty-tip">还没有资源推荐。</p>
     ) : (
-      Array.from(groups.entries()).map(([category, items]) => (
-        <section class="group">
-          <h2 class="group-title">{category}</h2>
-          <ul class="item-list">
-            {items.map((r) => (
-              <li class="item">
-                <a href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
-                <span class="item-desc">{r.description}</span>
-                {r.level && <span class="item-meta">{r.level}</span>}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))
+      <>
+        <div class="tag-filter" id="tagFilter">
+          <button class="tag-chip is-active" data-tag="all" type="button">全部</button>
+          {tags.map((tag) => (
+            <button class="tag-chip" data-tag={tag} type="button">{tag}</button>
+          ))}
+        </div>
+
+        <ul class="item-list" id="itemList">
+          {items.map((r) => (
+            <li class="item" data-tags={r.data.tags.join(',')}>
+              {r.data.pinned && <span class="pin-badge">置顶</span>}
+              <a class="item-title" href={`/content/cs/resources/${r.id}/`}>{r.data.title}</a>
+              <p class="item-desc">{r.data.description}</p>
+              <div class="item-meta">
+                <time datetime={r.data.publishDate.toISOString()}>
+                  {r.data.publishDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                </time>
+                {r.data.author && <span class="item-author">{r.data.author}</span>}
+                {r.data.tags.map((tag) => <span class="item-tag">{tag}</span>)}
+                {r.data.link && (
+                  <a class="item-link" href={r.data.link} target="_blank" rel="noopener noreferrer">外部链接 ↗</a>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <noscript>
+          <p class="noscript-tip">标签筛选需要启用 JavaScript，上面已按置顶与时间列出全部条目。</p>
+        </noscript>
+      </>
     )}
   </main>
 
   <Footer />
 </Base>
 
+<script>
+  const filter = document.getElementById('tagFilter');
+  const list = document.getElementById('itemList');
+  if (filter && list) {
+    filter.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.tag-chip') as HTMLElement | null;
+      if (!btn) return;
+      const tag = btn.dataset.tag || 'all';
+      filter.querySelectorAll('.tag-chip').forEach((b) => b.classList.toggle('is-active', b === btn));
+      list.querySelectorAll('.item').forEach((el) => {
+        const item = el as HTMLElement;
+        const itemTags = (item.dataset.tags || '').split(',').filter(Boolean);
+        item.hidden = tag !== 'all' && !itemTags.includes(tag);
+      });
+    });
+  }
+</script>
+
 <style>
   .page-header {
       text-align: center;
-      margin: 2rem 0 3rem;
+      margin: 2rem 0 2.5rem;
   }
   .page-header h1 {
       font-size: 2.5rem;
@@ -69,76 +107,115 @@ for (const r of resources) {
       font-size: 0.95rem;
   }
 
-  .group {
+  .tag-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+  }
+  .tag-chip {
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease),
+                  border-color 0.2s var(--ease);
+  }
+  .tag-chip:hover { border-color: var(--primary); color: var(--primary); }
+  .tag-chip.is-active { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .item-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+  }
+  .item {
+      position: relative;
       background: var(--card-bg);
       border-radius: var(--radius-lg);
       border: 1px solid var(--border);
       box-shadow: var(--shadow-sm);
-      padding: 1.4rem 1.6rem;
-      margin: 1.2rem 0;
+      padding: 1.2rem 1.4rem;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+                  border-color 0.3s var(--ease);
   }
-  .group-title {
+  .item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+  }
+  .item[hidden] { display: none; }
+
+  .pin-badge {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      background: rgba(176, 141, 79, .15);
+      color: var(--gold-text);
+      letter-spacing: 0.05em;
+  }
+  .item-title {
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--text);
-      padding-left: 0.8rem;
-      position: relative;
-      margin-bottom: 0.8rem;
-  }
-  .group-title::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 70%;
-      border-radius: 4px;
-      background: linear-gradient(180deg, var(--primary), var(--accent-blue));
-  }
-
-  .item-list { list-style: none; margin: 0; padding: 0; }
-  .item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-      padding: 0.7rem 0;
-      border-bottom: 1px solid rgba(22, 50, 74, .06);
-  }
-  .item:last-child { border-bottom: none; }
-  .item a {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
       text-decoration: none;
       transition: color 0.2s var(--ease);
+      padding-right: 3rem;
   }
-  .item a:hover { color: var(--primary); }
+  .item-title:hover { color: var(--primary); }
   .item-desc {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.6;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-top: 0.3rem;
   }
   .item-meta {
-      align-self: flex-start;
-      font-size: 0.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.7rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+  }
+  .item-author { font-weight: 600; color: var(--text-secondary); }
+  .item-tag {
+      font-size: 0.68rem;
       font-weight: 600;
-      padding: 0.1rem 0.5rem;
+      padding: 0.12rem 0.5rem;
       border-radius: 6px;
       background: var(--primary-light);
       color: var(--primary-dark);
-      margin-top: 0.25rem;
   }
-  .empty-tip {
-      font-size: 0.9rem;
+  .item-link {
+      font-size: 0.72rem;
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold-line);
+  }
+  .empty-tip, .noscript-tip {
+      font-size: 0.88rem;
       color: var(--text-muted);
       text-align: center;
-      padding: 2rem 0;
+      padding: 1.5rem 0;
   }
 
   @media (max-width: 768px) {
       .page-header h1 { font-size: 2rem; }
-      .group { padding: 1.1rem 1rem; }
+      .item { padding: 1rem 1.1rem; }
   }
   @media (max-width: 480px) {
       .page-header h1 { font-size: 1.6rem; }

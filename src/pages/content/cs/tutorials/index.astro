@@ -4,8 +4,12 @@ import Nav from '../../../../components/Nav.astro';
 import Footer from '../../../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 
+// 排序：置顶优先，其余按发布时间倒序
 const tutorials = (await getCollection('tutorials', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+  .sort((a, b) => {
+    if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
+    return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+  });
 
 const tags = [...new Set(tutorials.flatMap((t) => t.data.tags))].sort();
 ---
@@ -36,6 +40,7 @@ const tags = [...new Set(tutorials.flatMap((t) => t.data.tags))].sort();
         <ul class="tutorial-list" id="tutorialList">
           {tutorials.map((t) => (
             <li class="tutorial-item" data-tags={t.data.tags.join(',')}>
+              {t.data.pinned && <span class="pin-badge">置顶</span>}
               <a class="tutorial-title" href={`/content/cs/tutorials/${t.id}/`}>{t.data.title}</a>
               <p class="tutorial-desc">{t.data.description}</p>
               <div class="tutorial-meta">
@@ -137,6 +142,7 @@ const tags = [...new Set(tutorials.flatMap((t) => t.data.tags))].sort();
       gap: 0.9rem;
   }
   .tutorial-item {
+      position: relative;
       background: var(--card-bg);
       border-radius: var(--radius-lg);
       border: 1px solid var(--border);
@@ -151,7 +157,20 @@ const tags = [...new Set(tutorials.flatMap((t) => t.data.tags))].sort();
       border-color: var(--primary);
   }
   .tutorial-item[hidden] { display: none; }
+  .pin-badge {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      background: rgba(176, 141, 79, .15);
+      color: var(--gold-text);
+      letter-spacing: 0.05em;
+  }
   .tutorial-title {
+      padding-right: 3rem;
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--text);

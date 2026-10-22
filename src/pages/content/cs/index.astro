@@ -3,21 +3,26 @@ import Base from '../../../layouts/Base.astro';
 import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
 import { getCollection } from 'astro:content';
-import { resources } from '../../../data/resources';
 import { repos } from '../../../data/repos';
 
 const PREVIEW = 4;
 
-const tutorials = (await getCollection('tutorials', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+// 统一排序：置顶优先，其余按发布时间倒序
+function byPinnedThenDate<T extends { data: { pinned: boolean; publishDate: Date } }>(a: T, b: T) {
+  if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
+  return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+}
 
-const previewResources = resources.slice(0, PREVIEW);
-const previewTutorials = tutorials.slice(0, PREVIEW);
+const allResources = (await getCollection('resources', ({ data }) => !data.draft)).sort(byPinnedThenDate);
+const allTutorials = (await getCollection('tutorials', ({ data }) => !data.draft)).sort(byPinnedThenDate);
+
+const previewResources = allResources.slice(0, PREVIEW);
+const previewTutorials = allTutorials.slice(0, PREVIEW);
 const previewRepos = repos.slice(0, PREVIEW);
 ---
 <Base
   title="计科资源中心 | 联合公社"
-  description="计算机科学社的学习资源、社内教程与代码仓库。"
+  description="社员写下的学习资源推荐、自己产出的教程笔记，以及公社的代码仓库。"
   canonical="https://lianhegongshe.cn/content/cs/"
 >
   <Nav mode="back" backHref="/content/" backLabel="返回内容" active="content" />
@@ -37,13 +42,14 @@ const previewRepos = repos.slice(0, PREVIEW);
         <ul class="item-list">
           {previewResources.map((r) => (
             <li class="item">
-              <a href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
-              <span class="item-desc">{r.description}</span>
+              {r.data.pinned && <span class="pin-badge">置顶</span>}
+              <a class="item-title" href={`/content/cs/resources/${r.id}/`}>{r.data.title}</a>
+              <span class="item-desc">{r.data.description}</span>
             </li>
           ))}
         </ul>
       ) : (
-        <p class="empty-tip">还没有添加学习资源。</p>
+        <p class="empty-tip">还没有资源推荐。</p>
       )}
     </section>
 
@@ -56,7 +62,8 @@ const previewRepos = repos.slice(0, PREVIEW);
         <ul class="item-list">
           {previewTutorials.map((t) => (
             <li class="item">
-              <a href={`/content/cs/tutorials/${t.id}/`}>{t.data.title}</a>
+              {t.data.pinned && <span class="pin-badge">置顶</span>}
+              <a class="item-title" href={`/content/cs/tutorials/${t.id}/`}>{t.data.title}</a>
               <span class="item-desc">{t.data.description}</span>
             </li>
           ))}
@@ -75,7 +82,7 @@ const previewRepos = repos.slice(0, PREVIEW);
         <ul class="item-list">
           {previewRepos.map((r) => (
             <li class="item">
-              <a href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
+              <a class="item-title" href={r.url} target="_blank" rel="noopener noreferrer">{r.name}</a>
               <span class="item-desc">{r.description}</span>
             </li>
           ))}
@@ -160,31 +167,41 @@ const previewRepos = repos.slice(0, PREVIEW);
       transform: translateX(2px);
   }
 
-  .item-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-  }
+  .item-list { list-style: none; margin: 0; padding: 0; }
   .item {
       display: flex;
       flex-direction: column;
       gap: 0.15rem;
       padding: 0.65rem 0;
       border-bottom: 1px solid rgba(22, 50, 74, .06);
+      position: relative;
   }
   .item:last-child { border-bottom: none; }
-  .item a {
+  .item-title {
       font-size: 0.95rem;
       font-weight: 600;
       color: var(--text);
       text-decoration: none;
       transition: color 0.2s var(--ease);
+      padding-right: 3rem;
   }
-  .item a:hover { color: var(--primary); }
+  .item-title:hover { color: var(--primary); }
   .item-desc {
       font-size: 0.82rem;
       color: var(--text-muted);
       line-height: 1.6;
+  }
+  .pin-badge {
+      position: absolute;
+      top: 0.6rem;
+      right: 0;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(176, 141, 79, .15);
+      color: var(--gold-text);
+      letter-spacing: 0.05em;
   }
   .empty-tip {
       font-size: 0.85rem;

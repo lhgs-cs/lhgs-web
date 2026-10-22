@@ -1,0 +1,190 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Nav from '../../../../components/Nav.astro';
+import Footer from '../../../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('resources', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<Base
+  title={`${post.data.title} | 计科资源中心`}
+  description={post.data.description}
+  canonical={`https://lianhegongshe.cn/content/cs/resources/${post.id}/`}
+>
+  <Nav mode="back" backHref="/content/cs/resources/" backLabel="返回资源列表" active="content" />
+
+  <main class="container">
+    <article class="tutorial-body">
+      <div class="page-header">
+        {post.data.pinned && <span class="pin-badge">置顶</span>}
+        <h1>{post.data.title}</h1>
+        <p>{post.data.description}</p>
+        <div class="tutorial-meta">
+          <time datetime={post.data.publishDate.toISOString()}>
+            {post.data.publishDate.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+          </time>
+          {post.data.author && <span class="tutorial-author">{post.data.author}</span>}
+          {post.data.tags.map((tag) => <span class="tutorial-tag">{tag}</span>)}
+          {post.data.link && (
+            <a class="external-link" href={post.data.link} target="_blank" rel="noopener noreferrer">访问外部链接 ↗</a>
+          )}
+        </div>
+      </div>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .page-header {
+      text-align: center;
+      margin: 2rem 0 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+  }
+  .page-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.4;
+      letter-spacing: 0.5px;
+  }
+  .page-header p {
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+  }
+  .pin-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(176, 141, 79, .15);
+      color: var(--gold-text);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.6rem;
+  }
+  .tutorial-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.9rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+  }
+  .tutorial-author { color: var(--text-secondary); font-weight: 600; }
+  .tutorial-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.12rem 0.5rem;
+      border-radius: 6px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+  }
+  .external-link {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold-line);
+      font-weight: 600;
+  }
+
+  .prose :global(h2) {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 2.2rem 0 0.9rem;
+      padding-left: 0.8rem;
+      position: relative;
+  }
+  .prose :global(h2::before) {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 70%;
+      border-radius: 4px;
+      background: linear-gradient(180deg, var(--primary), var(--accent-blue));
+  }
+  .prose :global(h3) {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 1.6rem 0 0.6rem;
+  }
+  .prose :global(p) {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--text-secondary);
+      margin: 0.9rem 0;
+  }
+  .prose :global(ul), .prose :global(ol) {
+      margin: 0.9rem 0 0.9rem 1.4rem;
+      line-height: 1.9;
+      color: var(--text-secondary);
+  }
+  .prose :global(li) { margin: 0.3rem 0; }
+  .prose :global(a) {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold-line);
+  }
+  .prose :global(strong) { color: var(--text); font-weight: 700; }
+  .prose :global(blockquote) {
+      border-left: 3px solid var(--gold-line);
+      background: var(--surface-hover);
+      padding: 0.8rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      color: var(--text-muted);
+  }
+  .prose :global(code) {
+      font-family: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, monospace;
+      font-size: 0.88em;
+      background: rgba(22, 50, 74, .06);
+      padding: 0.12rem 0.35rem;
+      border-radius: 4px;
+  }
+  .prose :global(pre) {
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border: 1px solid var(--border);
+      line-height: 1.6;
+  }
+  .prose :global(pre code) { background: none; padding: 0; font-size: 0.86rem; }
+  .prose :global(img) {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+  }
+  .prose :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  @media (max-width: 768px) {
+      .page-header h1 { font-size: 1.6rem; }
+      .prose :global(h2) { font-size: 1.2rem; }
+      .prose :global(p) { font-size: 0.95rem; }
+  }
+  @media (max-width: 480px) {
+      .page-header h1 { font-size: 1.4rem; }
+  }
+</style>
