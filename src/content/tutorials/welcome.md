@@ -1,12 +1,12 @@
 ---
-title: 社内自创内容投稿指南
-description: 这个板块收什么、怎么投、格式怎么写。看完这篇就能发第一篇。
-publishDate: 2026-10-22
-tags: [公告, 投稿指南]
-author: 联合公社技术小组
+title: "社内自创内容投稿指南"
+description: "这个板块收什么、怎么投、格式怎么写。看完这篇就能发第一篇。"
+publishDate: "2026-10-22"
+tags: ["公告", "投稿指南"]
+author: "联合公社技术小组"
+draft: false
 pinned: true
 ---
-
 ## 这个板块收什么
 
 你自己写的东西：
@@ -106,9 +106,5 @@ function fib(n) {
 
 ## 提交
 
-```bash
-git add src/content/tutorials/你的文件名.md
-git commit -m "docs: 新增教程：xxx"
-```
+由主页菜单栏中进入**内容后台**，在其中编辑并发布，GitHub Actions 会自动构建部署，几分钟后线上可见。
 
-推到 `main` 后 GitHub Actions 会自动构建部署，几分钟后线上可见。
