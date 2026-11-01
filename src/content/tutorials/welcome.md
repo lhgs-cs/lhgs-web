@@ -106,5 +106,13 @@ function fib(n) {
 
 ## 提交
 
-由主页菜单栏中进入**内容后台**，在其中编辑并发布，GitHub Actions 会自动构建部署，几分钟后线上可见。
+```bash
+git add src/content/resources/你的文件名.md
+git commit -m "docs: 新增资源推荐：xxx"
+```
+
+推到 `main` 后 GitHub Actions 会自动构建部署。
+
+或者：由主页的菜单栏进入**内容管理后台**，在其中编辑文章并点击发布，几分钟后文章可见
+
 
