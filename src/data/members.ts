@@ -18,10 +18,7 @@ export const members: Member[] = [
     name: '老魏',
     avatar: '/images/members/wei.jpeg',
     bio: '公社社长、硬算社社长',
-    subgroups: [
-      { id: 'yingsuan', role: '社长' },
-      { id: 'cs', role: '社员' },
-    ],
+    subgroups: [{ id: 'yingsuan', role: '社长' }, { id: 'cs', role: '社员' }],
   },
   {
     name: '向死而生',
@@ -33,19 +30,13 @@ export const members: Member[] = [
     name: '光明与尘埃',
     avatar: '/images/members/gmyca.jpeg',
     bio: '计算机科学社社长、官网搭建与维护者',
-    subgroups: [
-      { id: 'cs', role: '社长' },
-      { id: 'langsong', role: '社员' },
-    ],
+    subgroups: [{ id: 'cs', role: '社长' }, { id: 'langsong', role: '社员' }],
   },
   {
     name: 'C0',
     avatar: '/images/members/C0.jpg',
     bio: '计算机科学社社员、官网优化与维护者',
-    subgroups: [
-      { id: 'cs', role: '社员' },
-      { id: 'yingsuan', role: '社员' },
-    ],
+    subgroups: [{ id: 'cs', role: '社员' }, { id: 'yingsuan', role: '社员' }],
   },
   {
     name: 'qian',
