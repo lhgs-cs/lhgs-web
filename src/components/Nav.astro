@@ -18,12 +18,22 @@ const {
   active,
 } = Astro.props;
 
-const items = [
-  { id: 'subgroups', label: '分社', icon: 'landmark' as const, href: '/#subgroups-section' },
-  { id: 'members',   label: '社员', icon: 'users' as const, href: '/members/' },
-  { id: 'content',   label: '内容', icon: 'library' as const, href: '/content/' },
-  { id: 'about',     label: '关于我们', icon: 'info' as const, href: '/about/' },
-  { id: 'join',      label: '加入我们', icon: 'user-plus' as const, href: '/join/' },
+interface MenuItem {
+  id: string;
+  label: string;
+  icon: 'landmark' | 'users' | 'library' | 'info' | 'user-plus' | 'square-pen';
+  href: string;
+  /** 站外链接：新窗口打开，并显示外链标记 */
+  external?: boolean;
+}
+
+const items: MenuItem[] = [
+  { id: 'subgroups', label: '分社',     icon: 'landmark',   href: '/#subgroups-section' },
+  { id: 'members',   label: '社员',     icon: 'users',      href: '/members/' },
+  { id: 'content',   label: '内容',     icon: 'library',    href: '/content/' },
+  { id: 'admin',     label: '内容后台', icon: 'square-pen', href: 'https://47.93.3.102:8443', external: true },
+  { id: 'about',     label: '关于我们', icon: 'info',       href: '/about/' },
+  { id: 'join',      label: '加入我们', icon: 'user-plus',  href: '/join/' },
 ];
 ---
 <div class="top-bar" id="topBar">
@@ -39,8 +49,18 @@ const items = [
       </button>
       <div class="dropdown-menu" id="dropdownMenu">
         {items.map((it) => (
-          <a class="dropdown-item" href={it.href} aria-current={active === it.id ? 'page' : undefined}>
-            <span class="dropdown-item-icon" aria-hidden="true"><Icon name={it.icon} size={16} /></span> {it.label}
+          <a
+            class="dropdown-item"
+            href={it.href}
+            aria-current={active === it.id ? 'page' : undefined}
+            target={it.external ? '_blank' : undefined}
+            rel={it.external ? 'noopener noreferrer' : undefined}
+          >
+            <span class="dropdown-item-icon" aria-hidden="true"><Icon name={it.icon} size={16} /></span>
+            <span class="dropdown-item-label">{it.label}</span>
+            {it.external && (
+              <span class="dropdown-item-ext" aria-hidden="true"><Icon name="external-link" size={12} /></span>
+            )}
           </a>
         ))}
       </div>
@@ -244,9 +264,20 @@ const items = [
       color: var(--primary);
   }
   .dropdown-item-icon {
-      font-size: 1rem;
       width: 20px;
-      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--primary);
+  }
+  .dropdown-item-label { flex: 1; }
+  /* 站外入口：右下角小箭头，提示会离开本站 */
+  .dropdown-item-ext {
+      display: inline-flex;
+      align-items: center;
+      color: var(--text-muted);
+      opacity: 0.7;
   }
 
   /* 窄屏适配 */
