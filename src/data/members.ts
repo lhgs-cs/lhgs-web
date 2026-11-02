@@ -86,6 +86,12 @@ export const members: Member[] = [
     bio: '',
     subgroups: [{ id: 'cs', role: '社员' }],
   },
+  {
+    name: '卤蛋',
+    avatar: '/images/members/35663ff982611612.jpg',
+    bio: '',
+    subgroups: [{ id: 'cs', role: '社员' }],
+  },
 ];
 
 /** 取某位成员在指定分社中的角色，没有则返回空字符串 */
